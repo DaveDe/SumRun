@@ -167,7 +167,7 @@ public class MainActivity extends Activity {
         Resources r = getResources();
         float padding = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5, r.getDisplayMetrics());//convert 15 dp to px
 
-        //////////////////////CANT BACKTRACK////////////////////////////////
+        //////////////////////CANT BACKTRACK,ONLY LOSE WHEN TIME RUNS OUT. MUST RELEASE AFTER PATH OF 5 HAS BEEN REACHED////////////////////////////////
         switch(action) {
             case (MotionEvent.ACTION_DOWN) :
                 for(int i = 0; i < 25; i++) {
