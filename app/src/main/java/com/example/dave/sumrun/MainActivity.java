@@ -29,6 +29,7 @@ public class MainActivity extends Activity {
     private float tvHeight;
     private int[] values;
     private boolean[] isHit;
+    private boolean[] leftRange;
     private int level;
     private int totalScore;
     private int time;
@@ -130,6 +131,7 @@ public class MainActivity extends Activity {
         tvY = new float[25];
         xRange = new float[25];
         yRange = new float[25];
+        leftRange = new boolean[25];
 
         for(int i = 0; i < 25; i++){
             values[i] = tempValues.get(i);
@@ -166,10 +168,11 @@ public class MainActivity extends Activity {
 
         Resources r = getResources();
         float padding = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5, r.getDisplayMetrics());//convert 15 dp to px
-
-        //////////////////////CANT BACKTRACK,ONLY LOSE WHEN TIME RUNS OUT. MUST RELEASE AFTER PATH OF 5 HAS BEEN REACHED////////////////////////////////
+        
         switch(action) {
+
             case (MotionEvent.ACTION_DOWN) :
+
                 for(int i = 0; i < 25; i++) {
                     if((eventX >= tvX[i]-padding && eventX <= xRange[i]+padding) && (eventY >= tvY[i]-padding && eventY <= yRange[i]+padding) && !isHit[i]) {
                         textViews[i].setBackgroundResource(R.color.red);
@@ -181,33 +184,55 @@ public class MainActivity extends Activity {
                     for(int i = 0; i < 25; i++){
                         textViews[i].setBackgroundResource(R.color.white);
                         isHit[i] = false;
+                        leftRange[i] = false;
                     }
                     tilesHit = 0;
                 }
                 return true;
 
             case (MotionEvent.ACTION_MOVE) :
-                for(int i = 0; i < 25; i++) {
 
-                    if((eventX >= tvX[i]-padding && eventX <= xRange[i]+padding) && (eventY >= tvY[i]-padding && eventY <= yRange[i]+padding) && !isHit[i]) {
-                        textViews[i].setBackgroundResource(R.color.red);
-                        tilesHit++;
-                        isHit[i] = true;
+                if(tilesHit < 5){
+                    for(int i = 0; i < 25; i++) {
+
+                        //tile got hit for first time
+                        if((eventX >= tvX[i]-padding && eventX <= xRange[i]+padding) && (eventY >= tvY[i]-padding && eventY <= yRange[i]+padding) && !isHit[i]) {
+                            textViews[i].setBackgroundResource(R.color.red);
+                            tilesHit++;
+                            isHit[i] = true;
+                        }
+                        //tile is hit, and finger moved somewhere else
+                        if((!(eventX >= tvX[i]-padding && eventX <= xRange[i]+padding)
+                                || !(eventY >= tvY[i]-padding && eventY <= yRange[i]+padding))
+                                && isHit[i]
+                                && !leftRange[i]){
+                            leftRange[i] = true;
+                        }
+                        //finger moves back to a tile that was already hit
+                        if((eventX >= tvX[i]-padding && eventX <= xRange[i]+padding)
+                                && (eventY >= tvY[i]-padding && eventY <= yRange[i]+padding)
+                                && isHit[i]
+                                && leftRange[i]){
+                            tilesHit = 6;
+                        }
                     }
                 }
+
+
                 if(tilesHit > 5){
                     for(int i = 0; i < 25; i++){
                         textViews[i].setBackgroundResource(R.color.white);
                         isHit[i] = false;
+                        leftRange[i] = false;
                     }
                     tilesHit = 0;
                 }
-
                 return true;
             case (MotionEvent.ACTION_UP) :
                 for(int i = 0; i < 25; i++){
                     textViews[i].setBackgroundResource(R.color.white);
                     isHit[i] = false;
+                    leftRange[i] = false;
                     tilesHit = 0;
                 }
                 return true;
