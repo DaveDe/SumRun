@@ -1,7 +1,9 @@
 package com.example.dave.sumrun;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Resources;
+import android.os.CountDownTimer;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,6 +16,7 @@ import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -41,6 +44,9 @@ public class MainActivity extends Activity {
     private TextView displayTotalScore;
     private TextView displayLevel;
     private TextView displayTime;
+    private TextView goal;
+
+    private CountDownTimer countDown;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +57,7 @@ public class MainActivity extends Activity {
         displayTotalScore = (TextView) findViewById(R.id.totalScore);
         displayLevel = (TextView) findViewById(R.id.level);
         displayTime = (TextView) findViewById(R.id.time);
+        goal = (TextView) findViewById(R.id.goal);
         TextView tv1 = (TextView)findViewById(R.id.tv1);
         TextView tv2 = (TextView)findViewById(R.id.tv2);
         TextView tv3 = (TextView)findViewById(R.id.tv3);
@@ -106,8 +113,6 @@ public class MainActivity extends Activity {
 
         GreatestPath g = new GreatestPath();
 
-        g.printTiles();
-
         Tile[][] tiles = g.getTiles();
 
         ArrayList<Integer> tempValues = new ArrayList<Integer>();
@@ -133,6 +138,28 @@ public class MainActivity extends Activity {
         yRange = new float[25];
         leftRange = new boolean[25];
 
+        time = 15;
+
+        countDown = new CountDownTimer(16000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                time--;
+                displayTime.setText("Time\n"+time);
+            }
+
+            @Override
+            public void onFinish() {
+                if(time == 0){
+                    try{
+                        StaticMethods.write("highScore.txt",Integer.toString(totalScore),getBaseContext());
+                    }catch (IOException e){}
+                    Intent i = new Intent(getBaseContext(),GameOver.class);
+                    startActivity(i);
+                }
+            }
+        };
+        countDown.start();
+
         for(int i = 0; i < 25; i++){
             values[i] = tempValues.get(i);
             textViews[i].setText(Integer.toString(values[i]));
@@ -141,8 +168,9 @@ public class MainActivity extends Activity {
         }
         displayLevel.setText("Level\n0");
         displayTotalScore.setText("Score\n0");
-        displayTime.setText("Time\n0");
+        displayTime.setText("Time\n"+time);
         display.setText("0");
+        goal.setText("Goal: "+greatestPath);
 
     }
 
@@ -168,25 +196,18 @@ public class MainActivity extends Activity {
 
         Resources r = getResources();
         float padding = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5, r.getDisplayMetrics());//convert 15 dp to px
-        
+
         switch(action) {
 
             case (MotionEvent.ACTION_DOWN) :
 
                 for(int i = 0; i < 25; i++) {
                     if((eventX >= tvX[i]-padding && eventX <= xRange[i]+padding) && (eventY >= tvY[i]-padding && eventY <= yRange[i]+padding) && !isHit[i]) {
-                        textViews[i].setBackgroundResource(R.color.red);
-                        tilesHit++;
-                        isHit[i] = true;
+                        tileHit(i);
                     }
                 }
                 if(tilesHit > 5){
-                    for(int i = 0; i < 25; i++){
-                        textViews[i].setBackgroundResource(R.color.white);
-                        isHit[i] = false;
-                        leftRange[i] = false;
-                    }
-                    tilesHit = 0;
+                    resetTiles();
                 }
                 return true;
 
@@ -197,9 +218,7 @@ public class MainActivity extends Activity {
 
                         //tile got hit for first time
                         if((eventX >= tvX[i]-padding && eventX <= xRange[i]+padding) && (eventY >= tvY[i]-padding && eventY <= yRange[i]+padding) && !isHit[i]) {
-                            textViews[i].setBackgroundResource(R.color.red);
-                            tilesHit++;
-                            isHit[i] = true;
+                            tileHit(i);
                         }
                         //tile is hit, and finger moved somewhere else
                         if((!(eventX >= tvX[i]-padding && eventX <= xRange[i]+padding)
@@ -220,25 +239,106 @@ public class MainActivity extends Activity {
 
 
                 if(tilesHit > 5){
-                    for(int i = 0; i < 25; i++){
-                        textViews[i].setBackgroundResource(R.color.white);
-                        isHit[i] = false;
-                        leftRange[i] = false;
-                    }
-                    tilesHit = 0;
+                    resetTiles();
                 }
                 return true;
             case (MotionEvent.ACTION_UP) :
-                for(int i = 0; i < 25; i++){
-                    textViews[i].setBackgroundResource(R.color.white);
-                    isHit[i] = false;
-                    leftRange[i] = false;
-                    tilesHit = 0;
-                }
+                resetTiles();
+                display.setText("");
                 return true;
             default :
                 return super.onTouchEvent(event);
         }
+    }
+
+    public void tileHit(int index){
+
+        textViews[index].setBackgroundResource(R.color.red);
+        tilesHit++;
+        isHit[index] = true;
+        currentScore += Integer.parseInt(textViews[index].getText().toString());
+        display.setText(Integer.toString(currentScore));
+        if(currentScore == greatestPath){
+            generateNextLevel();
+        }
+    }
+
+    public void resetTiles(){
+        currentScore = 0;
+        for(int i = 0; i < 25; i++){
+            textViews[i].setBackgroundResource(R.color.white);
+            isHit[i] = false;
+            leftRange[i] = false;
+        }
+        tilesHit = 0;
+    }
+
+    public void generateNextLevel(){
+
+        totalScore += currentScore;
+        level++;
+        GreatestPath g = new GreatestPath();
+
+        Tile[][] tiles = g.getTiles();
+
+        ArrayList<Integer> tempValues = new ArrayList<Integer>();
+
+        greatestPath = 0;
+
+        for(int i = 0; i < tiles.length; i++){
+
+            for(int j = 0; j < tiles[i].length; j++){
+
+                tempValues.add(tiles[i][j].c.value);
+                int temp = g.findGreatestPath(tiles[i][j]);
+                if(temp > greatestPath){
+                    greatestPath = temp;
+                }
+
+            }
+
+        }
+        values = new int[25];
+        resetTiles();
+
+        time = 15;
+
+        countDown.cancel();
+        countDown = new CountDownTimer(16000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                time--;
+                displayTime.setText("Time\n"+time);
+            }
+
+            @Override
+            public void onFinish() {
+                if(time == 0){
+                    try{
+                        int temp = Integer.parseInt(StaticMethods.readFirstLine("highScore.txt",getBaseContext()));
+                        if(totalScore > temp){
+                            StaticMethods.write("highScore.txt",Integer.toString(totalScore),getBaseContext());
+                        }
+                    }catch (IOException e){}
+                    Intent i = new Intent(getBaseContext(),GameOver.class);
+                    startActivity(i);
+                }
+            }
+        };
+        countDown.start();
+
+        for(int i = 0; i < 25; i++){
+            values[i] = tempValues.get(i);
+            textViews[i].setText(Integer.toString(values[i]));
+            textViews[i].setBackgroundResource(R.color.white);
+            isHit[i] = false;
+        }
+
+        display.setText("0");
+        goal.setText("Goal: "+greatestPath);
+        displayTotalScore.setText("Score\n" + totalScore);
+        displayLevel.setText("Level\n"+level);
+
     }
 
 }

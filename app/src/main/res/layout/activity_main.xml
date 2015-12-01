@@ -98,8 +98,18 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text=""
         android:id="@+id/currentScore"
-        android:layout_above="@+id/display"
-        android:layout_toRightOf="@+id/level"
-        android:layout_toEndOf="@+id/level" />
+        android:layout_below="@+id/gridLayout"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Goal"
+        android:id="@+id/goal"
+        android:layout_below="@+id/currentScore"
+        android:layout_centerHorizontal="true"/>
+
+
 
 </RelativeLayout>
