@@ -4,11 +4,12 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/icon"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
-        <activity android:name=".MainActivity" >
+        <activity android:name=".MainActivity"
+                    android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -16,7 +17,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".GameOver" >
+        <activity android:name=".GameOver"
+                    android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

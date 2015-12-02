@@ -5,10 +5,12 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.CountDownTimer;
 import android.support.v4.view.MotionEventCompat;
+import android.support.v4.view.VelocityTrackerCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.MotionEvent;
+import android.view.VelocityTracker;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,8 +21,13 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
 
+//DONT ALLOW DIAGONAL
 public class MainActivity extends Activity {
+
+    public static int global;
 
     private int tilesHit;
 
@@ -38,9 +45,11 @@ public class MainActivity extends Activity {
     private int time;
     private int currentScore;
     private int greatestPath;
+    private boolean pause;
+    private float prevX, prevY;
 
     private TextView[] textViews;
-    private TextView display;
+    private TextView displayCurrentScore;
     private TextView displayTotalScore;
     private TextView displayLevel;
     private TextView displayTime;
@@ -53,7 +62,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        display = (TextView)findViewById(R.id.display);
+        displayCurrentScore = (TextView)findViewById(R.id.currentScore);
         displayTotalScore = (TextView) findViewById(R.id.totalScore);
         displayLevel = (TextView) findViewById(R.id.level);
         displayTime = (TextView) findViewById(R.id.time);
@@ -138,24 +147,22 @@ public class MainActivity extends Activity {
         yRange = new float[25];
         leftRange = new boolean[25];
 
-        time = 15;
+        level = 1;
+        time = 16;
+        pause = false;
 
         countDown = new CountDownTimer(16000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                time--;
-                displayTime.setText("Time\n"+time);
+                if(!pause){
+                    time--;
+                    displayTime.setText("Time\n"+time);
+                }
             }
 
             @Override
             public void onFinish() {
-                if(time == 0){
-                    try{
-                        StaticMethods.write("highScore.txt",Integer.toString(totalScore),getBaseContext());
-                    }catch (IOException e){}
-                    Intent i = new Intent(getBaseContext(),GameOver.class);
-                    startActivity(i);
-                }
+                gameOver();
             }
         };
         countDown.start();
@@ -164,12 +171,14 @@ public class MainActivity extends Activity {
             values[i] = tempValues.get(i);
             textViews[i].setText(Integer.toString(values[i]));
             textViews[i].setBackgroundResource(R.color.white);
+            textViews[i].getBackground().setAlpha(300);
             isHit[i] = false;
         }
+
+        displayCurrentScore.setTextSize(30);
         displayLevel.setText("Level\n0");
         displayTotalScore.setText("Score\n0");
         displayTime.setText("Time\n"+time);
-        display.setText("0");
         goal.setText("Goal: "+greatestPath);
 
     }
@@ -203,12 +212,12 @@ public class MainActivity extends Activity {
 
                 for(int i = 0; i < 25; i++) {
                     if((eventX >= tvX[i]-padding && eventX <= xRange[i]+padding) && (eventY >= tvY[i]-padding && eventY <= yRange[i]+padding) && !isHit[i]) {
+                        prevX = eventX;
+                        prevY = eventY;
                         tileHit(i);
                     }
                 }
-                if(tilesHit > 5){
-                    resetTiles();
-                }
+
                 return true;
 
             case (MotionEvent.ACTION_MOVE) :
@@ -217,9 +226,21 @@ public class MainActivity extends Activity {
                     for(int i = 0; i < 25; i++) {
 
                         //tile got hit for first time
-                        if((eventX >= tvX[i]-padding && eventX <= xRange[i]+padding) && (eventY >= tvY[i]-padding && eventY <= yRange[i]+padding) && !isHit[i]) {
-                            tileHit(i);
+                        if((eventX >= tvX[i]-padding && eventX <= xRange[i]+padding)
+                                && (eventY >= tvY[i]-padding && eventY <= yRange[i]+padding)
+                                && (!isHit[i])) {
+                            //diagonal move was attempted
+                            if(!(prevX >= tvX[i]-padding && prevX <= xRange[i]+padding)&&!(prevY >= tvY[i]-padding && prevY <= yRange[i]+padding)){//move vertical
+                                resetTiles();
+                            }else{
+                                tileHit(i);
+                                prevX = eventX;
+                                prevY = eventY;
+                            }
+
                         }
+                        //dont allow overlap
+                        
                         //tile is hit, and finger moved somewhere else
                         if((!(eventX >= tvX[i]-padding && eventX <= xRange[i]+padding)
                                 || !(eventY >= tvY[i]-padding && eventY <= yRange[i]+padding))
@@ -232,23 +253,55 @@ public class MainActivity extends Activity {
                                 && (eventY >= tvY[i]-padding && eventY <= yRange[i]+padding)
                                 && isHit[i]
                                 && leftRange[i]){
-                            tilesHit = 6;
+                            tilesHit = 10;
                         }
                     }
                 }
 
 
-                if(tilesHit > 5){
+                if(tilesHit == 10){
                     resetTiles();
                 }
                 return true;
             case (MotionEvent.ACTION_UP) :
                 resetTiles();
-                display.setText("");
+                displayCurrentScore.setText("");
                 return true;
             default :
                 return super.onTouchEvent(event);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(pause){
+            pause = false;
+            countDown = new CountDownTimer(time*1000, 1000) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    if(!pause){
+                        time--;
+                        displayTime.setText("Time\n"+time);
+                    }
+                }
+
+                @Override
+                public void onFinish() {
+                    gameOver();
+                }
+            };
+            countDown.start();
+        }
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        pause = true;
+        countDown.cancel();
+
     }
 
     public void tileHit(int index){
@@ -257,7 +310,7 @@ public class MainActivity extends Activity {
         tilesHit++;
         isHit[index] = true;
         currentScore += Integer.parseInt(textViews[index].getText().toString());
-        display.setText(Integer.toString(currentScore));
+        displayCurrentScore.setText(Integer.toString(currentScore));
         if(currentScore == greatestPath){
             generateNextLevel();
         }
@@ -275,8 +328,11 @@ public class MainActivity extends Activity {
 
     public void generateNextLevel(){
 
+        //playsound
         totalScore += currentScore;
+
         level++;
+        global++;
         GreatestPath g = new GreatestPath();
 
         Tile[][] tiles = g.getTiles();
@@ -301,28 +357,28 @@ public class MainActivity extends Activity {
         values = new int[25];
         resetTiles();
 
-        time = 15;
+        int tickNums;
+        if(level >= 8){
+            tickNums = 21000;
+            time = 21;
+        }else{
+            time = 16;
+            tickNums = 16000;
+        }
 
         countDown.cancel();
-        countDown = new CountDownTimer(16000, 1000) {
+        countDown = new CountDownTimer(tickNums, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                time--;
-                displayTime.setText("Time\n"+time);
+                if(!pause){
+                    time--;
+                    displayTime.setText("Time\n"+time);
+                }
             }
 
             @Override
             public void onFinish() {
-                if(time == 0){
-                    try{
-                        int temp = Integer.parseInt(StaticMethods.readFirstLine("highScore.txt",getBaseContext()));
-                        if(totalScore > temp){
-                            StaticMethods.write("highScore.txt",Integer.toString(totalScore),getBaseContext());
-                        }
-                    }catch (IOException e){}
-                    Intent i = new Intent(getBaseContext(),GameOver.class);
-                    startActivity(i);
-                }
+                gameOver();
             }
         };
         countDown.start();
@@ -334,10 +390,25 @@ public class MainActivity extends Activity {
             isHit[i] = false;
         }
 
-        display.setText("0");
-        goal.setText("Goal: "+greatestPath);
+        goal.setText("Goal: " + greatestPath);
         displayTotalScore.setText("Score\n" + totalScore);
         displayLevel.setText("Level\n"+level);
+
+    }
+
+    public void gameOver(){
+
+        if(time == 1){
+            global = 0;
+            try{
+                int temp = Integer.parseInt(StaticMethods.readFirstLine("highScore.txt",getBaseContext()));
+                if(totalScore > temp){
+                    StaticMethods.write("highScore.txt",Integer.toString(totalScore),getBaseContext());
+                }
+            }catch (IOException e){}
+            Intent i = new Intent(getBaseContext(),GameOver.class);
+            startActivity(i);
+        }
 
     }
 

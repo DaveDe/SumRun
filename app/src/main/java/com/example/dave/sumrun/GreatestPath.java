@@ -18,7 +18,7 @@ public class GreatestPath {
             for(int j = 0; j < tiles[i].length; j++){
 
                 Random r = new Random();
-                int rand = r.nextInt(5)+1;
+                int rand = r.nextInt(2+MainActivity.global)+1;
                 Coordinates c = new Coordinates(j,i,rand);
                 tiles[i][j] = new Tile(c);
             }
