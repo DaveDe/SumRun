@@ -5,26 +5,21 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.CountDownTimer;
 import android.support.v4.view.MotionEventCompat;
-import android.support.v4.view.VelocityTrackerCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.MotionEvent;
-import android.view.VelocityTracker;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.GridView;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Random;
-import java.util.logging.Handler;
-import java.util.logging.LogRecord;
 
-//DONT ALLOW DIAGONAL
+//TEST DIFFERENT DEVICES
+//add sounds
+//refine scoring
+//icon with rounded corners
+//change title (Add-On or AddOn or Add On)
 public class MainActivity extends Activity {
 
     public static int global;
@@ -60,6 +55,8 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
 
         displayCurrentScore = (TextView)findViewById(R.id.currentScore);
@@ -240,7 +237,7 @@ public class MainActivity extends Activity {
 
                         }
                         //dont allow overlap
-                        
+
                         //tile is hit, and finger moved somewhere else
                         if((!(eventX >= tvX[i]-padding && eventX <= xRange[i]+padding)
                                 || !(eventY >= tvY[i]-padding && eventY <= yRange[i]+padding))
@@ -306,7 +303,7 @@ public class MainActivity extends Activity {
 
     public void tileHit(int index){
 
-        textViews[index].setBackgroundResource(R.color.red);
+        textViews[index].setBackgroundResource(R.color.purple);
         tilesHit++;
         isHit[index] = true;
         currentScore += Integer.parseInt(textViews[index].getText().toString());
@@ -401,12 +398,15 @@ public class MainActivity extends Activity {
         if(time == 1){
             global = 0;
             try{
-                int temp = Integer.parseInt(StaticMethods.readFirstLine("highScore.txt",getBaseContext()));
+                int temp = Integer.parseInt(StaticMethods.readFirstLine("highScore2.txt",getBaseContext()));
                 if(totalScore > temp){
-                    StaticMethods.write("highScore.txt",Integer.toString(totalScore),getBaseContext());
+                    StaticMethods.write("highScore2.txt",Integer.toString(totalScore),getBaseContext());
+                    StaticMethods.write("level.txt",Integer.toString(level),getBaseContext());
                 }
             }catch (IOException e){}
             Intent i = new Intent(getBaseContext(),GameOver.class);
+            i.putExtra("score", totalScore);
+            i.putExtra("level", level);
             startActivity(i);
         }
 
