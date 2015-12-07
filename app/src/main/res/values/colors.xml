@@ -3,6 +3,9 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="red">#f96f6f</color>
+    <color name="red2">#9B0101</color>
+    <color name="orange">#F77604</color>
+    <color name="yellow">#E2E607</color>
     <color name="white">#ffffff</color>
     <color name="purple">#9261d9</color>
 </resources>

@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Game Over"
+        android:fontFamily="sans-serif-thin"
         android:textSize="60dp"
         android:textColor="@color/white"
         android:id="@+id/textView"
@@ -27,7 +28,7 @@
         android:layout_centerHorizontal="true"
         android:paddingTop="50dp"
         android:textColor="@color/white"
-        android:paddingBottom="100dp"/>
+        android:paddingBottom="@dimen/retry_padding"/>
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -36,5 +37,12 @@
         android:layout_gravity="center_horizontal"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/displayInfo" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/help"
+        android:layout_gravity="right"
+        android:layout_alignParentRight="true" />
 
 </RelativeLayout>

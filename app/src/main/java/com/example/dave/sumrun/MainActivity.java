@@ -1,25 +1,28 @@
 package com.example.dave.sumrun;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.CountDownTimer;
 import android.support.v4.view.MotionEventCompat;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-//TEST DIFFERENT DEVICES
-//add sounds
-//refine scoring
-//icon with rounded corners
-//change title (Add-On or AddOn or Add On)
+//test other screen sizes
+//fix backtrack
+//store description/screenshots
 public class MainActivity extends Activity {
 
     public static int global;
@@ -40,8 +43,17 @@ public class MainActivity extends Activity {
     private int time;
     private int currentScore;
     private int greatestPath;
+    private int soundID1;
+    private int soundID2;
+    private int soundID3;
+    private int soundID4;
+    private int soundID5;
+    private int soundID6;
+    private int soundID7;
+    private int soundID8;
+    private int streamID;
     private boolean pause;
-    private float prevX, prevY;
+    private float prevX, prevY, volume;
 
     private TextView[] textViews;
     private TextView displayCurrentScore;
@@ -50,7 +62,10 @@ public class MainActivity extends Activity {
     private TextView displayTime;
     private TextView goal;
 
+    private ImageButton help;
+
     private CountDownTimer countDown;
+    private SoundPool soundPool;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +79,7 @@ public class MainActivity extends Activity {
         displayLevel = (TextView) findViewById(R.id.level);
         displayTime = (TextView) findViewById(R.id.time);
         goal = (TextView) findViewById(R.id.goal);
+        help = (ImageButton) findViewById(R.id.help);
         TextView tv1 = (TextView)findViewById(R.id.tv1);
         TextView tv2 = (TextView)findViewById(R.id.tv2);
         TextView tv3 = (TextView)findViewById(R.id.tv3);
@@ -147,22 +163,27 @@ public class MainActivity extends Activity {
         level = 1;
         time = 16;
         pause = false;
+        global = 0;
 
-        countDown = new CountDownTimer(16000, 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                if(!pause){
-                    time--;
-                    displayTime.setText("Time\n"+time);
-                }
-            }
+        initializeCountdown(16);
 
-            @Override
-            public void onFinish() {
-                gameOver();
-            }
-        };
-        countDown.start();
+
+        soundPool = new SoundPool(7, AudioManager.STREAM_MUSIC, 50);
+
+        soundID1 = soundPool.load(this, R.raw.one, 1);
+        soundID2 = soundPool.load(this, R.raw.two, 1);
+        soundID3 = soundPool.load(this, R.raw.three, 1);
+        soundID4 = soundPool.load(this, R.raw.four, 1);
+        soundID5 = soundPool.load(this, R.raw.five, 1);
+        soundID6 = soundPool.load(this, R.raw.loss, 1);
+        soundID7 = soundPool.load(this, R.raw.win, 1);
+        soundID8 = soundPool.load(this, R.raw.tick, 1);
+
+        AudioManager audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+        float curVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+        float maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        volume = curVolume/maxVolume;
+
 
         for(int i = 0; i < 25; i++){
             values[i] = tempValues.get(i);
@@ -172,11 +193,22 @@ public class MainActivity extends Activity {
             isHit[i] = false;
         }
 
-        displayCurrentScore.setTextSize(30);
-        displayLevel.setText("Level\n0");
+        displayLevel.setText("Level\n   1");
         displayTotalScore.setText("Score\n0");
-        displayTime.setText("Time\n"+time);
-        goal.setText("Goal: "+greatestPath);
+        displayTime.setText(""+time);
+        goal.setText("Objective: "+greatestPath);
+
+        help.setBackgroundResource(R.mipmap.button_1);
+
+        help.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                help.setBackgroundResource(R.mipmap.button_1_pressed);
+                Intent i = new Intent(getBaseContext(),Help.class);
+                i.putExtra("class","MainActivity");
+                startActivity(i);
+            }
+        });
 
     }
 
@@ -261,8 +293,14 @@ public class MainActivity extends Activity {
                 }
                 return true;
             case (MotionEvent.ACTION_UP) :
-                resetTiles();
-                displayCurrentScore.setText("");
+                if(currentScore == greatestPath){
+                    generateNextLevel();
+                    displayCurrentScore.setText("");
+                }else{
+                    resetTiles();
+                    displayCurrentScore.setText("");
+                }
+
                 return true;
             default :
                 return super.onTouchEvent(event);
@@ -274,21 +312,7 @@ public class MainActivity extends Activity {
         super.onResume();
         if(pause){
             pause = false;
-            countDown = new CountDownTimer(time*1000, 1000) {
-                @Override
-                public void onTick(long millisUntilFinished) {
-                    if(!pause){
-                        time--;
-                        displayTime.setText("Time\n"+time);
-                    }
-                }
-
-                @Override
-                public void onFinish() {
-                    gameOver();
-                }
-            };
-            countDown.start();
+            initializeCountdown(time);
         }
 
     }
@@ -301,16 +325,40 @@ public class MainActivity extends Activity {
 
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        global = 0;
+
+    }
+
     public void tileHit(int index){
+
+            switch(tilesHit){
+                case 0:
+                    streamID = soundPool.play(soundID1, volume, volume, 1, 0, 1f);
+                    break;
+                case 1:
+                    streamID = soundPool.play(soundID2, volume, volume, 1, 0, 1f);
+                    break;
+                case 2:
+                    streamID = soundPool.play(soundID3, volume, volume, 1, 0, 1f);
+                    break;
+                case 3:
+                    streamID = soundPool.play(soundID4, volume, volume, 1, 0, 1f);
+                    break;
+                case 4:
+                    streamID = soundPool.play(soundID5, volume, volume, 1, 0, 1f);
+
+        }
+
 
         textViews[index].setBackgroundResource(R.color.purple);
         tilesHit++;
         isHit[index] = true;
         currentScore += Integer.parseInt(textViews[index].getText().toString());
         displayCurrentScore.setText(Integer.toString(currentScore));
-        if(currentScore == greatestPath){
-            generateNextLevel();
-        }
+
     }
 
     public void resetTiles(){
@@ -325,7 +373,8 @@ public class MainActivity extends Activity {
 
     public void generateNextLevel(){
 
-        //playsound
+        soundPool.stop(streamID);
+        streamID = soundPool.play(soundID7, volume, volume, 1, 0, 1f);
         totalScore += currentScore;
 
         level++;
@@ -356,20 +405,74 @@ public class MainActivity extends Activity {
 
         int tickNums;
         if(level >= 8){
-            tickNums = 21000;
+            tickNums = 21;
             time = 21;
         }else{
             time = 16;
-            tickNums = 16000;
+            tickNums = 16;
         }
 
         countDown.cancel();
-        countDown = new CountDownTimer(tickNums, 1000) {
+        initializeCountdown(tickNums);
+
+        for(int i = 0; i < 25; i++){
+            values[i] = tempValues.get(i);
+            textViews[i].setText(Integer.toString(values[i]));
+            textViews[i].setBackgroundResource(R.color.white);
+            isHit[i] = false;
+        }
+
+        goal.setText("Objective: " + greatestPath);
+        displayTotalScore.setText("Score\n" + totalScore);
+        displayLevel.setText("Level\n   "+level);
+
+    }
+
+    public void gameOver(){
+
+        if(time == 1){
+            soundPool.stop(streamID);
+            streamID = soundPool.play(soundID6, volume, volume, 1, 0, 1f);
+            global = 0;
+            try{
+                int temp = Integer.parseInt(StaticMethods.readFirstLine("highScore3.txt",getBaseContext()));
+                int prevSeed = Integer.parseInt(StaticMethods.readFirstLine("seed.txt",getBaseContext()));
+                prevSeed++;
+                StaticMethods.write("seed.txt",Integer.toString(prevSeed),getBaseContext());
+                if(totalScore > temp){
+                    StaticMethods.write("highScore3.txt",Integer.toString(totalScore),getBaseContext());
+                    StaticMethods.write("level2.txt",Integer.toString(level),getBaseContext());
+                }
+            }catch (IOException e){}
+            Intent i = new Intent(getBaseContext(),GameOver.class);
+            i.putExtra("score", totalScore);
+            i.putExtra("level", level);
+            startActivity(i);
+        }
+
+    }
+
+    public void initializeCountdown(int numTicks){
+
+        countDown = new CountDownTimer(numTicks*1000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 if(!pause){
                     time--;
-                    displayTime.setText("Time\n"+time);
+                    if(time == 3){
+                        displayTime.setTextColor(getResources().getColor(R.color.yellow));
+                        streamID = soundPool.play(soundID8, volume, volume, 1, 0, 1f);
+                    }else if (time == 2){
+                        displayTime.setTextColor(getResources().getColor(R.color.orange));
+                        streamID = soundPool.play(soundID8, volume, volume, 1, 0, 1f);
+                    }else if(time == 1){
+                        displayTime.setTextColor(getResources().getColor(R.color.red2));
+                        streamID = soundPool.play(soundID8, volume, volume, 1, 0, 1f);
+                    }else{
+                        displayTime.setTextColor(getResources().getColor(R.color.white));
+                    }
+
+                    displayTime.setText(""+time);
                 }
             }
 
@@ -379,37 +482,6 @@ public class MainActivity extends Activity {
             }
         };
         countDown.start();
-
-        for(int i = 0; i < 25; i++){
-            values[i] = tempValues.get(i);
-            textViews[i].setText(Integer.toString(values[i]));
-            textViews[i].setBackgroundResource(R.color.white);
-            isHit[i] = false;
-        }
-
-        goal.setText("Goal: " + greatestPath);
-        displayTotalScore.setText("Score\n" + totalScore);
-        displayLevel.setText("Level\n"+level);
-
-    }
-
-    public void gameOver(){
-
-        if(time == 1){
-            global = 0;
-            try{
-                int temp = Integer.parseInt(StaticMethods.readFirstLine("highScore2.txt",getBaseContext()));
-                if(totalScore > temp){
-                    StaticMethods.write("highScore2.txt",Integer.toString(totalScore),getBaseContext());
-                    StaticMethods.write("level.txt",Integer.toString(level),getBaseContext());
-                }
-            }catch (IOException e){}
-            Intent i = new Intent(getBaseContext(),GameOver.class);
-            i.putExtra("score", totalScore);
-            i.putExtra("level", level);
-            startActivity(i);
-        }
-
     }
 
 }
