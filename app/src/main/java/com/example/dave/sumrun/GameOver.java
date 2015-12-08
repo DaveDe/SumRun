@@ -65,7 +65,7 @@ public class GameOver extends Activity {
 
         retry.setBackgroundResource(R.mipmap.retry_unpressed);
         help.setBackgroundResource(R.mipmap.button_2);
-        mute.setBackgroundResource(R.mipmap.icon);
+        mute.setBackgroundResource(R.mipmap.unmuted);
 
         retry.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,10 +98,10 @@ public class GameOver extends Activity {
 
                 if(MainActivity.isMuted){
                     MainActivity.isMuted = false;
-                    //mute.setBackgroundResource();
+                    mute.setBackgroundResource(R.mipmap.unmuted);
                 }else{
                     MainActivity.isMuted = true;
-                    //mute.setBackgroundResource();
+                    mute.setBackgroundResource(R.mipmap.muted);
                 }
 
             }
