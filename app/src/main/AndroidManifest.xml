@@ -10,6 +10,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity"
                     android:noHistory="true"
+                    android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
                     android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,7 +20,7 @@
         </activity>
 
         <activity android:name=".GameOver"
-
+                    android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
                     android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,6 +31,7 @@
 
         <activity android:name=".Help"
             android:noHistory="true"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

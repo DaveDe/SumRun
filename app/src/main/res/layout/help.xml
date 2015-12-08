@@ -11,9 +11,22 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Next"
+        android:textColor="#ffffff"
         android:textSize="35sp"
         android:id="@+id/tv"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text=""
+        android:textColor="#ffffff"
+        android:textSize="35sp"
+        android:id="@+id/tv2"
+        android:layout_alignTop="@+id/tv"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true" />
 </RelativeLayout>

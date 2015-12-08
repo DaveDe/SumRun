@@ -21,11 +21,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 //test other screen sizes
-//fix backtrack
+//mute button
 //store description/screenshots
 public class MainActivity extends Activity {
 
     public static int global;
+    public static boolean isMuted;
+    public static SoundPool soundPool;
 
     private int tilesHit;
 
@@ -51,7 +53,6 @@ public class MainActivity extends Activity {
     private int soundID6;
     private int soundID7;
     private int soundID8;
-    private int streamID;
     private boolean pause;
     private float prevX, prevY, volume;
 
@@ -65,13 +66,10 @@ public class MainActivity extends Activity {
     private ImageButton help;
 
     private CountDownTimer countDown;
-    private SoundPool soundPool;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
 
         displayCurrentScore = (TextView)findViewById(R.id.currentScore);
@@ -168,7 +166,7 @@ public class MainActivity extends Activity {
         initializeCountdown(16);
 
 
-        soundPool = new SoundPool(7, AudioManager.STREAM_MUSIC, 50);
+        soundPool = new SoundPool(8, AudioManager.STREAM_MUSIC, 0);
 
         soundID1 = soundPool.load(this, R.raw.one, 1);
         soundID2 = soundPool.load(this, R.raw.two, 1);
@@ -334,24 +332,26 @@ public class MainActivity extends Activity {
 
     public void tileHit(int index){
 
+        if(!isMuted){
             switch(tilesHit){
                 case 0:
-                    streamID = soundPool.play(soundID1, volume, volume, 1, 0, 1f);
+                    soundPool.play(soundID1, volume, volume, 1, 0, 1f);
                     break;
                 case 1:
-                    streamID = soundPool.play(soundID2, volume, volume, 1, 0, 1f);
+                    soundPool.play(soundID2, volume, volume, 1, 0, 1f);
                     break;
                 case 2:
-                    streamID = soundPool.play(soundID3, volume, volume, 1, 0, 1f);
+                    soundPool.play(soundID3, volume, volume, 1, 0, 1f);
                     break;
                 case 3:
-                    streamID = soundPool.play(soundID4, volume, volume, 1, 0, 1f);
+                    soundPool.play(soundID4, volume, volume, 1, 0, 1f);
                     break;
                 case 4:
-                    streamID = soundPool.play(soundID5, volume, volume, 1, 0, 1f);
+                    soundPool.play(soundID5, volume, volume, 1, 0, 1f);
+
+            }
 
         }
-
 
         textViews[index].setBackgroundResource(R.color.purple);
         tilesHit++;
@@ -373,8 +373,10 @@ public class MainActivity extends Activity {
 
     public void generateNextLevel(){
 
-        soundPool.stop(streamID);
-        streamID = soundPool.play(soundID7, volume, volume, 1, 0, 1f);
+        if(!isMuted){
+            soundPool.play(soundID7, volume, volume, 1, 0, 1f);
+        }
+
         totalScore += currentScore;
 
         level++;
@@ -431,8 +433,9 @@ public class MainActivity extends Activity {
     public void gameOver(){
 
         if(time == 1){
-            soundPool.stop(streamID);
-            streamID = soundPool.play(soundID6, volume, volume, 1, 0, 1f);
+            if(!isMuted){
+                soundPool.play(soundID6, volume, volume, 1, 0, 1f);
+            }
             global = 0;
             try{
                 int temp = Integer.parseInt(StaticMethods.readFirstLine("highScore3.txt",getBaseContext()));
@@ -461,13 +464,19 @@ public class MainActivity extends Activity {
                     time--;
                     if(time == 3){
                         displayTime.setTextColor(getResources().getColor(R.color.yellow));
-                        streamID = soundPool.play(soundID8, volume, volume, 1, 0, 1f);
+                        if(!isMuted){
+                            soundPool.play(soundID8, volume, volume, 1, 0, 1f);
+                        }
                     }else if (time == 2){
                         displayTime.setTextColor(getResources().getColor(R.color.orange));
-                        streamID = soundPool.play(soundID8, volume, volume, 1, 0, 1f);
+                        if(!isMuted){
+                            soundPool.play(soundID8, volume, volume, 1, 0, 1f);
+                        }
                     }else if(time == 1){
                         displayTime.setTextColor(getResources().getColor(R.color.red2));
-                        streamID = soundPool.play(soundID8, volume, volume, 1, 0, 1f);
+                        if(!isMuted){
+                            soundPool.play(soundID8, volume, volume, 1, 0, 1f);
+                        }
                     }else{
                         displayTime.setTextColor(getResources().getColor(R.color.white));
                     }
@@ -483,5 +492,6 @@ public class MainActivity extends Activity {
         };
         countDown.start();
     }
+
 
 }

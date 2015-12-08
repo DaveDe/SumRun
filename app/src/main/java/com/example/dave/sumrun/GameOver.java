@@ -2,6 +2,8 @@ package com.example.dave.sumrun;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -23,6 +25,7 @@ public class GameOver extends Activity {
 
     private ImageButton retry;
     private ImageButton help;
+    private ImageButton mute;
     private TextView displayInfo;
 
     private InterstitialAd interstitial;
@@ -30,6 +33,7 @@ public class GameOver extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         interstitial = new InterstitialAd(getBaseContext());
         interstitial.setAdUnitId("ca-app-pub-8421459443129126/5122852497");
         requestNewInterstitial();
@@ -48,8 +52,6 @@ public class GameOver extends Activity {
 
         });
 
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.game_over);
 
         int score = getIntent().getIntExtra("score", 0);
@@ -58,16 +60,21 @@ public class GameOver extends Activity {
 
         retry = (ImageButton) findViewById(R.id.retry);
         help = (ImageButton) findViewById(R.id.help);
+        mute = (ImageButton) findViewById(R.id.mute);
         displayInfo = (TextView) findViewById(R.id.displayInfo);
 
         retry.setBackgroundResource(R.mipmap.retry_unpressed);
         help.setBackgroundResource(R.mipmap.button_2);
+        mute.setBackgroundResource(R.mipmap.icon);
 
         retry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 retry.setBackgroundResource(R.mipmap.retry_pressed);
                 Intent i = new Intent(getBaseContext(), MainActivity.class);
+                if(MainActivity.soundPool != null){
+                    MainActivity.soundPool.release();
+                }
                 startActivity(i);
             }
         });
@@ -78,7 +85,25 @@ public class GameOver extends Activity {
                 help.setBackgroundResource(R.mipmap.button_2_pressed);
                 Intent i = new Intent(getBaseContext(), Help.class);
                 i.putExtra("class","gameOver");
+                if(MainActivity.soundPool != null){
+                    MainActivity.soundPool.release();
+                }
                 startActivity(i);
+            }
+        });
+
+        mute.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(MainActivity.isMuted){
+                    MainActivity.isMuted = false;
+                    //mute.setBackgroundResource();
+                }else{
+                    MainActivity.isMuted = true;
+                    //mute.setBackgroundResource();
+                }
+
             }
         });
 

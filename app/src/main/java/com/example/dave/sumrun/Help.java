@@ -6,8 +6,6 @@ import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -17,13 +15,12 @@ public class Help extends Activity {
 
     private RelativeLayout rl;
     private TextView tv;
-    int count;
+    private TextView tv2;
+    private int count;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.help);
 
         try{
@@ -35,6 +32,9 @@ public class Help extends Activity {
 
         rl = (RelativeLayout) findViewById(R.id.relativeLayout);
         tv = (TextView) findViewById(R.id.tv);
+        tv2 = (TextView) findViewById(R.id.tv2);
+
+        count = 1;
 
         Intent i = getIntent();
         final String sender = i.getStringExtra("class");
@@ -43,40 +43,71 @@ public class Help extends Activity {
             @Override
             public void onClick(View v) {
 
-                switch (count) {
-
-                    case 0:
-                        Resources res = getResources();
-                        Drawable drawable = res.getDrawable(R.mipmap.instruction_2);
-                        rl.setBackground(drawable);
-                        break;
-                    case 1:
-                        Resources res2 = getResources();
-                        Drawable drawable2 = res2.getDrawable(R.mipmap.instruction_3);
-                        rl.setBackground(drawable2);
-                        break;
-                    case 2:
-                        Resources res3 = getResources();
-                        Drawable drawable3 = res3.getDrawable(R.mipmap.instruction_4);
-                        rl.setBackground(drawable3);
-                        tv.setText("Done");
-                        break;
-                    case 3:
-                        if (sender.equals("gameOver")) {
-                            Intent i = new Intent(getBaseContext(), GameOver.class);
-                            startActivity(i);
-                        } else {
-                            Intent i = new Intent(getBaseContext(), MainActivity.class);
-                            startActivity(i);
-                        }
-                        break;
-                }
-
-                count++;
-
+                changeInstruction(sender);
 
             }
         });
+
+        tv2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(count > 0){
+                    count-=2;
+                    changeInstruction(sender);
+                }
+                if(count == 0){
+                    tv2.setText("");
+                }
+
+            }
+        });
+
+    }
+
+    private void changeInstruction(String sender){
+
+        switch (count) {
+
+            case 0:
+                Resources res = getResources();
+                Drawable drawable = res.getDrawable(R.mipmap.instruction_1);
+                rl.setBackground(drawable);
+                tv.setText("Next");
+                tv2.setText("");
+                break;
+            case 1:
+                Resources res2 = getResources();
+                Drawable drawable2 = res2.getDrawable(R.mipmap.instruction_2);
+                rl.setBackground(drawable2);
+                tv.setText("Next");
+                tv2.setText("Prev");
+                break;
+            case 2:
+                Resources res3 = getResources();
+                Drawable drawable3 = res3.getDrawable(R.mipmap.instruction_3);
+                rl.setBackground(drawable3);
+                tv.setText("Next");
+                tv2.setText("Prev");
+                break;
+            case 3:
+                Resources res4 = getResources();
+                Drawable drawable4 = res4.getDrawable(R.mipmap.instruction_4);
+                rl.setBackground(drawable4);
+                tv.setText("Done");
+                tv2.setText("Prev");
+                break;
+            case 4:
+                if (sender.equals("gameOver")) {
+                    Intent i = new Intent(getBaseContext(), GameOver.class);
+                    startActivity(i);
+                } else {
+                    Intent i = new Intent(getBaseContext(), MainActivity.class);
+                    startActivity(i);
+                }
+                break;
+        }
+
+        count++;
 
     }
 
