@@ -281,6 +281,10 @@ public class MainActivity extends Activity {
                             tilesHit = 10;
                         }
                     }
+                    //reset if moving off grid
+                    if(eventX < tvX[0] || eventX > tvX[4] + tvLength || eventY > tvY[24] + tvHeight || eventY < tvY[0]){
+                        resetTiles();
+                    }
                 }
 
 
