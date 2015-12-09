@@ -108,8 +108,14 @@ public class GameOver extends Activity {
         });
 
         try {
-            highScore = Integer.parseInt(StaticMethods.readFirstLine("highScore3.txt", getBaseContext()));
-            highLevel = Integer.parseInt(StaticMethods.readFirstLine("level2.txt", getBaseContext()));
+            String sHighScore = StaticMethods.readFirstLine("highScore3.txt", getBaseContext());
+            String sHighLevel = StaticMethods.readFirstLine("level2.txt", getBaseContext());
+            if(sHighScore != null && !sHighScore.equals("")){
+                highScore = Integer.parseInt(sHighScore);
+            }
+            if(sHighLevel != null && !sHighLevel.equals("")){
+                highLevel = Integer.parseInt(sHighLevel);
+            }
         } catch (IOException e) {
         }
         if(score == highScore){

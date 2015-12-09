@@ -18,8 +18,7 @@ import android.widget.TextView;
 import java.io.IOException;
 import java.util.ArrayList;
 
-//test other screen sizes
-//mute button
+//mute button, final testing
 //store description/screenshots
 public class MainActivity extends Activity {
 
@@ -440,11 +439,15 @@ public class MainActivity extends Activity {
             }
             global = 0;
             try{
-                int temp = Integer.parseInt(StaticMethods.readFirstLine("highScore3.txt",getBaseContext()));
+                int tempInt = 0;
+                String temp = StaticMethods.readFirstLine("highScore3.txt",getBaseContext());
+                if(temp != null && !temp.equals("")){
+                    tempInt = Integer.parseInt(temp);
+                }
                 int prevSeed = Integer.parseInt(StaticMethods.readFirstLine("seed.txt",getBaseContext()));
                 prevSeed++;
                 StaticMethods.write("seed.txt",Integer.toString(prevSeed),getBaseContext());
-                if(totalScore > temp){
+                if(totalScore > tempInt){
                     StaticMethods.write("highScore3.txt",Integer.toString(totalScore),getBaseContext());
                     StaticMethods.write("level2.txt",Integer.toString(level),getBaseContext());
                 }
