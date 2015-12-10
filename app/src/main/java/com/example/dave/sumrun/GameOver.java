@@ -65,7 +65,11 @@ public class GameOver extends Activity {
 
         retry.setBackgroundResource(R.mipmap.retry_unpressed);
         help.setBackgroundResource(R.mipmap.button_2);
-        mute.setBackgroundResource(R.mipmap.unmuted);
+        if(MainActivity.isMuted){
+            mute.setBackgroundResource(R.mipmap.mutedbutton);
+        }else{
+            mute.setBackgroundResource(R.mipmap.unmutedbutton);
+        }
 
         retry.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,8 +88,8 @@ public class GameOver extends Activity {
             public void onClick(View v) {
                 help.setBackgroundResource(R.mipmap.button_2_pressed);
                 Intent i = new Intent(getBaseContext(), Help.class);
-                i.putExtra("class","gameOver");
-                if(MainActivity.soundPool != null){
+                i.putExtra("class", "gameOver");
+                if (MainActivity.soundPool != null) {
                     MainActivity.soundPool.release();
                 }
                 startActivity(i);
@@ -96,12 +100,12 @@ public class GameOver extends Activity {
             @Override
             public void onClick(View v) {
 
-                if(MainActivity.isMuted){
+                if (MainActivity.isMuted) {
                     MainActivity.isMuted = false;
-                    mute.setBackgroundResource(R.mipmap.unmuted);
-                }else{
+                    mute.setBackgroundResource(R.mipmap.unmutedbutton);
+                } else {
                     MainActivity.isMuted = true;
-                    mute.setBackgroundResource(R.mipmap.muted);
+                    mute.setBackgroundResource(R.mipmap.mutedbutton);
                 }
 
             }

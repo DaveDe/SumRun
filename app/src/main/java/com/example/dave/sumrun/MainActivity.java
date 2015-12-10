@@ -18,8 +18,6 @@ import android.widget.TextView;
 import java.io.IOException;
 import java.util.ArrayList;
 
-//mute button, final testing
-//store description/screenshots
 public class MainActivity extends Activity {
 
     public static int global;
