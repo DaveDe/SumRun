@@ -1,4 +1,4 @@
-package com.example.dave.sumrun;
+package com.on.dave.sumrun;
 
 import org.junit.Test;
 
