@@ -136,5 +136,10 @@ public class GameOver extends Activity {
         interstitial.loadAd(adRequest);
     }
 
+    //back button does nothing
+    @Override
+    public void onBackPressed() {
+    }
+
 
 }

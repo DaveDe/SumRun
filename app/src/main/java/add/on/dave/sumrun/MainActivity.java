@@ -189,7 +189,7 @@ public class MainActivity extends Activity {
         }
 
         displayLevel.setText("Level\n   1");
-        displayTotalScore.setText("Score\n0");
+        displayTotalScore.setText("Score\n    0");
         displayTime.setText(""+time);
         goal.setText("Objective: "+greatestPath);
 
@@ -426,7 +426,15 @@ public class MainActivity extends Activity {
         }
 
         goal.setText("Objective: " + greatestPath);
-        displayTotalScore.setText("Score\n" + totalScore);
+        if(totalScore < 10){
+            displayTotalScore.setText("Score\n    " + totalScore);
+        }else if(totalScore < 100){
+            displayTotalScore.setText("Score\n  " + totalScore);
+        }else if(totalScore < 1000){
+            displayTotalScore.setText("Score\n " + totalScore);
+        }else{
+            displayTotalScore.setText("Score\n" + totalScore);
+        }
         displayLevel.setText("Level\n   "+level);
 
     }
@@ -496,6 +504,11 @@ public class MainActivity extends Activity {
             }
         };
         countDown.start();
+    }
+
+    //back button does nothing
+    @Override
+    public void onBackPressed() {
     }
 
 

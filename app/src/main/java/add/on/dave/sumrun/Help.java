@@ -113,5 +113,10 @@ public class Help extends Activity {
 
     }
 
+    //back button does nothing
+    @Override
+    public void onBackPressed() {
+    }
+
 
 }
