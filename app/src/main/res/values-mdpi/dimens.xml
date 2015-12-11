@@ -6,4 +6,5 @@
     <dimen name="score_padding">5dp</dimen>
     <dimen name="goal_padding">20dp</dimen>
     <dimen name="retry_padding">50dp</dimen>
+    <dimen name="gameOver_info_padding_left">10dp</dimen>
 </resources>

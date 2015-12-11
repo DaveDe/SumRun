@@ -15,6 +15,8 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 import com.on.dave.sumrun.R;
 
 import java.io.IOException;
@@ -25,6 +27,7 @@ public class MainActivity extends Activity {
     public static int global;
     public static boolean isMuted;
     public static SoundPool soundPool;
+    public static InterstitialAd interstitial;
 
     private int tilesHit;
 
@@ -59,7 +62,6 @@ public class MainActivity extends Activity {
     private TextView displayLevel;
     private TextView displayTime;
     private TextView goal;
-
     private ImageButton help;
 
     private CountDownTimer countDown;
@@ -68,6 +70,10 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        interstitial = new InterstitialAd(getBaseContext());
+        interstitial.setAdUnitId("ca-app-pub-8421459443129126/5122852497");
+        requestNewInterstitial();
 
         displayCurrentScore = (TextView)findViewById(R.id.currentScore);
         displayTotalScore = (TextView) findViewById(R.id.totalScore);
@@ -366,6 +372,7 @@ public class MainActivity extends Activity {
         currentScore = 0;
         for(int i = 0; i < 25; i++){
             textViews[i].setBackgroundResource(R.color.white);
+            textViews[i].getBackground().setAlpha(300);
             isHit[i] = false;
             leftRange[i] = false;
         }
@@ -422,6 +429,7 @@ public class MainActivity extends Activity {
             values[i] = tempValues.get(i);
             textViews[i].setText(Integer.toString(values[i]));
             textViews[i].setBackgroundResource(R.color.white);
+            textViews[i].getBackground().setAlpha(300);
             isHit[i] = false;
         }
 
@@ -509,6 +517,14 @@ public class MainActivity extends Activity {
     //back button does nothing
     @Override
     public void onBackPressed() {
+    }
+
+    private void requestNewInterstitial() {
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice("4A5BC2497191112F02A42DC7DBDFEA47")
+                .build();
+
+        interstitial.loadAd(adRequest);
     }
 
 

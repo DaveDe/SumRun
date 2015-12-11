@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="box_size">70dp</dimen>
+    <dimen name="grid_padding_top">30dp</dimen>
+    <dimen name="grid_padding_left">20dp</dimen>
+    <dimen name="score_padding">10dp</dimen>
+    <dimen name="goal_padding">30dp</dimen>
+    <dimen name="retry_padding">105dp</dimen>
+    <dimen name="gameOver_info_padding_left">40dp</dimen>
+</resources>

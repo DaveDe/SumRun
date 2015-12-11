@@ -28,7 +28,8 @@
         android:layout_centerHorizontal="true"
         android:paddingTop="50dp"
         android:textColor="@color/white"
-        android:paddingBottom="@dimen/retry_padding"/>
+        android:paddingBottom="@dimen/retry_padding"
+        android:paddingLeft="@dimen/gameOver_info_padding_left"/>
 
     <ImageButton
         android:layout_width="wrap_content"

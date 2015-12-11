@@ -24,29 +24,17 @@ public class GameOver extends Activity {
     private ImageButton mute;
     private TextView displayInfo;
 
-    private InterstitialAd interstitial;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        interstitial = new InterstitialAd(getBaseContext());
-        interstitial.setAdUnitId("ca-app-pub-8421459443129126/5122852497");
-        requestNewInterstitial();
 
         try{
             seed = Integer.parseInt(StaticMethods.readFirstLine("seed.txt",getBaseContext()));
         }catch (IOException e){}
 
-        interstitial.setAdListener(new AdListener() {
-
-            public void onAdLoaded(){
-                if(seed % 2 == 0){
-                    interstitial.show();
-                }
-            }
-
-        });
+        if (seed % 2 == 0) {
+            MainActivity.interstitial.show();
+        }
 
         setContentView(R.layout.game_over);
 
@@ -126,14 +114,6 @@ public class GameOver extends Activity {
                     "\n\n\n      Personal Best\n\n      Score:   " + highScore + "           Level:   " + highLevel);
         }
 
-    }
-
-    private void requestNewInterstitial() {
-        AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice("4A5BC2497191112F02A42DC7DBDFEA47")
-                .build();
-
-        interstitial.loadAd(adRequest);
     }
 
     //back button does nothing
