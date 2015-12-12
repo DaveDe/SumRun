@@ -327,6 +327,7 @@ public class MainActivity extends Activity {
         super.onPause();
         pause = true;
         countDown.cancel();
+        countDown = null;
 
     }
 
@@ -423,6 +424,7 @@ public class MainActivity extends Activity {
         }
 
         countDown.cancel();
+        countDown = null;
         initializeCountdown(tickNums);
 
         for(int i = 0; i < 25; i++){
@@ -503,6 +505,7 @@ public class MainActivity extends Activity {
                     }
 
                     displayTime.setText(""+time);
+                }else{
                 }
             }
 

@@ -37,6 +37,7 @@ public class GameOver extends Activity {
         }
 
         setContentView(R.layout.game_over);
+        MainActivity.interstitial = null;
 
         int score = getIntent().getIntExtra("score", 0);
         int level = getIntent().getIntExtra("level", 0);
@@ -120,6 +121,5 @@ public class GameOver extends Activity {
     @Override
     public void onBackPressed() {
     }
-
 
 }
