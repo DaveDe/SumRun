@@ -57,7 +57,7 @@ public class MainActivity extends Activity {
     private int soundID6;
     private int soundID7;
     private int soundID8;
-    private boolean pause;
+    //private boolean pause;
     private float prevX, prevY, volume;
 
     private TextView[] textViews;
@@ -138,6 +138,8 @@ public class MainActivity extends Activity {
         textViews[23] = tv24;
         textViews[24] = tv25;
 
+        global = 0;
+
         GreatestPath g = new GreatestPath();
 
         Tile[][] tiles = g.getTiles();
@@ -167,8 +169,6 @@ public class MainActivity extends Activity {
 
         level = 1;
         time = 16;
-        pause = false;
-        global = 0;
 
         initializeCountdown(16);
         initializeSoundPool();
@@ -319,19 +319,12 @@ public class MainActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        if(pause){
-            pause = false;
-            initializeCountdown(time);
-        }
-
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        pause = true;
         countDown.cancel();
-
     }
 
     @Override
@@ -454,10 +447,11 @@ public class MainActivity extends Activity {
 
     public void gameOver(){
         resetTiles();
-        if(time == 1){
-            if(!isMuted){
+        if(time == 1) {
+            if (!isMuted) {
                 soundPool.play(soundID6, volume, volume, 1, 0, 1f);
             }
+        }
             global = 0;
             try{
                 int tempInt = 0;
@@ -477,7 +471,7 @@ public class MainActivity extends Activity {
             i.putExtra("score", totalScore);
             i.putExtra("level", level);
             startActivity(i);
-        }
+
 
     }
 
@@ -486,7 +480,7 @@ public class MainActivity extends Activity {
         countDown = new CountDownTimer(numTicks*1000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                if(!pause){
+                //if(!pause){
                     time--;
                     if(time == 3){
                         displayTime.setTextColor(getResources().getColor(R.color.yellow));
@@ -507,9 +501,9 @@ public class MainActivity extends Activity {
                         displayTime.setTextColor(getResources().getColor(R.color.white));
                     }
 
-                    displayTime.setText(""+time);
-                }else{
-                }
+                    displayTime.setText("" + time);
+                //}else{
+               // }
             }
 
             @Override
