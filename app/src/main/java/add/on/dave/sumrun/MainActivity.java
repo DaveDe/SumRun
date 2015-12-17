@@ -24,7 +24,8 @@ import com.on.dave.sumrun.R;
 import java.io.IOException;
 import java.util.ArrayList;
 
-//comment out soundpool for memory fix
+//comment out soundpool?
+//tile spacing
 
 public class MainActivity extends Activity {
 
@@ -170,10 +171,7 @@ public class MainActivity extends Activity {
         level = 1;
         time = 16;
 
-        initializeCountdown(16);
         initializeSoundPool();
-
-        //soundPool = new SoundPool(8, AudioManager.STREAM_MUSIC, 0);
 
         soundID1 = soundPool.load(this, R.raw.one, 1);
         soundID2 = soundPool.load(this, R.raw.two, 1);
@@ -319,6 +317,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+        initializeCountdown(time);
     }
 
     @Override
@@ -330,8 +329,6 @@ public class MainActivity extends Activity {
     @Override
     protected void onStop() {
         super.onStop();
-        //global = 0;
-
     }
 
     public void tileHit(int index){
