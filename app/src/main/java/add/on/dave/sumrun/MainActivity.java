@@ -1,9 +1,11 @@
 package add.on.dave.sumrun;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.CountDownTimer;
@@ -21,6 +23,8 @@ import com.on.dave.sumrun.R;
 
 import java.io.IOException;
 import java.util.ArrayList;
+
+//comment out soundpool for memory fix
 
 public class MainActivity extends Activity {
 
@@ -167,9 +171,9 @@ public class MainActivity extends Activity {
         global = 0;
 
         initializeCountdown(16);
+        initializeSoundPool();
 
-
-        soundPool = new SoundPool(8, AudioManager.STREAM_MUSIC, 0);
+        //soundPool = new SoundPool(8, AudioManager.STREAM_MUSIC, 0);
 
         soundID1 = soundPool.load(this, R.raw.one, 1);
         soundID2 = soundPool.load(this, R.raw.two, 1);
@@ -199,12 +203,12 @@ public class MainActivity extends Activity {
         displayTime.setText(""+time);
         goal.setText("Objective: "+greatestPath);
 
-        help.setBackgroundResource(R.mipmap.button_1);
+        help.setBackgroundResource(R.drawable.button_1);
 
         help.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                help.setBackgroundResource(R.mipmap.button_1_pressed);
+                help.setBackgroundResource(R.drawable.button_1_pressed);
                 Intent i = new Intent(getBaseContext(),Help.class);
                 i.putExtra("class","MainActivity");
                 startActivity(i);
@@ -327,14 +331,13 @@ public class MainActivity extends Activity {
         super.onPause();
         pause = true;
         countDown.cancel();
-        countDown = null;
 
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        global = 0;
+        //global = 0;
 
     }
 
@@ -424,7 +427,7 @@ public class MainActivity extends Activity {
         }
 
         countDown.cancel();
-        countDown = null;
+        //countDown = null;
         initializeCountdown(tickNums);
 
         for(int i = 0; i < 25; i++){
@@ -450,7 +453,7 @@ public class MainActivity extends Activity {
     }
 
     public void gameOver(){
-
+        resetTiles();
         if(time == 1){
             if(!isMuted){
                 soundPool.play(soundID6, volume, volume, 1, 0, 1f);
@@ -528,6 +531,24 @@ public class MainActivity extends Activity {
                 .build();
 
         interstitial.loadAd(adRequest);
+    }
+
+    @TargetApi(21)
+    private void initializeSoundPool(){
+        SoundPool.Builder spb;
+
+        if((android.os.Build.VERSION.SDK_INT) >= 21){
+            spb = new SoundPool.Builder();
+            AudioAttributes attributes = new AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_GAME)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                    .build();
+            spb.setMaxStreams(8);
+            spb.setAudioAttributes(attributes);
+            soundPool = spb.build();
+        }else{
+            soundPool = new SoundPool(8, AudioManager.STREAM_MUSIC, 0);
+        }
     }
 
 

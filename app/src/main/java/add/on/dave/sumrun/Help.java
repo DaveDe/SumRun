@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -71,30 +72,22 @@ public class Help extends Activity {
         switch (count) {
 
             case 0:
-                Resources res = getResources();
-                Drawable drawable = res.getDrawable(R.mipmap.instruction_1);
-                rl.setBackground(drawable);
+                rl.setBackground(ContextCompat.getDrawable(getBaseContext(), R.drawable.instruction_1));
                 tv.setText("Next");
                 tv2.setText("");
                 break;
             case 1:
-                Resources res2 = getResources();
-                Drawable drawable2 = res2.getDrawable(R.mipmap.instruction_2);
-                rl.setBackground(drawable2);
+                rl.setBackground(ContextCompat.getDrawable(getBaseContext(), R.drawable.instruction_2));
                 tv.setText("Next");
                 tv2.setText("Prev");
                 break;
             case 2:
-                Resources res3 = getResources();
-                Drawable drawable3 = res3.getDrawable(R.mipmap.instruction_3);
-                rl.setBackground(drawable3);
+                rl.setBackground(ContextCompat.getDrawable(getBaseContext(), R.drawable.instruction_3));
                 tv.setText("Next");
                 tv2.setText("Prev");
                 break;
             case 3:
-                Resources res4 = getResources();
-                Drawable drawable4 = res4.getDrawable(R.mipmap.instruction_4);
-                rl.setBackground(drawable4);
+                rl.setBackground(ContextCompat.getDrawable(getBaseContext(), R.drawable.instruction_4));
                 tv.setText("Done");
                 tv2.setText("Prev");
                 break;
