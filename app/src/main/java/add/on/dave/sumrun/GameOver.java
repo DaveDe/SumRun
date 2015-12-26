@@ -3,7 +3,9 @@ package add.on.dave.sumrun;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -23,6 +25,7 @@ public class GameOver extends Activity {
     private ImageButton help;
     private ImageButton mute;
     private TextView displayInfo;
+    private Button mainMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +36,7 @@ public class GameOver extends Activity {
         }catch (IOException e){}
 
         if (seed % 2 == 0) {
-            MainActivity.interstitial.show();
+            GameView.interstitial.show();
         }
 
         setContentView(R.layout.game_over);
@@ -46,10 +49,11 @@ public class GameOver extends Activity {
         help = (ImageButton) findViewById(R.id.help);
         mute = (ImageButton) findViewById(R.id.mute);
         displayInfo = (TextView) findViewById(R.id.displayInfo);
+        mainMenu = (Button) findViewById(R.id.main_menu);
 
         retry.setBackgroundResource(R.drawable.retry_unpressed);
         help.setBackgroundResource(R.drawable.button_2);
-        if(MainActivity.isMuted){
+        if(GameView.isMuted){
             mute.setBackgroundResource(R.drawable.mutedbutton);
         }else{
             mute.setBackgroundResource(R.drawable.unmutedbutton);
@@ -59,9 +63,9 @@ public class GameOver extends Activity {
             @Override
             public void onClick(View v) {
                 retry.setBackgroundResource(R.drawable.retry_pressed);
-                Intent i = new Intent(getBaseContext(), MainActivity.class);
-                if(MainActivity.soundPool != null){
-                    MainActivity.soundPool.release();
+                Intent i = new Intent(getBaseContext(), GameView.class);
+                if(GameView.soundPool != null){
+                    GameView.soundPool.release();
                 }
                 startActivity(i);
             }
@@ -73,8 +77,8 @@ public class GameOver extends Activity {
                 help.setBackgroundResource(R.drawable.button_2_pressed);
                 Intent i = new Intent(getBaseContext(), Help.class);
                 i.putExtra("class", "gameOver");
-                if (MainActivity.soundPool != null) {
-                    MainActivity.soundPool.release();
+                if (GameView.soundPool != null) {
+                    GameView.soundPool.release();
                 }
                 startActivity(i);
             }
@@ -84,14 +88,22 @@ public class GameOver extends Activity {
             @Override
             public void onClick(View v) {
 
-                if (MainActivity.isMuted) {
-                    MainActivity.isMuted = false;
+                if (GameView.isMuted) {
+                    GameView.isMuted = false;
                     mute.setBackgroundResource(R.drawable.unmutedbutton);
                 } else {
-                    MainActivity.isMuted = true;
+                    GameView.isMuted = true;
                     mute.setBackgroundResource(R.drawable.mutedbutton);
                 }
 
+            }
+        });
+
+        mainMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getBaseContext(),MainActivity.class);
+                startActivity(i);
             }
         });
 

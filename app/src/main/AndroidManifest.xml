@@ -19,6 +19,16 @@
             </intent-filter>
         </activity>
 
+        <activity android:name="add.on.dave.sumrun.GameView"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
         <activity android:name="add.on.dave.sumrun.GameOver"
                     android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
                     android:screenOrientation="portrait">

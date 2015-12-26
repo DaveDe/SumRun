@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Main Menu"
+        android:fontFamily="sans-serif-thin"
+        android:textSize="60dp"
+        android:textColor="@color/white"
+        android:id="@+id/main_menu"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="60dp"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Play"
+        android:id="@+id/play"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Theme: "
+        android:id="@+id/theme_label"
+        android:textColor="@color/white"
+        android:layout_below="@+id/main_menu"
+        android:layout_alignLeft="@+id/main_menu"
+        android:paddingTop="30dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Mode: "
+        android:id="@+id/mode_label"
+        android:textColor="@color/white"
+        android:layout_below="@+id/theme_label"
+        android:layout_alignLeft="@+id/theme_label"
+        android:paddingTop="30dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Grid Size: "
+        android:id="@+id/grid_size_label"
+        android:textColor="@color/white"
+        android:layout_below="@+id/mode_label"
+        android:layout_alignLeft="@+id/mode_label"
+        android:paddingTop="30dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Choose Theme"
+        android:id="@+id/theme_button"
+        android:textColor="@color/white"
+        android:layout_below="@+id/main_menu"
+        android:layout_alignLeft="@+id/play"
+        android:layout_alignStart="@+id/play"
+        android:paddingTop="30dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Choose Mode"
+        android:id="@+id/mode_button"
+        android:textColor="@color/white"
+        android:layout_below="@+id/theme_button"
+        android:layout_alignLeft="@+id/theme_button"
+        android:layout_alignStart="@+id/theme_button"
+        android:paddingTop="40dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Choose Grid Size"
+        android:id="@+id/grid_size_button"
+        android:textColor="@color/white"
+        android:layout_below="@+id/mode_button"
+        android:layout_alignLeft="@+id/mode_button"
+        android:layout_alignStart="@+id/mode_button"
+        android:paddingTop="40dp"/>
+
+
+</RelativeLayout>
