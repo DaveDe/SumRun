@@ -58,7 +58,6 @@ public class MainActivity extends Activity {
     private int soundID6;
     private int soundID7;
     private int soundID8;
-    //private boolean pause;
     private float prevX, prevY, volume;
 
     private TextView[] textViews;
@@ -145,7 +144,7 @@ public class MainActivity extends Activity {
 
         Tile[][] tiles = g.getTiles();
 
-        ArrayList<Integer> tempValues = new ArrayList<Integer>();
+        ArrayList<Integer> tempValues = new ArrayList<Integer>();//stores matrix values
 
         for(int i = 0; i < tiles.length; i++){
 
