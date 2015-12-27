@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
@@ -18,6 +19,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
@@ -26,12 +28,15 @@ import com.on.dave.sumrun.R;
 import java.io.IOException;
 import java.util.ArrayList;
 
+//grid changes when going to menu and back
+
 public class GameView extends Activity {
 
     public static int global;
     public static boolean isMuted;
     public static SoundPool soundPool;
     public static InterstitialAd interstitial;
+    public static final String PREFS_NAME = "game_data3";
 
     private int tilesHit;
 
@@ -44,6 +49,8 @@ public class GameView extends Activity {
     private int[] values;
     private boolean[] isHit;
     private boolean[] leftRange;
+    private boolean gameOver;
+    private boolean restore;
     private int level;
     private int totalScore;
     private int time;
@@ -70,6 +77,8 @@ public class GameView extends Activity {
     private Button menuButton;
 
     private CountDownTimer countDown;
+    private SharedPreferences settings;
+    private SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,7 +152,25 @@ public class GameView extends Activity {
 
         StaticMethods.changeTheme(rl,getBaseContext());
 
-        global = 0;
+        gameOver = false;
+        restore = true;
+
+        //restore values if returning to game
+        settings = getSharedPreferences(PREFS_NAME, 0);
+        editor = settings.edit();
+
+        level = settings.getInt("level",1);
+        time = settings.getInt("time",16);
+        totalScore = settings.getInt("score",0);
+        global = settings.getInt("global",0);
+
+        if(time == 16){
+            restore = false;
+        }
+
+        displayLevel.setText("Level\n   "+level);
+        displayTotalScore.setText("Score\n    "+totalScore);
+        displayTime.setText("" + time);
 
         GreatestPath g = new GreatestPath();
 
@@ -164,6 +191,8 @@ public class GameView extends Activity {
             }
 
         }
+        goal.setText("Objective: "+greatestPath);
+
         values = new int[25];
         isHit = new boolean[25];
         tvX = new float[25];
@@ -171,9 +200,6 @@ public class GameView extends Activity {
         xRange = new float[25];
         yRange = new float[25];
         leftRange = new boolean[25];
-
-        level = 1;
-        time = 16;
 
         initializeSoundPool();
 
@@ -200,11 +226,6 @@ public class GameView extends Activity {
             isHit[i] = false;
         }
 
-        displayLevel.setText("Level\n   1");
-        displayTotalScore.setText("Score\n    0");
-        displayTime.setText(""+time);
-        goal.setText("Objective: "+greatestPath);
-
         help.setBackgroundResource(R.drawable.button_1);
 
         help.setOnClickListener(new View.OnClickListener() {
@@ -220,7 +241,7 @@ public class GameView extends Activity {
         menuButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getBaseContext(),Menu.class);
+                Intent i = new Intent(getBaseContext(), Menu.class);
                 startActivity(i);
             }
         });
@@ -329,6 +350,21 @@ public class GameView extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+        level = settings.getInt("level", 1);
+        time = settings.getInt("time",16);
+        totalScore = settings.getInt("score",0);
+        global = settings.getInt("global",0);
+        //restore grid when returning from exit
+        if(restore){
+            int[] restore = new int[25];
+            for(int i = 0; i < 25; i++){
+                restore[i] = settings.getInt("grid "+i,0);
+                textViews[i].setText(Integer.toString(restore[i]));
+            }
+            greatestPath = settings.getInt("objective",0);
+            goal.setText("Objective: "+greatestPath);
+        }
+
         initializeCountdown(time);
     }
 
@@ -341,6 +377,21 @@ public class GameView extends Activity {
     @Override
     protected void onStop() {
         super.onStop();
+
+        //assume youre in mid game, gameOver resets values
+        if(!gameOver){
+            editor.putInt("score", totalScore);
+            editor.putInt("level", level);
+            editor.putInt("time",time);
+            editor.putInt("global", global);
+            //save grid
+            for(int i = 0; i < 25; i++){
+                editor.putInt("grid " + i, Integer.parseInt(textViews[i].getText().toString()));
+            }
+            editor.putInt("objective",greatestPath);
+            editor.commit();
+        }
+
     }
 
     public void tileHit(int index){
@@ -472,13 +523,20 @@ public class GameView extends Activity {
     }
 
     public void gameOver(){
+        gameOver = true;
         resetTiles();
         if(time == 1) {
             if (!isMuted) {
                 soundPool.play(soundID6, volume, volume, 1, 0, 1f);
             }
         }
-        global = 0;
+
+        editor.putInt("score", 0);
+        editor.putInt("level", 1);
+        editor.putInt("time",16);
+        editor.putInt("global", 0);
+        editor.commit();
+
         try{
             int tempInt = 0;
             String temp = StaticMethods.readFirstLine("highScore3.txt",getBaseContext());

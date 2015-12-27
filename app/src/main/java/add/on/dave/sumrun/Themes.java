@@ -96,4 +96,9 @@ public class Themes extends Activity {
         }catch(IOException e){}
     }
 
+    //back button does nothing
+    @Override
+    public void onBackPressed() {
+    }
+
 }

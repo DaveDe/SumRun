@@ -11,9 +11,6 @@ import android.widget.TextView;
 import com.google.android.gms.common.api.Releasable;
 import com.on.dave.sumrun.R;
 
-//DISCUSSION
-
-
 //TODO
 //themes,modes,gridsize
 
@@ -59,4 +56,10 @@ public class Menu extends Activity {
         });
 
     }
+
+    //back button does nothing
+    @Override
+    public void onBackPressed() {
+    }
+
 }
