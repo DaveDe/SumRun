@@ -25,7 +25,6 @@ public class GameOver extends Activity {
     private ImageButton help;
     private ImageButton mute;
     private TextView displayInfo;
-    private Button mainMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +48,6 @@ public class GameOver extends Activity {
         help = (ImageButton) findViewById(R.id.help);
         mute = (ImageButton) findViewById(R.id.mute);
         displayInfo = (TextView) findViewById(R.id.displayInfo);
-        mainMenu = (Button) findViewById(R.id.main_menu);
 
         retry.setBackgroundResource(R.drawable.retry_unpressed);
         help.setBackgroundResource(R.drawable.button_2);
@@ -96,14 +94,6 @@ public class GameOver extends Activity {
                     mute.setBackgroundResource(R.drawable.mutedbutton);
                 }
 
-            }
-        });
-
-        mainMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getBaseContext(),MainActivity.class);
-                startActivity(i);
             }
         });
 

@@ -96,7 +96,7 @@ public class Help extends Activity {
                     Intent i = new Intent(getBaseContext(), GameOver.class);
                     startActivity(i);
                 } else {
-                    Intent i = new Intent(getBaseContext(), MainActivity.class);
+                    Intent i = new Intent(getBaseContext(), Menu.class);
                     startActivity(i);
                 }
                 break;

@@ -8,7 +8,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="add.on.dave.sumrun.MainActivity"
+        <activity android:name="add.on.dave.sumrun.GameView"
                     android:noHistory="true"
                     android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
                     android:screenOrientation="portrait">
@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="add.on.dave.sumrun.GameView"
+        <activity android:name="add.on.dave.sumrun.Menu"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -40,6 +40,17 @@
         </activity>
 
         <activity android:name="add.on.dave.sumrun.Help"
+            android:noHistory="true"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name="add.on.dave.sumrun.Themes"
             android:noHistory="true"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
             android:screenOrientation="portrait">

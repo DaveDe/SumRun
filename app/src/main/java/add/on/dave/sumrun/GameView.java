@@ -14,7 +14,9 @@ import android.support.v4.view.MotionEventCompat;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.ads.AdRequest;
@@ -57,6 +59,7 @@ public class GameView extends Activity {
     private int soundID8;
     private float prevX, prevY, volume;
 
+    private RelativeLayout rl;
     private TextView[] textViews;
     private TextView displayCurrentScore;
     private TextView displayTotalScore;
@@ -64,6 +67,7 @@ public class GameView extends Activity {
     private TextView displayTime;
     private TextView goal;
     private ImageButton help;
+    private Button menuButton;
 
     private CountDownTimer countDown;
 
@@ -76,12 +80,14 @@ public class GameView extends Activity {
         interstitial.setAdUnitId("ca-app-pub-8421459443129126/5122852497");
         requestNewInterstitial();
 
+        rl = (RelativeLayout) findViewById(R.id.relativeLayout);
         displayCurrentScore = (TextView)findViewById(R.id.currentScore);
         displayTotalScore = (TextView) findViewById(R.id.totalScore);
         displayLevel = (TextView) findViewById(R.id.level);
         displayTime = (TextView) findViewById(R.id.time);
         goal = (TextView) findViewById(R.id.goal);
         help = (ImageButton) findViewById(R.id.help);
+        menuButton = (Button) findViewById(R.id.menu_button);
         TextView tv1 = (TextView)findViewById(R.id.tv1);
         TextView tv2 = (TextView)findViewById(R.id.tv2);
         TextView tv3 = (TextView)findViewById(R.id.tv3);
@@ -134,6 +140,8 @@ public class GameView extends Activity {
         textViews[22] = tv23;
         textViews[23] = tv24;
         textViews[24] = tv25;
+
+        StaticMethods.changeTheme(rl,getBaseContext());
 
         global = 0;
 
@@ -203,8 +211,16 @@ public class GameView extends Activity {
             @Override
             public void onClick(View v) {
                 help.setBackgroundResource(R.drawable.button_1_pressed);
-                Intent i = new Intent(getBaseContext(),Help.class);
-                i.putExtra("class","MainActivity");
+                Intent i = new Intent(getBaseContext(), Help.class);
+                i.putExtra("class", "Menu");
+                startActivity(i);
+            }
+        });
+
+        menuButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getBaseContext(),Menu.class);
                 startActivity(i);
             }
         });
@@ -350,7 +366,24 @@ public class GameView extends Activity {
 
         }
 
-        textViews[index].setBackgroundResource(R.color.purple);
+        int color = R.color.purple;
+        try{
+            String theme = StaticMethods.readFirstLine("theme.txt",getBaseContext());
+            if(theme != null && !theme.equals("0")){
+                switch(theme){
+                    case "Daylight":
+                        color = R.color.daylight_tile;
+                        break;
+                    case "Midnight":
+                        color = R.color.midnight_tile;
+                        break;
+                    default:
+                        color = R.color.purple;
+                }
+            }
+        }catch(IOException e){}
+
+        textViews[index].setBackgroundResource(color);
         tilesHit++;
         isHit[index] = true;
         currentScore += Integer.parseInt(textViews[index].getText().toString());
