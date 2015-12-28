@@ -62,6 +62,7 @@ public class GameView extends Activity {
     private int soundID7;
     private int soundID8;
     private float prevX, prevY, volume;
+    private String mode;
 
     private RelativeLayout rl;
     private TextView[] textViews;
@@ -70,6 +71,7 @@ public class GameView extends Activity {
     private TextView displayLevel;
     private TextView displayTime;
     private TextView goal;
+    private TextView displayMode;
     private ImageButton help;
     private Button menuButton;
 
@@ -92,6 +94,7 @@ public class GameView extends Activity {
         displayLevel = (TextView) findViewById(R.id.level);
         displayTime = (TextView) findViewById(R.id.time);
         goal = (TextView) findViewById(R.id.goal);
+        displayMode = (TextView) findViewById(R.id.displayMode);
         help = (ImageButton) findViewById(R.id.help);
         menuButton = (Button) findViewById(R.id.menu_button);
         TextView tv1 = (TextView)findViewById(R.id.tv1);
@@ -156,18 +159,27 @@ public class GameView extends Activity {
         settings = getSharedPreferences(PREFS_NAME_GAME, 0);
         editor = settings.edit();
 
+        mode = settings.getString("mode", "classic");
+
         level = settings.getInt("level",1);
-        time = settings.getInt("time",16);
-        totalScore = settings.getInt("score",0);
-        global = settings.getInt("global",0);
+        time = settings.getInt("time", 16);
+        totalScore = settings.getInt("score", 0);
+        global = settings.getInt("global", 0);
 
         if(time == 16){
             restore = false;
         }
 
+        displayMode.setText("Mode: "+mode);
         displayLevel.setText("Level\n   "+level);
         displayTotalScore.setText("Score\n    "+totalScore);
-        displayTime.setText("" + time);
+        if(mode.equals("Sudden Death")){
+            displayTime.setText("-");
+        }else if(mode.equals("Nightmare")){
+            displayTime.setText("?");
+        }else{
+            displayTime.setText("" + time);
+        }
 
         GreatestPath g = new GreatestPath();
 
@@ -188,7 +200,9 @@ public class GameView extends Activity {
             }
 
         }
-        goal.setText("Objective: "+greatestPath);
+        if(mode.equals("Classic") || mode.equals("Blitz")){
+            goal.setText("Objective: "+greatestPath);
+        }
 
         values = new int[25];
         isHit = new boolean[25];
@@ -333,6 +347,8 @@ public class GameView extends Activity {
                 if(currentScore == greatestPath){
                     generateNextLevel();
                     displayCurrentScore.setText("");
+                }else if(mode.equals("Sudden Death") || mode.equals("Nightmare")){
+                    gameOver();
                 }else{
                     resetTiles();
                     displayCurrentScore.setText("");
@@ -348,9 +364,10 @@ public class GameView extends Activity {
     protected void onResume() {
         super.onResume();
         level = settings.getInt("level", 1);
-        time = settings.getInt("time",16);
-        totalScore = settings.getInt("score",0);
+        time = settings.getInt("time", 16);
+        totalScore = settings.getInt("score", 0);
         global = settings.getInt("global",0);
+        restore = settings.getBoolean("restore",true);
         //restore grid when returning from exit
         if(restore){
             int[] restore = new int[25];
@@ -358,17 +375,22 @@ public class GameView extends Activity {
                 restore[i] = settings.getInt("grid "+i,0);
                 textViews[i].setText(Integer.toString(restore[i]));
             }
-            greatestPath = settings.getInt("objective",0);
-            goal.setText("Objective: "+greatestPath);
+            if(mode.equals("Classic") || mode.equals("Blitz")){
+                greatestPath = settings.getInt("objective",0);
+                goal.setText("Objective: "+greatestPath);
+            }
         }
-
-        initializeCountdown(time);
+        if(!mode.equals("Sudden Death")){
+            initializeCountdown(time);
+        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        countDown.cancel();
+        if(!mode.equals("Sudden Death")){
+            countDown.cancel();
+        }
     }
 
     @Override
@@ -385,8 +407,10 @@ public class GameView extends Activity {
             for(int i = 0; i < 25; i++){
                 editor.putInt("grid " + i, Integer.parseInt(textViews[i].getText().toString()));
             }
-            editor.putInt("objective",greatestPath);
-            editor.commit();
+            if(mode.equals("Classic") || mode.equals("Blitz")){
+                editor.putInt("objective",greatestPath);
+                editor.commit();
+            }
         }
 
     }
@@ -484,18 +508,23 @@ public class GameView extends Activity {
         values = new int[25];
         resetTiles();
 
-        int tickNums;
-        if(level >= 8){
-            tickNums = 21;
+        if(level >= 8 && mode.equals("Classic")){
             time = 21;
         }else{
-            time = 16;
-            tickNums = 16;
+            if(mode.equals("Classic") || mode.equals("Nightmare")){
+                time = 16;
+            }else if(mode.equals("Blitz")){
+                time = 6;
+            }
         }
 
-        countDown.cancel();
-        //countDown = null;
-        initializeCountdown(tickNums);
+        if(!mode.equals("Sudden Death")){
+            countDown.cancel();
+            initializeCountdown(time);
+            if(!mode.equals("Nightmare")){
+                goal.setText("Objective: " + greatestPath);
+            }
+        }
 
         for(int i = 0; i < 25; i++){
             values[i] = tempValues.get(i);
@@ -505,7 +534,6 @@ public class GameView extends Activity {
             isHit[i] = false;
         }
 
-        goal.setText("Objective: " + greatestPath);
         if(totalScore < 10){
             displayTotalScore.setText("Score\n    " + totalScore);
         }else if(totalScore < 100){
@@ -515,23 +543,27 @@ public class GameView extends Activity {
         }else{
             displayTotalScore.setText("Score\n" + totalScore);
         }
-        displayLevel.setText("Level\n   "+level);
+        displayLevel.setText("Level\n   " + level);
 
     }
 
     public void gameOver(){
         gameOver = true;
         resetTiles();
-        if(time == 1) {
+       // if(time == 1) {
             if (!isMuted) {
                 soundPool.play(soundID6, volume, volume, 1, 0, 1f);
             }
-        }
+        //}
 
         editor.putInt("score", 0);
         editor.putInt("level", 1);
-        editor.putInt("time",16);
         editor.putInt("global", 0);
+        if(mode.equals("Classic") || mode.equals("Nightmare")){
+            editor.putInt("time",16);
+        }else if(mode.equals("Blitz")){
+            editor.putInt("time",6);
+        }
         editor.commit();
 
         try{
@@ -561,30 +593,32 @@ public class GameView extends Activity {
         countDown = new CountDownTimer(numTicks*1000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                //if(!pause){
                 time--;
-                if(time == 3){
-                    displayTime.setTextColor(getResources().getColor(R.color.yellow));
-                    if(!isMuted){
-                        soundPool.play(soundID8, volume, volume, 1, 0, 1f);
+                if(!mode.equals("Nightmare")) {
+                    if (time == 3) {
+                        displayTime.setTextColor(getResources().getColor(R.color.yellow));
+                        if (!isMuted) {
+                            soundPool.play(soundID8, volume, volume, 1, 0, 1f);
+                        }
+                    } else if (time == 2) {
+                        displayTime.setTextColor(getResources().getColor(R.color.orange));
+                        if (!isMuted) {
+                            soundPool.play(soundID8, volume, volume, 1, 0, 1f);
+                        }
+                    } else if (time == 1) {
+                        displayTime.setTextColor(getResources().getColor(R.color.red2));
+                        if (!isMuted) {
+                            soundPool.play(soundID8, volume, volume, 1, 0, 1f);
+                        }
+                    } else {
+                        displayTime.setTextColor(getResources().getColor(R.color.white));
                     }
-                }else if (time == 2){
-                    displayTime.setTextColor(getResources().getColor(R.color.orange));
-                    if(!isMuted){
-                        soundPool.play(soundID8, volume, volume, 1, 0, 1f);
-                    }
-                }else if(time == 1){
-                    displayTime.setTextColor(getResources().getColor(R.color.red2));
-                    if(!isMuted){
-                        soundPool.play(soundID8, volume, volume, 1, 0, 1f);
-                    }
+                    displayTime.setText("" + time);
                 }else{
                     displayTime.setTextColor(getResources().getColor(R.color.white));
                 }
 
-                displayTime.setText("" + time);
-                //}else{
-                // }
+
             }
 
             @Override

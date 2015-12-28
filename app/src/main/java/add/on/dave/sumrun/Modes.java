@@ -13,7 +13,7 @@ import com.on.dave.sumrun.R;
 
 public class Modes extends Activity {
 
-    public static final String PREFS_NAME_MODE = "mode";
+    public static final String PREFS_NAME_GAME = "game_data3";
 
     private RelativeLayout rl;
     private TextView displayMode;
@@ -41,7 +41,7 @@ public class Modes extends Activity {
         nightmare = (Button) findViewById(R.id.nightmare);
         back = (Button) findViewById(R.id.back);
 
-        settings = getSharedPreferences(PREFS_NAME_MODE, 0);
+        settings = getSharedPreferences(PREFS_NAME_GAME, 0);
         editor = settings.edit();
 
         StaticMethods.changeTheme(rl, getBaseContext());
@@ -52,6 +52,11 @@ public class Modes extends Activity {
             @Override
             public void onClick(View v) {
                 editor.putString("mode", "Classic");
+                editor.putInt("time",16);
+                editor.putInt("score", 0);
+                editor.putInt("level", 1);
+                editor.putInt("global", 0);
+                editor.putBoolean("restore", false);
                 editor.commit();
                 displayMode.setText("Current Mode:   Classic");
             }
@@ -60,7 +65,12 @@ public class Modes extends Activity {
         blitz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editor.putString("mode","Blitz");
+                editor.putString("mode", "Blitz");
+                editor.putInt("time",6);
+                editor.putInt("score", 0);
+                editor.putInt("level", 1);
+                editor.putInt("global", 0);
+                editor.putBoolean("restore", false);
                 editor.commit();
                 displayMode.setText("Current Mode:   Blitz");
             }
@@ -70,6 +80,10 @@ public class Modes extends Activity {
             @Override
             public void onClick(View v) {
                 editor.putString("mode", "Sudden Death");
+                editor.putInt("score", 0);
+                editor.putInt("level", 1);
+                editor.putInt("global", 0);
+                editor.putBoolean("restore", false);
                 editor.commit();
                 displayMode.setText("Current Mode:   Sudden Death");
             }
@@ -79,6 +93,11 @@ public class Modes extends Activity {
             @Override
             public void onClick(View v) {
                 editor.putString("mode", "Nightmare");
+                editor.putInt("time",16);
+                editor.putInt("score", 0);
+                editor.putInt("level", 1);
+                editor.putInt("global", 0);
+                editor.putBoolean("restore", false);
                 editor.commit();
                 displayMode.setText("Current Mode:   Nightmare");
             }
