@@ -19,7 +19,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
@@ -28,15 +27,13 @@ import com.on.dave.sumrun.R;
 import java.io.IOException;
 import java.util.ArrayList;
 
-//grid changes when going to menu and back
-
 public class GameView extends Activity {
 
     public static int global;
     public static boolean isMuted;
     public static SoundPool soundPool;
     public static InterstitialAd interstitial;
-    public static final String PREFS_NAME = "game_data3";
+    public static final String PREFS_NAME_GAME = "game_data3";
 
     private int tilesHit;
 
@@ -156,7 +153,7 @@ public class GameView extends Activity {
         restore = true;
 
         //restore values if returning to game
-        settings = getSharedPreferences(PREFS_NAME, 0);
+        settings = getSharedPreferences(PREFS_NAME_GAME, 0);
         editor = settings.edit();
 
         level = settings.getInt("level",1);
