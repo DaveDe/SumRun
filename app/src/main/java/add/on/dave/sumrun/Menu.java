@@ -7,15 +7,20 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.on.dave.sumrun.R;
 
 import java.io.IOException;
 
+//DISCUSS
+//show correct path at gameover
+//move mute button from gameover to menu
+//move help to menu, possibly keep on game screen and gameover
+//highscore page design
+
 //TODO
 //gridsize
-//sound for themes
+//highscores
 
 //BUGS
 //write to memory using shared preferences
@@ -25,13 +30,11 @@ import java.io.IOException;
 
 public class Menu extends Activity {
 
-    public static final String PREFS_NAME_GAME = "game_data3";
-
     private Button done;
     private RelativeLayout rl;
-    private TextView themeButton;
-    private TextView modeButton;
-    private TextView gridSizeButton;
+    private Button themeButton;
+    private Button modeButton;
+    private Button gridSizeButton;
 
     private SharedPreferences settings;
 
@@ -43,19 +46,24 @@ public class Menu extends Activity {
 
         rl = (RelativeLayout) findViewById(R.id.relativeLayout);
         done = (Button) findViewById(R.id.done);
-        themeButton = (TextView) findViewById(R.id.theme_button);
-        modeButton = (TextView) findViewById(R.id.mode_button);
-        gridSizeButton = (TextView) findViewById(R.id.grid_size_button);
+        themeButton = (Button) findViewById(R.id.theme_button);
+        modeButton = (Button) findViewById(R.id.mode_button);
+        gridSizeButton = (Button) findViewById(R.id.grid_size_button);
 
         String theme = "";
         try{
             theme = StaticMethods.readFirstLine("theme.txt",getBaseContext());
         }catch(IOException e){}
-        settings = getSharedPreferences(PREFS_NAME_GAME, 0);
+        settings = getSharedPreferences(GameView.PREFS_NAME_GAME, 0);
         String mode = settings.getString("mode","Classic");
 
         themeButton.setText(theme);
         modeButton.setText(mode);
+
+        themeButton.getBackground().setAlpha(1);
+        modeButton.getBackground().setAlpha(1);
+        gridSizeButton.getBackground().setAlpha(1);
+        done.getBackground().setAlpha(1);
 
         StaticMethods.changeTheme(rl,getBaseContext());
 
@@ -70,7 +78,7 @@ public class Menu extends Activity {
         modeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getBaseContext(),Modes.class);
+                Intent i = new Intent(getBaseContext(), Modes.class);
                 startActivity(i);
             }
         });

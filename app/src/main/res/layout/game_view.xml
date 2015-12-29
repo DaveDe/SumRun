@@ -5,12 +5,22 @@
     android:layout_height="match_parent"
     android:id="@+id/relativeLayout">
 
-    <ImageButton
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/help"
+        android:text=""
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:paddingLeft="60dp"
+
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:background="@drawable/button_enabled"
+        android:shadowColor="#FFFFFF"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="25"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -53,13 +63,13 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Score"
         android:id="@+id/totalScore"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
         android:paddingRight="25dp"
         android:paddingTop="15dp"
         android:textColor="#ffffff"
-        android:textSize="25sp"/>
+        android:textSize="25sp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -157,6 +167,16 @@
         android:layout_alignParentStart="true"
         android:layout_alignBottom="@+id/help"
         android:layout_alignRight="@+id/level"
-        android:layout_alignEnd="@+id/level" />
+        android:layout_alignEnd="@+id/level"
+        android:paddingBottom="15dp"
+        android:paddingRight="30dp"
+
+        android:textColor="#FFFFFF"
+        android:textSize="15sp"
+        android:background="@drawable/button_enabled"
+        android:shadowColor="#FFFFFF"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="25"/>
 
 </RelativeLayout>

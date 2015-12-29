@@ -34,7 +34,16 @@
         android:text="Classic"
         android:id="@+id/classic"
         android:layout_below="@+id/current_mode"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:paddingTop="30dp"
+
+        android:textColor="#FFFFFF"
+        android:textSize="25sp"
+        android:background="@drawable/button_enabled"
+        android:shadowColor="#FFFFFF"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="25"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -42,7 +51,17 @@
         android:text="Blitz"
         android:id="@+id/blitz"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/classic"
+        android:paddingTop="20dp"
+
+        android:textColor="#FFFFFF"
+        android:textSize="25sp"
+        android:background="@drawable/button_enabled"
+        android:shadowColor="#FFFFFF"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="25"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -50,7 +69,16 @@
         android:text="Sudden Death"
         android:id="@+id/sudden_death"
         android:layout_below="@+id/blitz"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:paddingTop="20dp"
+
+        android:textColor="#FFFFFF"
+        android:textSize="25sp"
+        android:background="@drawable/button_enabled"
+        android:shadowColor="#FFFFFF"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="25"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -58,7 +86,16 @@
         android:text="Nightmare"
         android:id="@+id/nightmare"
         android:layout_below="@+id/sudden_death"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:paddingTop="20dp"
+
+        android:textColor="#FFFFFF"
+        android:textSize="25sp"
+        android:background="@drawable/button_enabled"
+        android:shadowColor="#FFFFFF"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="25"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -67,7 +104,8 @@
         android:text=""
         android:id="@+id/display_warning"
         android:layout_below="@+id/nightmare"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:paddingTop="20dp"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -75,6 +113,15 @@
         android:text="Back"
         android:id="@+id/back"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:paddingBottom="30dp"
+
+        android:textColor="#FFFFFF"
+        android:textSize="25sp"
+        android:background="@drawable/button_enabled"
+        android:shadowColor="#FFFFFF"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="25"/>
 
 </RelativeLayout>

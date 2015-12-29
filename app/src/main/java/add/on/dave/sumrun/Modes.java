@@ -13,8 +13,6 @@ import com.on.dave.sumrun.R;
 
 public class Modes extends Activity {
 
-    public static final String PREFS_NAME_GAME = "game_data3";
-
     private RelativeLayout rl;
     private TextView displayMode;
     private TextView displayWarning;
@@ -41,7 +39,13 @@ public class Modes extends Activity {
         nightmare = (Button) findViewById(R.id.nightmare);
         back = (Button) findViewById(R.id.back);
 
-        settings = getSharedPreferences(PREFS_NAME_GAME, 0);
+        classic.getBackground().setAlpha(1);
+        blitz.getBackground().setAlpha(1);
+        suddenDeath.getBackground().setAlpha(1);
+        nightmare.getBackground().setAlpha(1);
+        back.getBackground().setAlpha(1);
+
+        settings = getSharedPreferences(GameView.PREFS_NAME_GAME, 0);
         editor = settings.edit();
 
         StaticMethods.changeTheme(rl, getBaseContext());

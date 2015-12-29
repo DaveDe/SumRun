@@ -20,20 +20,25 @@ import java.io.IOException;
 public class GameOver extends Activity {
 
     private int highScore;
+    private int highLevel;
     private int seed;
 
-    private ImageButton retry;
-    private ImageButton help;
+    private Button retry;
+    private Button help;
     private ImageButton mute;
     private TextView displayInfo;
+
+    private SharedPreferences settings;
+    private SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        try{
-            seed = Integer.parseInt(StaticMethods.readFirstLine("seed.txt",getBaseContext()));
-        }catch (IOException e){}
+        settings = getSharedPreferences(GameView.PREFS_NAME_GAME, 0);
+        editor = settings.edit();
+
+        seed = settings.getInt("seed",0);
 
         if (seed % 2 == 0) {
             GameView.interstitial.show();
@@ -43,42 +48,34 @@ public class GameOver extends Activity {
 
         int score = getIntent().getIntExtra("score", 0);
         int level = getIntent().getIntExtra("level", 0);
-        int highLevel = 0;
 
-        retry = (ImageButton) findViewById(R.id.retry);
-        help = (ImageButton) findViewById(R.id.help);
+        retry = (Button) findViewById(R.id.retry);
+        help = (Button) findViewById(R.id.help);
         mute = (ImageButton) findViewById(R.id.mute);
         displayInfo = (TextView) findViewById(R.id.displayInfo);
 
-        retry.setBackgroundResource(R.drawable.retry_unpressed);
-        help.setBackgroundResource(R.drawable.button_2);
         if(GameView.isMuted){
             mute.setBackgroundResource(R.drawable.mutedbutton);
         }else{
             mute.setBackgroundResource(R.drawable.unmutedbutton);
         }
 
+        retry.getBackground().setAlpha(1);
         retry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                retry.setBackgroundResource(R.drawable.retry_pressed);
                 Intent i = new Intent(getBaseContext(), GameView.class);
-                if(GameView.soundPool != null){
-                    GameView.soundPool.release();
-                }
                 startActivity(i);
             }
         });
 
+        help.setText("?");
+        help.getBackground().setAlpha(1);
         help.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                help.setBackgroundResource(R.drawable.button_2_pressed);
                 Intent i = new Intent(getBaseContext(), Help.class);
                 i.putExtra("class", "gameOver");
-                if (GameView.soundPool != null) {
-                    GameView.soundPool.release();
-                }
                 startActivity(i);
             }
         });
@@ -98,17 +95,8 @@ public class GameOver extends Activity {
             }
         });
 
-        try {
-            String sHighScore = StaticMethods.readFirstLine("highScore3.txt", getBaseContext());
-            String sHighLevel = StaticMethods.readFirstLine("level2.txt", getBaseContext());
-            if(sHighScore != null && !sHighScore.equals("")){
-                highScore = Integer.parseInt(sHighScore);
-            }
-            if(sHighLevel != null && !sHighLevel.equals("")){
-                highLevel = Integer.parseInt(sHighLevel);
-            }
-        } catch (IOException e) {
-        }
+        highScore = settings.getInt("highScore",0);
+        highLevel = settings.getInt("highLevel",0);
         if(score == highScore){
             displayInfo.setText("      New HighScore!\n\n      Score:   " + score + "           Level:   " + level +
                     "\n\n\n      Personal Best\n\n      Score:   " + highScore + "           Level:   " + highLevel);

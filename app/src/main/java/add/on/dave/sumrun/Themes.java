@@ -38,6 +38,11 @@ public class Themes extends Activity {
 
         changeThemeDisplay();
 
+        classic.getBackground().setAlpha(1);
+        daylight.getBackground().setAlpha(1);
+        midnight.getBackground().setAlpha(1);
+        back.getBackground().setAlpha(1);
+
         classic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

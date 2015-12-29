@@ -31,20 +31,38 @@
         android:paddingBottom="@dimen/retry_padding"
         android:paddingLeft="@dimen/gameOver_info_padding_left"/>
 
-    <ImageButton
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/retry"
+        android:text="Play Again"
         android:layout_gravity="center_horizontal"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/displayInfo" />
+        android:layout_below="@+id/displayInfo"
 
-    <ImageButton
+        android:textColor="#FFFFFF"
+        android:textSize="30sp"
+        android:background="@drawable/button_enabled"
+        android:shadowColor="#FFFFFF"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="25"/>
+
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/help"
         android:layout_gravity="right"
-        android:layout_alignParentRight="true" />
+        android:layout_alignParentRight="true"
+        android:paddingLeft="60dp"
+
+        android:textColor="#FFFFFF"
+        android:textSize="25sp"
+        android:background="@drawable/button_enabled"
+        android:shadowColor="#FFFFFF"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="25"/>
 
     <ImageButton
         android:layout_width="wrap_content"

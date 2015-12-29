@@ -16,7 +16,6 @@ import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -31,7 +30,6 @@ public class GameView extends Activity {
 
     public static int global;
     public static boolean isMuted;
-    public static SoundPool soundPool;
     public static InterstitialAd interstitial;
     public static final String PREFS_NAME_GAME = "game_data3";
 
@@ -72,10 +70,11 @@ public class GameView extends Activity {
     private TextView displayTime;
     private TextView goal;
     private TextView displayMode;
-    private ImageButton help;
+    private Button help;
     private Button menuButton;
 
     private CountDownTimer countDown;
+    private SoundPool soundPool;
     private SharedPreferences settings;
     private SharedPreferences.Editor editor;
 
@@ -95,7 +94,7 @@ public class GameView extends Activity {
         displayTime = (TextView) findViewById(R.id.time);
         goal = (TextView) findViewById(R.id.goal);
         displayMode = (TextView) findViewById(R.id.displayMode);
-        help = (ImageButton) findViewById(R.id.help);
+        help = (Button) findViewById(R.id.help);
         menuButton = (Button) findViewById(R.id.menu_button);
         TextView tv1 = (TextView)findViewById(R.id.tv1);
         TextView tv2 = (TextView)findViewById(R.id.tv2);
@@ -237,18 +236,18 @@ public class GameView extends Activity {
             isHit[i] = false;
         }
 
-        help.setBackgroundResource(R.drawable.button_1);
+        help.setText(" ? ");
+        help.getBackground().setAlpha(1);
 
         help.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                help.setBackgroundResource(R.drawable.button_1_pressed);
                 Intent i = new Intent(getBaseContext(), Help.class);
                 i.putExtra("class", "Menu");
                 startActivity(i);
             }
         });
-
+        menuButton.getBackground().setAlpha(1);
         menuButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -564,22 +563,16 @@ public class GameView extends Activity {
         }else if(mode.equals("Blitz")){
             editor.putInt("time",6);
         }
-        editor.commit();
 
-        try{
-            int tempInt = 0;
-            String temp = StaticMethods.readFirstLine("highScore3.txt",getBaseContext());
-            if(temp != null && !temp.equals("")){
-                tempInt = Integer.parseInt(temp);
-            }
-            int prevSeed = Integer.parseInt(StaticMethods.readFirstLine("seed.txt",getBaseContext()));
-            prevSeed++;
-            StaticMethods.write("seed.txt",Integer.toString(prevSeed),getBaseContext());
-            if(totalScore > tempInt){
-                StaticMethods.write("highScore3.txt",Integer.toString(totalScore),getBaseContext());
-                StaticMethods.write("level2.txt",Integer.toString(level),getBaseContext());
-            }
-        }catch (IOException e){}
+        int prevSeed = settings.getInt("seed",0);
+        prevSeed++;
+        editor.putInt("seed", prevSeed);
+        int tempInt = settings.getInt("highScore",0);
+        if(totalScore > tempInt){
+            editor.putInt("highScore",totalScore);
+            editor.putInt("highLevel",level);
+        }
+        editor.commit();
         Intent i = new Intent(getBaseContext(),GameOver.class);
         i.putExtra("score", totalScore);
         i.putExtra("level", level);
