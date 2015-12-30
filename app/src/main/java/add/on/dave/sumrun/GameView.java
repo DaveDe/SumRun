@@ -59,8 +59,11 @@ public class GameView extends Activity {
     private int soundID6;
     private int soundID7;
     private int soundID8;
+    private int numBoxes;
+    private int longestPath;
     private float prevX, prevY, volume;
     private String mode;
+    private String gridSize;
 
     private RelativeLayout rl;
     private TextView[] textViews;
@@ -81,7 +84,29 @@ public class GameView extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.game_view);
+
+        settings = getSharedPreferences(PREFS_NAME_GAME, 0);
+        editor = settings.edit();
+
+        gridSize = settings.getString("gridSize","3x3");
+        //set different layout based on gridsize
+        if(gridSize.equals("3x3")){
+            setContentView(R.layout.game_view_3x3);
+        }else if(gridSize.equals("4x4")){
+            setContentView(R.layout.game_view_4x4);
+        }else{
+            setContentView(R.layout.game_view);
+        }
+        if(gridSize.equals("3x3")){
+            numBoxes = 9;
+            longestPath = 3;
+        }else if(gridSize.equals("4x4")){
+            numBoxes = 16;
+            longestPath = 4;
+        }else{
+            numBoxes = 25;
+            longestPath = 5;
+        }
 
         interstitial = new InterstitialAd(getBaseContext());
         interstitial.setAdUnitId("ca-app-pub-8421459443129126/5122852497");
@@ -105,24 +130,7 @@ public class GameView extends Activity {
         TextView tv7 = (TextView)findViewById(R.id.tv7);
         TextView tv8 = (TextView)findViewById(R.id.tv8);
         TextView tv9 = (TextView)findViewById(R.id.tv9);
-        TextView tv10 = (TextView)findViewById(R.id.tv10);
-        TextView tv11 = (TextView)findViewById(R.id.tv11);
-        TextView tv12 = (TextView)findViewById(R.id.tv12);
-        TextView tv13 = (TextView)findViewById(R.id.tv13);
-        TextView tv14 = (TextView)findViewById(R.id.tv14);
-        TextView tv15 = (TextView)findViewById(R.id.tv15);
-        TextView tv16 = (TextView)findViewById(R.id.tv16);
-        TextView tv17 = (TextView)findViewById(R.id.tv17);
-        TextView tv18 = (TextView)findViewById(R.id.tv18);
-        TextView tv19 = (TextView)findViewById(R.id.tv19);
-        TextView tv20 = (TextView)findViewById(R.id.tv20);
-        TextView tv21 = (TextView)findViewById(R.id.tv21);
-        TextView tv22 = (TextView)findViewById(R.id.tv22);
-        TextView tv23 = (TextView)findViewById(R.id.tv23);
-        TextView tv24 = (TextView)findViewById(R.id.tv24);
-        TextView tv25 = (TextView)findViewById(R.id.tv25);
-
-        textViews = new TextView[25];
+        textViews = new TextView[numBoxes];
         textViews[0] = tv1;
         textViews[1] = tv2;
         textViews[2] = tv3;
@@ -132,22 +140,43 @@ public class GameView extends Activity {
         textViews[6] = tv7;
         textViews[7] = tv8;
         textViews[8] = tv9;
-        textViews[9] = tv10;
-        textViews[10] = tv11;
-        textViews[11] = tv12;
-        textViews[12] = tv13;
-        textViews[13] = tv14;
-        textViews[14] = tv15;
-        textViews[15] = tv16;
-        textViews[16] = tv17;
-        textViews[17] = tv18;
-        textViews[18] = tv19;
-        textViews[19] = tv20;
-        textViews[20] = tv21;
-        textViews[21] = tv22;
-        textViews[22] = tv23;
-        textViews[23] = tv24;
-        textViews[24] = tv25;
+        if(numBoxes > 9){
+            TextView tv10 = (TextView)findViewById(R.id.tv10);
+            TextView tv11 = (TextView)findViewById(R.id.tv11);
+            TextView tv12 = (TextView)findViewById(R.id.tv12);
+            TextView tv13 = (TextView)findViewById(R.id.tv13);
+            TextView tv14 = (TextView)findViewById(R.id.tv14);
+            TextView tv15 = (TextView)findViewById(R.id.tv15);
+            TextView tv16 = (TextView)findViewById(R.id.tv16);
+            textViews[9] = tv10;
+            textViews[10] = tv11;
+            textViews[11] = tv12;
+            textViews[12] = tv13;
+            textViews[13] = tv14;
+            textViews[14] = tv15;
+            textViews[15] = tv16;
+            if(numBoxes > 16){
+                TextView tv17 = (TextView)findViewById(R.id.tv17);
+                TextView tv18 = (TextView)findViewById(R.id.tv18);
+                TextView tv19 = (TextView)findViewById(R.id.tv19);
+                TextView tv20 = (TextView)findViewById(R.id.tv20);
+                TextView tv21 = (TextView)findViewById(R.id.tv21);
+                TextView tv22 = (TextView)findViewById(R.id.tv22);
+                TextView tv23 = (TextView)findViewById(R.id.tv23);
+                TextView tv24 = (TextView)findViewById(R.id.tv24);
+                TextView tv25 = (TextView)findViewById(R.id.tv25);
+                textViews[16] = tv17;
+                textViews[17] = tv18;
+                textViews[18] = tv19;
+                textViews[19] = tv20;
+                textViews[20] = tv21;
+                textViews[21] = tv22;
+                textViews[22] = tv23;
+                textViews[23] = tv24;
+                textViews[24] = tv25;
+            }
+
+        }
 
         StaticMethods.changeTheme(rl,getBaseContext());
 
@@ -155,8 +184,6 @@ public class GameView extends Activity {
         restore = true;
 
         //restore values if returning to game
-        settings = getSharedPreferences(PREFS_NAME_GAME, 0);
-        editor = settings.edit();
 
         mode = settings.getString("mode", "classic");
 
@@ -180,36 +207,19 @@ public class GameView extends Activity {
             displayTime.setText("" + time);
         }
 
-        GreatestPath g = new GreatestPath();
+        values = new int[numBoxes];
+        isHit = new boolean[numBoxes];
+        tvX = new float[numBoxes];
+        tvY = new float[numBoxes];
+        xRange = new float[numBoxes];
+        yRange = new float[numBoxes];
+        leftRange = new boolean[numBoxes];
 
-        Tile[][] tiles = g.getTiles();
+        greatestPath = calculateGreatestPath(gridSize);//also saves matrix in values[]
 
-        ArrayList<Integer> tempValues = new ArrayList<Integer>();//stores matrix values
-
-        for(int i = 0; i < tiles.length; i++){
-
-            for(int j = 0; j < tiles[i].length; j++){
-
-                tempValues.add(tiles[i][j].c.value);
-                int temp = g.findGreatestPath(tiles[i][j]);
-                if(temp > greatestPath){
-                    greatestPath = temp;
-                }
-
-            }
-
-        }
         if(mode.equals("Classic") || mode.equals("Blitz")){
             goal.setText("Objective: "+greatestPath);
         }
-
-        values = new int[25];
-        isHit = new boolean[25];
-        tvX = new float[25];
-        tvY = new float[25];
-        xRange = new float[25];
-        yRange = new float[25];
-        leftRange = new boolean[25];
 
         initializeSoundPool();
 
@@ -228,8 +238,7 @@ public class GameView extends Activity {
         volume = curVolume/maxVolume;
 
 
-        for(int i = 0; i < 25; i++){
-            values[i] = tempValues.get(i);
+        for(int i = 0; i < numBoxes; i++){
             textViews[i].setText(Integer.toString(values[i]));
             textViews[i].setBackgroundResource(R.color.white);
             textViews[i].getBackground().setAlpha(300);
@@ -266,7 +275,7 @@ public class GameView extends Activity {
         tvLength = textViews[0].getWidth();//textViews have same width,height
         tvHeight = textViews[0].getHeight();
 
-        for(int i = 0; i < 25; i++){
+        for(int i = 0; i < numBoxes; i++){
             int[] temp = new int[2];
             textViews[i].getLocationOnScreen(temp);
             tvX[i] = temp[0];
@@ -285,7 +294,7 @@ public class GameView extends Activity {
 
             case (MotionEvent.ACTION_DOWN) :
 
-                for(int i = 0; i < 25; i++) {
+                for(int i = 0; i < numBoxes; i++) {
                     if((eventX >= tvX[i]-padding && eventX <= xRange[i]+padding) && (eventY >= tvY[i]-padding && eventY <= yRange[i]+padding) && !isHit[i]) {
                         prevX = eventX;
                         prevY = eventY;
@@ -297,8 +306,8 @@ public class GameView extends Activity {
 
             case (MotionEvent.ACTION_MOVE) :
 
-                if(tilesHit < 5){
-                    for(int i = 0; i < 25; i++) {
+                if(tilesHit < longestPath){
+                    for(int i = 0; i < numBoxes; i++) {
 
                         //tile got hit for first time
                         if((eventX >= tvX[i]-padding && eventX <= xRange[i]+padding)
@@ -306,6 +315,7 @@ public class GameView extends Activity {
                                 && (!isHit[i])) {
                             //diagonal move was attempted
                             if(!(prevX >= tvX[i]-padding && prevX <= xRange[i]+padding)&&!(prevY >= tvY[i]-padding && prevY <= yRange[i]+padding)){//move vertical
+                                System.out.println("1");
                                 resetTiles();
                             }else{
                                 tileHit(i);
@@ -332,13 +342,17 @@ public class GameView extends Activity {
                         }
                     }
                     //reset if moving off grid
-                    if(eventX < tvX[0] || eventX > tvX[4] + tvLength || eventY > tvY[24] + tvHeight || eventY < tvY[0]){
+                    int upperRightmostTile = longestPath-1;
+                    int lastTile = numBoxes-1;
+                    if(eventX < tvX[0] || eventX > tvX[upperRightmostTile] + tvLength || eventY > tvY[lastTile] + tvHeight || eventY < tvY[0]){
+                        System.out.println("2");
                         resetTiles();
                     }
                 }
 
 
                 if(tilesHit == 10){
+                    System.out.println("3");
                     resetTiles();
                 }
                 return true;
@@ -346,9 +360,8 @@ public class GameView extends Activity {
                 if(currentScore == greatestPath){
                     generateNextLevel();
                     displayCurrentScore.setText("");
-                }else if(mode.equals("Sudden Death") || mode.equals("Nightmare")){
-                    gameOver();
                 }else{
+                    System.out.println("4");
                     resetTiles();
                     displayCurrentScore.setText("");
                 }
@@ -369,8 +382,8 @@ public class GameView extends Activity {
         restore = settings.getBoolean("restore",true);
         //restore grid when returning from exit
         if(restore){
-            int[] restore = new int[25];
-            for(int i = 0; i < 25; i++){
+            int[] restore = new int[numBoxes];
+            for(int i = 0; i < numBoxes; i++){
                 restore[i] = settings.getInt("grid "+i,0);
                 textViews[i].setText(Integer.toString(restore[i]));
             }
@@ -403,7 +416,7 @@ public class GameView extends Activity {
             editor.putInt("time",time);
             editor.putInt("global", global);
             //save grid
-            for(int i = 0; i < 25; i++){
+            for(int i = 0; i < numBoxes; i++){
                 editor.putInt("grid " + i, Integer.parseInt(textViews[i].getText().toString()));
             }
             if(mode.equals("Classic") || mode.equals("Blitz")){
@@ -463,18 +476,21 @@ public class GameView extends Activity {
     }
 
     public void resetTiles(){
+        System.out.println("Tiles hit: "+tilesHit);
         currentScore = 0;
-        for(int i = 0; i < 25; i++){
+        for(int i = 0; i < numBoxes; i++){
             textViews[i].setBackgroundResource(R.color.white);
             textViews[i].getBackground().setAlpha(300);
             isHit[i] = false;
             leftRange[i] = false;
         }
+        if((mode.equals("Sudden Death") || mode.equals("Nightmare")) && !gameOver && greatestPath != 0 && tilesHit > 0){
+            gameOver();
+        }
         tilesHit = 0;
     }
 
     public void generateNextLevel(){
-
         if(!isMuted){
             soundPool.play(soundID7, volume, volume, 1, 0, 1f);
         }
@@ -483,29 +499,18 @@ public class GameView extends Activity {
 
         level++;
         global++;
-        GreatestPath g = new GreatestPath();
+        tilesHit = 0;
+        currentScore = 0;
 
-        Tile[][] tiles = g.getTiles();
+        values = new int[numBoxes];
+        isHit = new boolean[numBoxes];
+        tvX = new float[numBoxes];
+        tvY = new float[numBoxes];
+        xRange = new float[numBoxes];
+        yRange = new float[numBoxes];
+        leftRange = new boolean[numBoxes];
 
-        ArrayList<Integer> tempValues = new ArrayList<Integer>();
-
-        greatestPath = 0;
-
-        for(int i = 0; i < tiles.length; i++){
-
-            for(int j = 0; j < tiles[i].length; j++){
-
-                tempValues.add(tiles[i][j].c.value);
-                int temp = g.findGreatestPath(tiles[i][j]);
-                if(temp > greatestPath){
-                    greatestPath = temp;
-                }
-
-            }
-
-        }
-        values = new int[25];
-        resetTiles();
+        greatestPath = calculateGreatestPath(gridSize);
 
         if(level >= 8 && mode.equals("Classic")){
             time = 21;
@@ -525,8 +530,7 @@ public class GameView extends Activity {
             }
         }
 
-        for(int i = 0; i < 25; i++){
-            values[i] = tempValues.get(i);
+        for(int i = 0; i < numBoxes; i++){
             textViews[i].setText(Integer.toString(values[i]));
             textViews[i].setBackgroundResource(R.color.white);
             textViews[i].getBackground().setAlpha(300);
@@ -549,11 +553,9 @@ public class GameView extends Activity {
     public void gameOver(){
         gameOver = true;
         resetTiles();
-       // if(time == 1) {
-            if (!isMuted) {
-                soundPool.play(soundID6, volume, volume, 1, 0, 1f);
-            }
-        //}
+        if (!isMuted) {
+            soundPool.play(soundID6, volume, volume, 1, 0, 1f);
+        }
 
         editor.putInt("score", 0);
         editor.putInt("level", 1);
@@ -651,6 +653,79 @@ public class GameView extends Activity {
         }else{
             soundPool = new SoundPool(8, AudioManager.STREAM_MUSIC, 0);
         }
+    }
+
+    private int calculateGreatestPath(String size){
+
+        int ret = 0;
+        ArrayList<Integer> tempValues = new ArrayList<Integer>();//stores matrix values
+
+        if(size.equals("3x3")){
+            GreatestPath3 g = new GreatestPath3();
+
+            Tile[][] tiles = g.getTiles();
+
+            int greatest = 0;
+            for(int i = 0; i < tiles.length; i++){
+
+                for(int j = 0; j < tiles[i].length; j++){
+
+                    tempValues.add(tiles[i][j].c.value);
+                    int temp = g.findGreatestPath(tiles[i][j]);
+                    if(temp > greatest){
+                        greatest = temp;
+                    }
+
+                }
+
+            }
+            ret = greatest;
+        }else if(size.equals("4x4")){
+            GreatestPath4 g = new GreatestPath4();
+
+            Tile[][] tiles = g.getTiles();
+
+            int greatest = 0;
+            for(int i = 0; i < tiles.length; i++){
+
+                for(int j = 0; j < tiles[i].length; j++){
+
+                    tempValues.add(tiles[i][j].c.value);
+                    int temp = g.findGreatestPath(tiles[i][j]);
+                    if(temp > greatest){
+                        greatest = temp;
+                    }
+
+                }
+
+            }
+            ret = greatest;
+        }else{
+            GreatestPath g = new GreatestPath();
+
+            Tile[][] tiles = g.getTiles();
+
+            int greatest = 0;
+            for(int i = 0; i < tiles.length; i++){
+
+                for(int j = 0; j < tiles[i].length; j++){
+
+                    tempValues.add(tiles[i][j].c.value);
+                    int temp = g.findGreatestPath(tiles[i][j]);
+                    if(temp > greatest){
+                        greatest = temp;
+                    }
+
+                }
+
+            }
+            ret = greatest;
+        }
+        //save matrix before leaving
+        for(int i = 0; i < numBoxes; i++){
+            values[i] = tempValues.get(i);
+        }
+        return ret;
     }
 
 }

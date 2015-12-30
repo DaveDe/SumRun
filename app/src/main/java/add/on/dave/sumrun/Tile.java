@@ -2,12 +2,12 @@ package add.on.dave.sumrun;
 
 import java.util.ArrayList;
 
-public class Tile {
+public class Tile{
 
     Coordinates c;
     ArrayList<Coordinates> reachableTiles;
 
-    public Tile(Coordinates c){
+    public Tile(Coordinates c, int gridSize){
 
         this.c = new Coordinates(c.x,c.y,c.value);
 
@@ -22,27 +22,34 @@ public class Tile {
 			    X O O O O
 			*/
 
-        addReachableTiles(c.x,c.y,c.value);
+        addReachableTiles(c.x,c.y,c.value,gridSize);
 
         //shift right-up
-        addReachableTiles(c.x+1,c.y-1,c.value);
-        addReachableTiles(c.x+2,c.y-2,c.value);
+        addReachableTiles(c.x+1,c.y-1,c.value,gridSize);
+        addReachableTiles(c.x+2,c.y-2,c.value,gridSize);
 
         //shift down-left
-        addReachableTiles(c.x-1,c.y+1,c.value);
-        addReachableTiles(c.x-2,c.y+2,c.value);
+        addReachableTiles(c.x-1,c.y+1,c.value,gridSize);
+        addReachableTiles(c.x-2,c.y+2,c.value,gridSize);
 
     }
 
-    public void addReachableTiles(int x, int y, int value){
+    public void addReachableTiles(int x, int y, int value, int gridSize){
+
+        int evenFactor = 0;
+
+        //even sized grids (offset by 1)
+        if(gridSize%2 == 0){
+            evenFactor = -1;
+        }
         int flag = 0;
         for(int i = y-2; i <= y+2; i++){
 
-            for(int j = x-2+flag; j <= x+2; j+=2){
-                if(j >=0 && i >= 0 && i < 5 && j < 5){
+            for(int j = x-2+flag+evenFactor; j <= x+2; j+=2){
+                if(j >=0 && i >= 0 && i < gridSize && j < gridSize){
                     Coordinates c = new Coordinates(j,i,value);
                     if(!inArrayList(c)){
-                        if(Math.abs(this.c.x - j) + Math.abs(this.c.y - i) <= 4){//ensure tile isnt too far away
+                        if(Math.abs(this.c.x - j) + Math.abs(this.c.y - i) < gridSize){//ensure tile isnt too far away
                             reachableTiles.add(c);
                         }
                     }
@@ -56,6 +63,7 @@ public class Tile {
             }
 
         }
+
     }
 
     public boolean inArrayList(Coordinates c){

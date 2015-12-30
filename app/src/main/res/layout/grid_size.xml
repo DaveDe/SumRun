@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/relativeLayout">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Grid Sizes"
+        android:fontFamily="sans-serif-thin"
+        android:textSize="60dp"
+        android:textColor="@color/white"
+        android:id="@+id/grid_size_title"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="60dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text=""
+        android:textColor="@color/white"
+        android:id="@+id/current_grid_size"
+        android:layout_below="@+id/grid_size_title"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="30dp"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="3x3"
+        android:id="@+id/three"
+        android:layout_below="@+id/current_grid_size"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="30dp"
+
+        android:textColor="#FFFFFF"
+        android:textSize="25sp"
+        android:background="@drawable/button_enabled"
+        android:shadowColor="#FFFFFF"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="25"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="4x4"
+        android:id="@+id/four"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/three"
+        android:paddingTop="20dp"
+
+        android:textColor="#FFFFFF"
+        android:textSize="25sp"
+        android:background="@drawable/button_enabled"
+        android:shadowColor="#FFFFFF"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="25"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="5x5"
+        android:id="@+id/five"
+        android:layout_below="@+id/four"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="20dp"
+
+        android:textColor="#FFFFFF"
+        android:textSize="25sp"
+        android:background="@drawable/button_enabled"
+        android:shadowColor="#FFFFFF"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="25"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text=""
+        android:id="@+id/display_warning"
+        android:layout_below="@+id/five"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="20dp"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Back"
+        android:id="@+id/back"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:paddingBottom="30dp"
+
+        android:textColor="#FFFFFF"
+        android:textSize="25sp"
+        android:background="@drawable/button_enabled"
+        android:shadowColor="#FFFFFF"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="25"/>
+
+</RelativeLayout>

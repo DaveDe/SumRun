@@ -20,7 +20,7 @@ public class GreatestPath {
                 Random r = new Random();
                 int rand = r.nextInt(2+GameView.global)+1;
                 Coordinates c = new Coordinates(j,i,rand);
-                tiles[i][j] = new Tile(c);
+                tiles[i][j] = new Tile(c,5);
             }
 
         }

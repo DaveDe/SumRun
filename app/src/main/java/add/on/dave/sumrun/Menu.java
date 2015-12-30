@@ -56,16 +56,18 @@ public class Menu extends Activity {
         }catch(IOException e){}
         settings = getSharedPreferences(GameView.PREFS_NAME_GAME, 0);
         String mode = settings.getString("mode","Classic");
+        String gridSize = settings.getString("gridSize","3x3");
 
         themeButton.setText(theme);
         modeButton.setText(mode);
+        gridSizeButton.setText(gridSize);
 
         themeButton.getBackground().setAlpha(1);
         modeButton.getBackground().setAlpha(1);
         gridSizeButton.getBackground().setAlpha(1);
         done.getBackground().setAlpha(1);
 
-        StaticMethods.changeTheme(rl,getBaseContext());
+        StaticMethods.changeTheme(rl, getBaseContext());
 
         themeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,6 +81,14 @@ public class Menu extends Activity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getBaseContext(), Modes.class);
+                startActivity(i);
+            }
+        });
+
+        gridSizeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getBaseContext(),GridSize.class);
                 startActivity(i);
             }
         });
