@@ -104,6 +104,24 @@
         android:shadowDy="0"
         android:shadowRadius="25"/>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="High Scores"
+        android:id="@+id/high_scores"
+        android:layout_above="@+id/done"
+        android:layout_alignRight="@+id/grid_size_button"
+        android:layout_alignEnd="@+id/grid_size_button"
+        android:layout_marginBottom="41dp"
+
+        android:textColor="#FFFFFF"
+        android:textSize="15sp"
+        android:background="@drawable/button_enabled"
+        android:shadowColor="#FFFFFF"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="25"/>
+
 
     <Button
         android:id="@+id/done"
@@ -123,5 +141,12 @@
         android:shadowDy="0"
         android:shadowRadius="25"/>
 
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/mute"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

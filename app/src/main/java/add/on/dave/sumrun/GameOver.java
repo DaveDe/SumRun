@@ -25,7 +25,7 @@ public class GameOver extends Activity {
 
     private Button retry;
     private Button help;
-    private ImageButton mute;
+    //
     private TextView displayInfo;
 
     private SharedPreferences settings;
@@ -51,14 +51,7 @@ public class GameOver extends Activity {
 
         retry = (Button) findViewById(R.id.retry);
         help = (Button) findViewById(R.id.help);
-        mute = (ImageButton) findViewById(R.id.mute);
         displayInfo = (TextView) findViewById(R.id.displayInfo);
-
-        if(GameView.isMuted){
-            mute.setBackgroundResource(R.drawable.mutedbutton);
-        }else{
-            mute.setBackgroundResource(R.drawable.unmutedbutton);
-        }
 
         retry.getBackground().setAlpha(1);
         retry.setOnClickListener(new View.OnClickListener() {
@@ -80,23 +73,13 @@ public class GameOver extends Activity {
             }
         });
 
-        mute.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        String mode = settings.getString("mode","Classic");
+        String gridSize = settings.getString("gridSize","3x3");
+        String scoreKey = "highScore_"+mode + "_" + gridSize;
+        String levelKey = "highLevel_"+mode + "_" + gridSize;
 
-                if (GameView.isMuted) {
-                    GameView.isMuted = false;
-                    mute.setBackgroundResource(R.drawable.unmutedbutton);
-                } else {
-                    GameView.isMuted = true;
-                    mute.setBackgroundResource(R.drawable.mutedbutton);
-                }
-
-            }
-        });
-
-        highScore = settings.getInt("highScore",0);
-        highLevel = settings.getInt("highLevel",0);
+        highScore = settings.getInt(scoreKey,0);
+        highLevel = settings.getInt(levelKey,0);
         if(score == highScore){
             displayInfo.setText("      New HighScore!\n\n      Score:   " + score + "           Level:   " + level +
                     "\n\n\n      Personal Best\n\n      Score:   " + highScore + "           Level:   " + highLevel);

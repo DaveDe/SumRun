@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
 import com.on.dave.sumrun.R;
@@ -17,13 +18,13 @@ import java.io.IOException;
 //move mute button from gameover to menu
 //move help to menu, possibly keep on game screen and gameover
 //highscore page design
+//sounds for different themes
 
 //TODO
-//gridsize
 //highscores
+//ad free
 
 //BUGS
-//write to memory using shared preferences
 //comment out soundpool?
 //tile spacing
 
@@ -35,6 +36,8 @@ public class Menu extends Activity {
     private Button themeButton;
     private Button modeButton;
     private Button gridSizeButton;
+    private Button highScores;
+    private ImageButton mute;
 
     private SharedPreferences settings;
 
@@ -49,6 +52,8 @@ public class Menu extends Activity {
         themeButton = (Button) findViewById(R.id.theme_button);
         modeButton = (Button) findViewById(R.id.mode_button);
         gridSizeButton = (Button) findViewById(R.id.grid_size_button);
+        highScores = (Button) findViewById(R.id.high_scores);
+        mute = (ImageButton) findViewById(R.id.mute);
 
         String theme = "";
         try{
@@ -66,8 +71,15 @@ public class Menu extends Activity {
         modeButton.getBackground().setAlpha(1);
         gridSizeButton.getBackground().setAlpha(1);
         done.getBackground().setAlpha(1);
+        highScores.getBackground().setAlpha(1);
 
         StaticMethods.changeTheme(rl, getBaseContext());
+
+        if(GameView.isMuted){
+            mute.setBackgroundResource(R.drawable.mutedbutton);
+        }else{
+            mute.setBackgroundResource(R.drawable.unmutedbutton);
+        }
 
         themeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,6 +102,29 @@ public class Menu extends Activity {
             public void onClick(View v) {
                 Intent i = new Intent(getBaseContext(),GridSize.class);
                 startActivity(i);
+            }
+        });
+
+        highScores.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getBaseContext(),HighScoreView.class);
+                startActivity(i);
+            }
+        });
+
+        mute.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (GameView.isMuted) {
+                    GameView.isMuted = false;
+                    mute.setBackgroundResource(R.drawable.unmutedbutton);
+                } else {
+                    GameView.isMuted = true;
+                    mute.setBackgroundResource(R.drawable.mutedbutton);
+                }
+
             }
         });
 

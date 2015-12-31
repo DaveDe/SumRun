@@ -13,6 +13,8 @@ import com.on.dave.sumrun.R;
 
 public class GridSize extends Activity {
 
+    private String mode;
+
     private RelativeLayout rl;
     private TextView displayGridSize;
     private TextView displayWarning;
@@ -49,11 +51,17 @@ public class GridSize extends Activity {
         String currentGridSize = settings.getString("gridSize","3x3");
         displayGridSize.setText("Current Size:   " + currentGridSize);
 
+        mode = settings.getString("mode", "Classic");
+
         three.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(mode.equals("Blitz")){
+                    editor.putInt("time", 6);
+                }else{
+                    editor.putInt("time", 16);
+                }
                 editor.putString("gridSize", "3x3");
-                editor.putInt("time", 16);
                 editor.putInt("score", 0);
                 editor.putInt("level", 1);
                 editor.putInt("global", 0);
@@ -66,8 +74,12 @@ public class GridSize extends Activity {
         four.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(mode.equals("Blitz")){
+                    editor.putInt("time", 6);
+                }else{
+                    editor.putInt("time", 16);
+                }
                 editor.putString("gridSize", "4x4");
-                editor.putInt("time", 16);
                 editor.putInt("score", 0);
                 editor.putInt("level", 1);
                 editor.putInt("global", 0);
@@ -80,8 +92,12 @@ public class GridSize extends Activity {
         five.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(mode.equals("Blitz")){
+                    editor.putInt("time", 6);
+                }else{
+                    editor.putInt("time", 16);
+                }
                 editor.putString("gridSize", "5x5");
-                editor.putInt("time",16);
                 editor.putInt("score", 0);
                 editor.putInt("level", 1);
                 editor.putInt("global", 0);

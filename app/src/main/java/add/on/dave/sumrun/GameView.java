@@ -435,13 +435,26 @@ public class GameView extends Activity {
                     soundPool.play(soundID1, volume, volume, 1, 0, 1f);
                     break;
                 case 1:
-                    soundPool.play(soundID2, volume, volume, 1, 0, 1f);
+                    if(longestPath == 3){
+                        soundPool.play(soundID3, volume, volume, 1, 0, 1f);
+                    }else{
+                        soundPool.play(soundID2, volume, volume, 1, 0, 1f);
+                    }
                     break;
                 case 2:
-                    soundPool.play(soundID3, volume, volume, 1, 0, 1f);
+                    if(longestPath == 3){
+                        soundPool.play(soundID5, volume, volume, 1, 0, 1f);
+                    }else{
+                        soundPool.play(soundID3, volume, volume, 1, 0, 1f);
+                    }
                     break;
                 case 3:
-                    soundPool.play(soundID4, volume, volume, 1, 0, 1f);
+                    if(longestPath == 4){
+                        soundPool.play(soundID5, volume, volume, 1, 0, 1f);
+                    }else{
+                        soundPool.play(soundID4, volume, volume, 1, 0, 1f);
+                        soundPool.play(soundID4, volume, volume, 1, 0, 1f);
+                    }
                     break;
                 case 4:
                     soundPool.play(soundID5, volume, volume, 1, 0, 1f);
@@ -569,10 +582,12 @@ public class GameView extends Activity {
         int prevSeed = settings.getInt("seed",0);
         prevSeed++;
         editor.putInt("seed", prevSeed);
-        int tempInt = settings.getInt("highScore",0);
+        String scoreKey = "highScore_" + mode + "_" + gridSize;
+        String levelKey = "highLevel_" + mode + "_" + gridSize;
+        int tempInt = settings.getInt(scoreKey,0);
         if(totalScore > tempInt){
-            editor.putInt("highScore",totalScore);
-            editor.putInt("highLevel",level);
+            editor.putInt(scoreKey,totalScore);
+            editor.putInt(levelKey,level);
         }
         editor.commit();
         Intent i = new Intent(getBaseContext(),GameOver.class);
