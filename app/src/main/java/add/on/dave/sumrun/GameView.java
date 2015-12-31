@@ -119,7 +119,6 @@ public class GameView extends Activity {
         displayTime = (TextView) findViewById(R.id.time);
         goal = (TextView) findViewById(R.id.goal);
         displayMode = (TextView) findViewById(R.id.displayMode);
-        //help = (Button) findViewById(R.id.help);
         menuButton = (Button) findViewById(R.id.menu_button);
         TextView tv1 = (TextView)findViewById(R.id.tv1);
         TextView tv2 = (TextView)findViewById(R.id.tv2);

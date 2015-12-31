@@ -26,7 +26,7 @@
         android:textColor="@color/white"
         android:layout_below="@+id/main_menu"
         android:layout_alignLeft="@+id/main_menu"
-        android:paddingTop="30dp"/>
+        android:paddingTop="40dp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -37,7 +37,7 @@
         android:textColor="@color/white"
         android:layout_below="@+id/theme_label"
         android:layout_alignLeft="@+id/theme_label"
-        android:paddingTop="30dp"/>
+        android:paddingTop="40dp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -48,20 +48,19 @@
         android:textColor="@color/white"
         android:layout_below="@+id/mode_label"
         android:layout_alignLeft="@+id/mode_label"
-        android:paddingTop="30dp"/>
+        android:paddingTop="40dp"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Choose Theme"
         android:id="@+id/theme_button"
         android:layout_below="@+id/main_menu"
         android:layout_alignLeft="@+id/done"
         android:layout_alignStart="@+id/done"
-        android:paddingTop="30dp"
+        android:paddingTop="40dp"
 
         android:textColor="#FFFFFF"
-        android:textSize="15sp"
+        android:textSize="20sp"
         android:background="@drawable/button_enabled"
         android:shadowColor="#FFFFFF"
         android:shadowDx="0"
@@ -71,7 +70,6 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Choose Mode"
         android:id="@+id/mode_button"
         android:layout_below="@+id/theme_button"
         android:layout_alignLeft="@+id/theme_button"
@@ -79,7 +77,7 @@
         android:paddingTop="40dp"
 
         android:textColor="#FFFFFF"
-        android:textSize="15sp"
+        android:textSize="20sp"
         android:background="@drawable/button_enabled"
         android:shadowColor="#FFFFFF"
         android:shadowDx="0"
@@ -89,7 +87,6 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Choose Grid Size"
         android:id="@+id/grid_size_button"
         android:layout_below="@+id/mode_button"
         android:layout_alignLeft="@+id/mode_button"
@@ -97,7 +94,7 @@
         android:paddingTop="40dp"
 
         android:textColor="#FFFFFF"
-        android:textSize="15sp"
+        android:textSize="20sp"
         android:background="@drawable/button_enabled"
         android:shadowColor="#FFFFFF"
         android:shadowDx="0"
@@ -109,10 +106,13 @@
         android:layout_height="wrap_content"
         android:text="High Scores"
         android:id="@+id/high_scores"
-        android:layout_below="@+id/grid_size_button"
+        android:layout_toRightOf="@+id/grid_size_label"
+        android:layout_toEndOf="@+id/grid_size_label"
+        android:layout_above="@+id/help"
+        android:paddingBottom="40dp"
 
         android:textColor="#FFFFFF"
-        android:textSize="15sp"
+        android:textSize="25sp"
         android:background="@drawable/button_enabled"
         android:shadowColor="#FFFFFF"
         android:shadowDx="0"
@@ -124,7 +124,10 @@
         android:layout_height="wrap_content"
         android:text="Help"
         android:id="@+id/help"
-        android:layout_below="@+id/high_scores"
+        android:layout_toRightOf="@+id/grid_size_label"
+        android:layout_toEndOf="@+id/grid_size_label"
+        android:layout_above="@+id/done"
+        android:paddingBottom="40dp"
 
         android:textColor="#FFFFFF"
         android:textSize="25sp"
