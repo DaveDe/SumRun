@@ -73,7 +73,7 @@ public class GameView extends Activity {
     private TextView displayTime;
     private TextView goal;
     private TextView displayMode;
-    private Button help;
+    //private Button help;
     private Button menuButton;
 
     private CountDownTimer countDown;
@@ -119,7 +119,7 @@ public class GameView extends Activity {
         displayTime = (TextView) findViewById(R.id.time);
         goal = (TextView) findViewById(R.id.goal);
         displayMode = (TextView) findViewById(R.id.displayMode);
-        help = (Button) findViewById(R.id.help);
+        //help = (Button) findViewById(R.id.help);
         menuButton = (Button) findViewById(R.id.menu_button);
         TextView tv1 = (TextView)findViewById(R.id.tv1);
         TextView tv2 = (TextView)findViewById(R.id.tv2);
@@ -180,8 +180,14 @@ public class GameView extends Activity {
 
         StaticMethods.changeTheme(rl,getBaseContext());
 
+        gameOver = settings.getBoolean("gameOver",false);
+        if(!gameOver){
+            restore = true;
+        }else{
+            restore = false;
+        }
+
         gameOver = false;
-        restore = true;
 
         //restore values if returning to game
 
@@ -245,17 +251,6 @@ public class GameView extends Activity {
             isHit[i] = false;
         }
 
-        help.setText(" ? ");
-        help.getBackground().setAlpha(1);
-
-        help.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getBaseContext(), Help.class);
-                i.putExtra("class", "Menu");
-                startActivity(i);
-            }
-        });
         menuButton.getBackground().setAlpha(1);
         menuButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -315,7 +310,6 @@ public class GameView extends Activity {
                                 && (!isHit[i])) {
                             //diagonal move was attempted
                             if(!(prevX >= tvX[i]-padding && prevX <= xRange[i]+padding)&&!(prevY >= tvY[i]-padding && prevY <= yRange[i]+padding)){//move vertical
-                                System.out.println("1");
                                 resetTiles();
                             }else{
                                 tileHit(i);
@@ -345,14 +339,12 @@ public class GameView extends Activity {
                     int upperRightmostTile = longestPath-1;
                     int lastTile = numBoxes-1;
                     if(eventX < tvX[0] || eventX > tvX[upperRightmostTile] + tvLength || eventY > tvY[lastTile] + tvHeight || eventY < tvY[0]){
-                        System.out.println("2");
                         resetTiles();
                     }
                 }
 
 
                 if(tilesHit == 10){
-                    System.out.println("3");
                     resetTiles();
                 }
                 return true;
@@ -361,7 +353,6 @@ public class GameView extends Activity {
                     generateNextLevel();
                     displayCurrentScore.setText("");
                 }else{
-                    System.out.println("4");
                     resetTiles();
                     displayCurrentScore.setText("");
                 }
@@ -420,9 +411,10 @@ public class GameView extends Activity {
                 editor.putInt("grid " + i, Integer.parseInt(textViews[i].getText().toString()));
             }
             if(mode.equals("Classic") || mode.equals("Blitz")){
-                editor.putInt("objective",greatestPath);
-                editor.commit();
+                editor.putInt("objective", greatestPath);
             }
+            editor.putBoolean("restore",true);
+            editor.commit();
         }
 
     }
@@ -489,7 +481,6 @@ public class GameView extends Activity {
     }
 
     public void resetTiles(){
-        System.out.println("Tiles hit: "+tilesHit);
         currentScore = 0;
         for(int i = 0; i < numBoxes; i++){
             textViews[i].setBackgroundResource(R.color.white);
@@ -565,6 +556,7 @@ public class GameView extends Activity {
 
     public void gameOver(){
         gameOver = true;
+        editor.putBoolean("gameOver",true);
         resetTiles();
         if (!isMuted) {
             soundPool.play(soundID6, volume, volume, 1, 0, 1f);

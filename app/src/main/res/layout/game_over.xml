@@ -48,20 +48,4 @@
         android:shadowDy="0"
         android:shadowRadius="25"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/help"
-        android:layout_gravity="right"
-        android:layout_alignParentRight="true"
-        android:paddingLeft="60dp"
-
-        android:textColor="#FFFFFF"
-        android:textSize="25sp"
-        android:background="@drawable/button_enabled"
-        android:shadowColor="#FFFFFF"
-        android:shadowDx="0"
-        android:shadowDy="0"
-        android:shadowRadius="25"/>
-
 </RelativeLayout>

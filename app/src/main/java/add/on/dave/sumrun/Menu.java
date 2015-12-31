@@ -13,17 +13,6 @@ import com.on.dave.sumrun.R;
 
 import java.io.IOException;
 
-//DISCUSS
-//show correct path at gameover
-//move mute button from gameover to menu
-//move help to menu, possibly keep on game screen and gameover
-//highscore page design
-//sounds for different themes
-
-//TODO
-//highscores
-//ad free
-
 //BUGS
 //comment out soundpool?
 //tile spacing
@@ -37,6 +26,7 @@ public class Menu extends Activity {
     private Button modeButton;
     private Button gridSizeButton;
     private Button highScores;
+    private Button help;
     private ImageButton mute;
 
     private SharedPreferences settings;
@@ -53,6 +43,7 @@ public class Menu extends Activity {
         modeButton = (Button) findViewById(R.id.mode_button);
         gridSizeButton = (Button) findViewById(R.id.grid_size_button);
         highScores = (Button) findViewById(R.id.high_scores);
+        help = (Button) findViewById(R.id.help);
         mute = (ImageButton) findViewById(R.id.mute);
 
         String theme = "";
@@ -72,6 +63,7 @@ public class Menu extends Activity {
         gridSizeButton.getBackground().setAlpha(1);
         done.getBackground().setAlpha(1);
         highScores.getBackground().setAlpha(1);
+        help.getBackground().setAlpha(1);
 
         StaticMethods.changeTheme(rl, getBaseContext());
 
@@ -133,6 +125,16 @@ public class Menu extends Activity {
             public void onClick(View v) {
 
                 Intent i = new Intent(getBaseContext(),GameView.class);
+                startActivity(i);
+
+            }
+        });
+
+        help.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent i = new Intent(getBaseContext(),Help.class);
                 startActivity(i);
 
             }

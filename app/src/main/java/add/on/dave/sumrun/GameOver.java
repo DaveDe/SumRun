@@ -24,8 +24,6 @@ public class GameOver extends Activity {
     private int seed;
 
     private Button retry;
-    private Button help;
-    //
     private TextView displayInfo;
 
     private SharedPreferences settings;
@@ -50,7 +48,6 @@ public class GameOver extends Activity {
         int level = getIntent().getIntExtra("level", 0);
 
         retry = (Button) findViewById(R.id.retry);
-        help = (Button) findViewById(R.id.help);
         displayInfo = (TextView) findViewById(R.id.displayInfo);
 
         retry.getBackground().setAlpha(1);
@@ -58,17 +55,6 @@ public class GameOver extends Activity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getBaseContext(), GameView.class);
-                startActivity(i);
-            }
-        });
-
-        help.setText("?");
-        help.getBackground().setAlpha(1);
-        help.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getBaseContext(), Help.class);
-                i.putExtra("class", "gameOver");
                 startActivity(i);
             }
         });

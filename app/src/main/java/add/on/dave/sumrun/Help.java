@@ -39,14 +39,14 @@ public class Help extends Activity {
 
         count = 1;
 
-        Intent i = getIntent();
-        final String sender = i.getStringExtra("class");
+        //Intent i = getIntent();
+        //final String sender = i.getStringExtra("class");
 
         tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                changeInstruction(sender);
+                changeInstruction();
 
             }
         });
@@ -56,7 +56,7 @@ public class Help extends Activity {
             public void onClick(View v) {
                 if(count > 0){
                     count-=2;
-                    changeInstruction(sender);
+                    changeInstruction();
                 }
                 if(count == 0){
                     tv2.setText("");
@@ -67,7 +67,7 @@ public class Help extends Activity {
 
     }
 
-    private void changeInstruction(String sender){
+    private void changeInstruction(){
 
         switch (count) {
 
@@ -92,13 +92,13 @@ public class Help extends Activity {
                 tv2.setText("Prev");
                 break;
             case 4:
-                if (sender.equals("gameOver")) {
+                /*if (sender.equals("gameOver")) {
                     Intent i = new Intent(getBaseContext(), GameOver.class);
                     startActivity(i);
-                } else {
+                } else {*/
                     Intent i = new Intent(getBaseContext(), Menu.class);
                     startActivity(i);
-                }
+               // }
                 break;
         }
 
