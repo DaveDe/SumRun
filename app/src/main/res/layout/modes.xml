@@ -10,12 +10,12 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Modes"
         android:fontFamily="sans-serif-thin"
-        android:textSize="60dp"
+        android:textSize="60sp"
         android:textColor="@color/white"
         android:id="@+id/modes_title"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:paddingTop="60dp"/>
+        android:paddingTop="@dimen/title_padding"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -26,7 +26,7 @@
         android:id="@+id/current_mode"
         android:layout_below="@+id/modes_title"
         android:layout_centerHorizontal="true"
-        android:paddingTop="30dp"/>
+        android:paddingTop="@dimen/mode_padding_1"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -35,7 +35,7 @@
         android:id="@+id/classic"
         android:layout_below="@+id/current_mode"
         android:layout_centerHorizontal="true"
-        android:paddingTop="30dp"
+        android:paddingTop="@dimen/mode_padding_1"
 
         android:textColor="#FFFFFF"
         android:textSize="25sp"
@@ -53,7 +53,7 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/classic"
-        android:paddingTop="20dp"
+        android:paddingTop="@dimen/mode_padding_2"
 
         android:textColor="#FFFFFF"
         android:textSize="25sp"
@@ -70,7 +70,7 @@
         android:id="@+id/sudden_death"
         android:layout_below="@+id/blitz"
         android:layout_centerHorizontal="true"
-        android:paddingTop="20dp"
+        android:paddingTop="@dimen/mode_padding_2"
 
         android:textColor="#FFFFFF"
         android:textSize="25sp"
@@ -87,7 +87,7 @@
         android:id="@+id/nightmare"
         android:layout_below="@+id/sudden_death"
         android:layout_centerHorizontal="true"
-        android:paddingTop="20dp"
+        android:paddingTop="@dimen/mode_padding_2"
 
         android:textColor="#FFFFFF"
         android:textSize="25sp"
@@ -105,7 +105,7 @@
         android:id="@+id/display_warning"
         android:layout_below="@+id/nightmare"
         android:layout_centerHorizontal="true"
-        android:paddingTop="20dp"/>
+        android:paddingTop="@dimen/mode_padding_2"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -114,7 +114,7 @@
         android:id="@+id/back"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:paddingBottom="30dp"
+        android:paddingBottom="@dimen/mode_padding_1"
 
         android:textColor="#FFFFFF"
         android:textSize="25sp"

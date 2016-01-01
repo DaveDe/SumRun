@@ -15,7 +15,7 @@
         android:id="@+id/grid_size_title"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:paddingTop="60dp"/>
+        android:paddingTop="@dimen/title_padding"/>
 
     <TextView
         android:layout_width="wrap_content"

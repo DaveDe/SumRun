@@ -46,6 +46,7 @@ public class GameView extends Activity {
     private boolean[] leftRange;
     private boolean gameOver;
     private boolean restore;
+    private boolean firstTime;
     private int level;
     private int totalScore;
     private int time;
@@ -73,7 +74,6 @@ public class GameView extends Activity {
     private TextView displayTime;
     private TextView goal;
     private TextView displayMode;
-    //private Button help;
     private Button menuButton;
 
     private CountDownTimer countDown;
@@ -180,13 +180,20 @@ public class GameView extends Activity {
         StaticMethods.changeTheme(rl,getBaseContext());
 
         gameOver = settings.getBoolean("gameOver",false);
-        if(!gameOver){
+        firstTime = settings.getBoolean("firstTime",true);
+
+        if(!gameOver && !firstTime){
             restore = true;
         }else{
             restore = false;
         }
 
         gameOver = false;
+        if(firstTime){
+            editor.putBoolean("firstTime",false);
+            editor.putBoolean("restore",false);
+            editor.commit();
+        }
 
         //restore values if returning to game
 

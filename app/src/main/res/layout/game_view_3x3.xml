@@ -93,7 +93,7 @@
 
         android:rowCount="3"
         android:columnCount="3"
-        android:paddingLeft="@dimen/grid_padding_left"
+        android:paddingLeft="@dimen/grid_padding_left_3"
 
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"

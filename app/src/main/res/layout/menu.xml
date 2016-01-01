@@ -10,12 +10,12 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Main Menu"
         android:fontFamily="sans-serif-thin"
-        android:textSize="60dp"
+        android:textSize="60sp"
         android:textColor="@color/white"
         android:id="@+id/main_menu"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:paddingTop="60dp"/>
+        android:paddingTop="@dimen/title_padding"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -26,7 +26,7 @@
         android:textColor="@color/white"
         android:layout_below="@+id/main_menu"
         android:layout_alignLeft="@+id/main_menu"
-        android:paddingTop="40dp"/>
+        android:paddingTop="@dimen/menu_padding"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -37,7 +37,7 @@
         android:textColor="@color/white"
         android:layout_below="@+id/theme_label"
         android:layout_alignLeft="@+id/theme_label"
-        android:paddingTop="40dp"/>
+        android:paddingTop="@dimen/menu_padding"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -48,7 +48,7 @@
         android:textColor="@color/white"
         android:layout_below="@+id/mode_label"
         android:layout_alignLeft="@+id/mode_label"
-        android:paddingTop="40dp"/>
+        android:paddingTop="@dimen/menu_padding"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -57,7 +57,7 @@
         android:layout_below="@+id/main_menu"
         android:layout_alignLeft="@+id/done"
         android:layout_alignStart="@+id/done"
-        android:paddingTop="40dp"
+        android:paddingTop="@dimen/menu_padding"
 
         android:textColor="#FFFFFF"
         android:textSize="20sp"
@@ -74,7 +74,7 @@
         android:layout_below="@+id/theme_button"
         android:layout_alignLeft="@+id/theme_button"
         android:layout_alignStart="@+id/theme_button"
-        android:paddingTop="40dp"
+        android:paddingTop="@dimen/menu_padding"
 
         android:textColor="#FFFFFF"
         android:textSize="20sp"
@@ -91,7 +91,7 @@
         android:layout_below="@+id/mode_button"
         android:layout_alignLeft="@+id/mode_button"
         android:layout_alignStart="@+id/mode_button"
-        android:paddingTop="40dp"
+        android:paddingTop="@dimen/menu_padding"
 
         android:textColor="#FFFFFF"
         android:textSize="20sp"
@@ -109,7 +109,7 @@
         android:layout_toRightOf="@+id/grid_size_label"
         android:layout_toEndOf="@+id/grid_size_label"
         android:layout_above="@+id/help"
-        android:paddingBottom="40dp"
+        android:paddingBottom="@dimen/menu_padding"
 
         android:textColor="#FFFFFF"
         android:textSize="25sp"
@@ -127,7 +127,7 @@
         android:layout_toRightOf="@+id/grid_size_label"
         android:layout_toEndOf="@+id/grid_size_label"
         android:layout_above="@+id/done"
-        android:paddingBottom="40dp"
+        android:paddingBottom="@dimen/menu_padding"
 
         android:textColor="#FFFFFF"
         android:textSize="25sp"
@@ -144,7 +144,7 @@
         android:layout_alignParentBottom="true"
         android:layout_toRightOf="@+id/grid_size_label"
         android:layout_toEndOf="@+id/grid_size_label"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="@dimen/menu_padding"
 
         android:textColor="#FFFFFF"
         android:textSize="25sp"

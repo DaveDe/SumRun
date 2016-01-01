@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="box_size">50dp</dimen>
-    <dimen name="box_size_3">135dp</dimen>
-    <dimen name="box_size_4">100dp</dimen>
+    <dimen name="box_size_3">80dp</dimen>
+    <dimen name="box_size_4">60dp</dimen>
     <dimen name="grid_padding_top">50dp</dimen>
     <dimen name="grid_padding_left">15dp</dimen>
+    <dimen name="grid_padding_left_4">25dp</dimen>
+    <dimen name="grid_padding_left_3">30dp</dimen>
     <dimen name="score_padding">10dp</dimen>
     <dimen name="goal_padding">30dp</dimen>
     <dimen name="retry_padding">75dp</dimen>
     <dimen name="gameOver_info_padding_left">10dp</dimen>
+    <dimen name="title_padding">30dp</dimen>
+    <dimen name="menu_padding">35dp</dimen>
+    <dimen name="mode_padding_1">25dp</dimen>
+    <dimen name="mode_padding_2">15dp</dimen>
 </resources>

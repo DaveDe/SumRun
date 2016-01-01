@@ -50,6 +50,9 @@ public class Menu extends Activity {
         try{
             theme = StaticMethods.readFirstLine("theme.txt",getBaseContext());
         }catch(IOException e){}
+        if(theme.equals("0")){
+            theme = "Classic";
+        }
         settings = getSharedPreferences(GameView.PREFS_NAME_GAME, 0);
         String mode = settings.getString("mode","Classic");
         String gridSize = settings.getString("gridSize","3x3");

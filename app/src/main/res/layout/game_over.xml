@@ -11,12 +11,12 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Game Over"
         android:fontFamily="sans-serif-thin"
-        android:textSize="60dp"
+        android:textSize="60sp"
         android:textColor="@color/white"
         android:id="@+id/textView"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:paddingTop="60dp"/>
+        android:paddingTop="@dimen/title_padding"/>
 
     <TextView
         android:layout_width="match_parent"
