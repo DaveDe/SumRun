@@ -15,4 +15,5 @@
     <dimen name="menu_padding">25dp</dimen>
     <dimen name="mode_padding_1">20dp</dimen>
     <dimen name="mode_padding_2">15dp</dimen>
+    <dimen name="highScore_padding">70dp</dimen>
 </resources>

@@ -15,8 +15,6 @@ import java.io.IOException;
 
 //BUGS
 //comment out soundpool?
-//tile spacing
-
 
 public class Menu extends Activity {
 

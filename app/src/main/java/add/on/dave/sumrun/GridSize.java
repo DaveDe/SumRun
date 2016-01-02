@@ -59,7 +59,7 @@ public class GridSize extends Activity {
                 if(mode.equals("Blitz")){
                     editor.putInt("time", 6);
                 }else{
-                    editor.putInt("time", 16);
+                    editor.putInt("time", 11);
                 }
                 editor.putString("gridSize", "3x3");
                 editor.putInt("score", 0);
