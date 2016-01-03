@@ -203,15 +203,8 @@ public class GameView extends Activity {
         totalScore = settings.getInt("score", 0);
         global = settings.getInt("global", 0);
 
-        if((mode.equals("Classic") || mode.equals("Nightmare")) && gridSize.equals("3x3") && time == 11){
-            restore = false;
-            editor.putBoolean("restore",false);
-        }
-        if((mode.equals("Classic") || mode.equals("Nightmare")) && !gridSize.equals("3x3") && time == 16){
-            restore = false;
-            editor.putBoolean("restore",false);
-        }
-        editor.commit();
+        //restore values only if comming from menu (writes appropriate restore to sharedpreferences) MIGHT BE PROBLEM FOR SUDDENDEATH/BLITZ
+        restoreValues();
 
         displayMode.setText("Mode: "+mode);
         displayLevel.setText("Level\n   "+level);
@@ -378,15 +371,10 @@ public class GameView extends Activity {
     protected void onResume() {
         super.onResume();
         level = settings.getInt("level", 1);
-        if((mode.equals("Classic") || mode.equals("Nightmare")) && gridSize.equals("3x3")){
-            time = settings.getInt("time",11);
-        }else{
-            time = settings.getInt("time",16);
-        }
+        time = settings.getInt("time",11);
         totalScore = settings.getInt("score", 0);
         global = settings.getInt("global",0);
         restore = settings.getBoolean("restore", true);
-        System.out.println("Restore: " + restore);
         //restore grid when returning from exit
         if(restore){
             int[] restore = new int[numBoxes];
@@ -532,19 +520,18 @@ public class GameView extends Activity {
 
         greatestPath = calculateGreatestPath(gridSize);
 
-        if(level >= 8 && mode.equals("Classic") && !gridSize.equals("3x3")){
+        if((mode.equals("Classic") || mode.equals("Nightmare")) && gridSize.equals("3x3")){
+            time = 11;
+        }else if((mode.equals("Classic") || mode.equals("Nightmare")) && gridSize.equals("4x4") && level < 9){
+            time = 13;
+        }else if((mode.equals("Classic") || mode.equals("Nightmare")) && gridSize.equals("4x4") && level >= 9){
+            time = 16;
+        }else if((mode.equals("Classic") || mode.equals("Nightmare")) && gridSize.equals("5x5") && level < 9){
+            time = 16;
+        }else if((mode.equals("Classic") || mode.equals("Nightmare")) && gridSize.equals("5x5") && level >= 9){
             time = 21;
-        }else{
-            if((mode.equals("Classic") || mode.equals("Nightmare")) && !gridSize.equals("3x3")){
-                time = 16;
-            }else if((mode.equals("Classic") || mode.equals("Nightmare")) && gridSize.equals("3x3")){
-                time = 11;
-            }else if(mode.equals("Blitz")){
-                time = 6;
-            }else{
-                time = 11;//first time
-            }
         }
+
 
         if(!mode.equals("Sudden Death")){
             countDown.cancel();
@@ -585,14 +572,16 @@ public class GameView extends Activity {
         editor.putInt("score", 0);
         editor.putInt("level", 1);
         editor.putInt("global", 0);
-        if((mode.equals("Classic") || mode.equals("Nightmare")) && !gridSize.equals("3x3")){
+        if((mode.equals("Classic") || mode.equals("Nightmare")) && gridSize.equals("3x3")){
+            editor.putInt("time",11);
+        }else if((mode.equals("Classic") || mode.equals("Nightmare")) && gridSize.equals("4x4") && level < 9){
+            editor.putInt("time",13);
+        }else if((mode.equals("Classic") || mode.equals("Nightmare")) && gridSize.equals("4x4") && level >= 9){
             editor.putInt("time",16);
-        }else if((mode.equals("Classic") || mode.equals("Nightmare")) && gridSize.equals("3x3")){
-            editor.putInt("time",11);
-        }else if(mode.equals("Blitz")){
-            editor.putInt("time",6);
-        }else{
-            editor.putInt("time",11);
+        }else if((mode.equals("Classic") || mode.equals("Nightmare")) && gridSize.equals("5x5") && level < 9){
+            editor.putInt("time",16);
+        }else if((mode.equals("Classic") || mode.equals("Nightmare")) && gridSize.equals("5x5") && level >= 9){
+            editor.putInt("time",21);
         }
 
         int prevSeed = settings.getInt("seed",0);
@@ -757,6 +746,30 @@ public class GameView extends Activity {
             values[i] = tempValues.get(i);
         }
         return ret;
+    }
+
+    private void restoreValues(){
+        if((mode.equals("Classic") || mode.equals("Nightmare")) && gridSize.equals("3x3") && time == 11){
+            restore = false;
+            editor.putBoolean("restore",false);
+        }
+        if((mode.equals("Classic") || mode.equals("Nightmare")) && gridSize.equals("4x4") && time == 13 && level < 9){
+            restore = false;
+            editor.putBoolean("restore",false);
+        }
+        if((mode.equals("Classic") || mode.equals("Nightmare")) && gridSize.equals("4x4") && time == 16 && level >= 9){
+            restore = false;
+            editor.putBoolean("restore",false);
+        }
+        if((mode.equals("Classic") || mode.equals("Nightmare")) && gridSize.equals("5x5") && time == 16 && level < 9){
+            restore = false;
+            editor.putBoolean("restore",false);
+        }
+        if((mode.equals("Classic") || mode.equals("Nightmare")) && gridSize.equals("5x5") && time == 21 && level >= 9){
+            restore = false;
+            editor.putBoolean("restore",false);
+        }
+        editor.commit();
     }
 
 }

@@ -60,11 +60,7 @@ public class Modes extends Activity {
             @Override
             public void onClick(View v) {
                 editor.putString("mode", "Classic");
-                if (gridSize.equals("3x3")) {
-                    editor.putInt("time", 11);
-                } else {
-                    editor.putInt("time", 16);
-                }
+                restoreTime();
                 editor.putInt("score", 0);
                 editor.putInt("level", 1);
                 editor.putInt("global", 0);
@@ -105,11 +101,7 @@ public class Modes extends Activity {
             @Override
             public void onClick(View v) {
                 editor.putString("mode", "Nightmare");
-                if (gridSize.equals("3x3")) {
-                    editor.putInt("time", 11);
-                } else {
-                    editor.putInt("time", 16);
-                }
+                restoreTime();
                 editor.putInt("score", 0);
                 editor.putInt("level", 1);
                 editor.putInt("global", 0);
@@ -129,6 +121,16 @@ public class Modes extends Activity {
             }
         });
 
+    }
+
+    private void restoreTime(){
+        if(gridSize.equals("3x3")) {
+            editor.putInt("time", 11);
+        }else if(gridSize.equals("4x4")){
+            editor.putInt("time", 13);
+        }else{
+            editor.putInt("time",16);
+        }
     }
 
 }
