@@ -22,7 +22,6 @@ public class Menu extends Activity {
     private RelativeLayout rl;
     private Button themeButton;
     private Button modeButton;
-    private Button gridSizeButton;
     private Button highScores;
     private Button help;
     private ImageButton mute;
@@ -39,7 +38,6 @@ public class Menu extends Activity {
         done = (Button) findViewById(R.id.done);
         themeButton = (Button) findViewById(R.id.theme_button);
         modeButton = (Button) findViewById(R.id.mode_button);
-        gridSizeButton = (Button) findViewById(R.id.grid_size_button);
         highScores = (Button) findViewById(R.id.high_scores);
         help = (Button) findViewById(R.id.help);
         mute = (ImageButton) findViewById(R.id.mute);
@@ -53,15 +51,12 @@ public class Menu extends Activity {
         }
         settings = getSharedPreferences(GameView.PREFS_NAME_GAME, 0);
         String mode = settings.getString("mode","Classic");
-        String gridSize = settings.getString("gridSize","3x3");
 
         themeButton.setText(theme);
         modeButton.setText(mode);
-        gridSizeButton.setText(gridSize);
 
         themeButton.getBackground().setAlpha(1);
         modeButton.getBackground().setAlpha(1);
-        gridSizeButton.getBackground().setAlpha(1);
         done.getBackground().setAlpha(1);
         highScores.getBackground().setAlpha(1);
         help.getBackground().setAlpha(1);
@@ -86,14 +81,6 @@ public class Menu extends Activity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getBaseContext(), Modes.class);
-                startActivity(i);
-            }
-        });
-
-        gridSizeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getBaseContext(),GridSize.class);
                 startActivity(i);
             }
         });

@@ -13,8 +13,6 @@ import com.on.dave.sumrun.R;
 
 public class Modes extends Activity {
 
-    private String gridSize;
-
     private RelativeLayout rl;
     private TextView displayMode;
     private TextView displayWarning;
@@ -54,13 +52,12 @@ public class Modes extends Activity {
         String currentMode = settings.getString("mode","Classic");
         displayMode.setText("Current Mode:   " + currentMode);
 
-        gridSize = settings.getString("gridSize","3x3");
-
         classic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 editor.putString("mode", "Classic");
-                restoreTime();
+                editor.putString("gridSize","3x3");
+                editor.putInt("time",8);
                 editor.putInt("score", 0);
                 editor.putInt("level", 1);
                 editor.putInt("global", 0);
@@ -74,7 +71,8 @@ public class Modes extends Activity {
             @Override
             public void onClick(View v) {
                 editor.putString("mode", "Blitz");
-                editor.putInt("time",6);
+                editor.putString("gridSize","3x3");
+                editor.putInt("time",4);
                 editor.putInt("score", 0);
                 editor.putInt("level", 1);
                 editor.putInt("global", 0);
@@ -88,6 +86,7 @@ public class Modes extends Activity {
             @Override
             public void onClick(View v) {
                 editor.putString("mode", "Sudden Death");
+                editor.putString("gridSize","3x3");
                 editor.putInt("score", 0);
                 editor.putInt("level", 1);
                 editor.putInt("global", 0);
@@ -101,7 +100,8 @@ public class Modes extends Activity {
             @Override
             public void onClick(View v) {
                 editor.putString("mode", "Nightmare");
-                restoreTime();
+                editor.putString("gridSize","3x3");
+                editor.putInt("time",8);
                 editor.putInt("score", 0);
                 editor.putInt("level", 1);
                 editor.putInt("global", 0);
@@ -121,16 +121,6 @@ public class Modes extends Activity {
             }
         });
 
-    }
-
-    private void restoreTime(){
-        if(gridSize.equals("3x3")) {
-            editor.putInt("time", 11);
-        }else if(gridSize.equals("4x4")){
-            editor.putInt("time", 13);
-        }else{
-            editor.putInt("time",16);
-        }
     }
 
 }

@@ -1,5 +1,482 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ViewFlipper xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/viewFlipper">
+
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/relativeLayout3">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Level"
+            android:id="@+id/level3"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:paddingLeft="20dp"
+            android:paddingTop="15dp"
+            android:textColor="#ffffff"
+            android:textSize="25sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text=""
+            android:id="@+id/displayMode3"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:textColor="#ffffff" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Time"
+            android:id="@+id/timeLabel3"
+            android:layout_centerHorizontal="true"
+            android:textColor="#ffffff"
+            android:paddingTop="15dp"
+            android:textSize="25sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Score"
+            android:id="@+id/totalScore3"
+            android:paddingRight="25dp"
+            android:paddingTop="15dp"
+            android:textColor="#ffffff"
+            android:textSize="25sp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text=""
+            android:id="@+id/time3"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/timeLabel3"
+            android:paddingTop="50dp"
+            android:textColor="#ffffff"
+            android:textSize="25sp"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text=""
+            android:id="@+id/currentScore3"
+
+            android:layout_below="@+id/time3"
+            android:layout_centerHorizontal="true"
+            android:paddingTop="@dimen/score_padding"
+            android:textColor="#ffffff"
+            android:textSize="30sp"/>
+
+        <GridLayout
+
+            android:id="@+id/gridLayout3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:useDefaultMargins="true"
+            android:alignmentMode="alignBounds"
+            android:columnOrderPreserved="false"
+
+            android:rowCount="3"
+            android:columnCount="3"
+            android:paddingLeft="@dimen/grid_padding_left_3"
+
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:paddingTop="@dimen/grid_padding_top">
+            <!-- dp: 240x-->
+            <TextView android:id="@+id/tv1_3" android:text="1" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="@dimen/box_size_3" android:layout_height="@dimen/box_size_3" android:gravity="center" android:textColor="#ffffff" android:textSize="30sp"/>
+            <TextView android:id="@+id/tv2_3" android:text="2" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="@dimen/box_size_3" android:layout_height="@dimen/box_size_3" android:gravity="center" android:textColor="#ffffff" android:textSize="30sp"/>
+            <TextView android:id="@+id/tv3_3" android:text="3" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="@dimen/box_size_3" android:layout_height="@dimen/box_size_3" android:gravity="center" android:textColor="#ffffff" android:textSize="30sp"/>
+            <TextView android:id="@+id/tv4_3" android:text="4" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="@dimen/box_size_3" android:layout_height="@dimen/box_size_3" android:gravity="center" android:textColor="#ffffff" android:textSize="30sp"/>
+            <TextView android:id="@+id/tv5_3" android:text="5" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="@dimen/box_size_3" android:layout_height="@dimen/box_size_3" android:gravity="center" android:textColor="#ffffff" android:textSize="30sp"/>
+            <TextView android:id="@+id/tv6_3" android:text="6" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="@dimen/box_size_3" android:layout_height="@dimen/box_size_3" android:gravity="center" android:textColor="#ffffff" android:textSize="30sp"/>
+            <TextView android:id="@+id/tv7_3" android:text="7" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="@dimen/box_size_3" android:layout_height="@dimen/box_size_3" android:gravity="center" android:textColor="#ffffff" android:textSize="30sp"/>
+            <TextView android:id="@+id/tv8_3" android:text="8" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="@dimen/box_size_3" android:layout_height="@dimen/box_size_3" android:gravity="center" android:textColor="#ffffff" android:textSize="30sp"/>
+            <TextView android:id="@+id/tv9_3" android:text="9" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="@dimen/box_size_3" android:layout_height="@dimen/box_size_3" android:gravity="center" android:textColor="#ffffff" android:textSize="30sp"/>
+
+        </GridLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text=""
+            android:id="@+id/goal3"
+            android:layout_below="@+id/gridLayout3"
+            android:layout_centerHorizontal="true"
+            android:paddingTop="@dimen/goal_padding"
+            android:textColor="#ffffff"
+            android:textSize="25sp"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Menu"
+            android:id="@+id/menu_button3"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignBottom="@+id/help"
+            android:layout_alignRight="@+id/level3"
+            android:layout_alignEnd="@+id/level3"
+            android:paddingBottom="15dp"
+            android:paddingRight="30dp"
+
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"
+            android:background="@drawable/button_enabled"
+            android:shadowColor="#FFFFFF"
+            android:shadowDx="0"
+            android:shadowDy="0"
+            android:shadowRadius="25"/>
+
+    </RelativeLayout>
+
+
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/relativeLayout4">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Level"
+            android:id="@+id/level4"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:paddingLeft="20dp"
+            android:paddingTop="15dp"
+            android:textColor="#ffffff"
+            android:textSize="25sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text=""
+            android:id="@+id/displayMode4"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:textColor="#ffffff" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Time"
+            android:id="@+id/timeLabel4"
+            android:layout_centerHorizontal="true"
+            android:textColor="#ffffff"
+            android:paddingTop="15dp"
+            android:textSize="25sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Score"
+            android:id="@+id/totalScore4"
+            android:paddingRight="25dp"
+            android:paddingTop="15dp"
+            android:textColor="#ffffff"
+            android:textSize="25sp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text=""
+            android:id="@+id/time4"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/timeLabel4"
+            android:paddingTop="50dp"
+            android:textColor="#ffffff"
+            android:textSize="25sp"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text=""
+            android:id="@+id/currentScore4"
+
+            android:layout_below="@+id/time4"
+            android:layout_centerHorizontal="true"
+            android:paddingTop="@dimen/score_padding"
+            android:textColor="#ffffff"
+            android:textSize="30sp"/>
+
+        <GridLayout
+
+            android:id="@+id/gridLayout4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:useDefaultMargins="true"
+            android:alignmentMode="alignBounds"
+            android:columnOrderPreserved="false"
+
+            android:rowCount="4"
+            android:columnCount="4"
+            android:paddingLeft="@dimen/grid_padding_left_4"
+
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:paddingTop="@dimen/grid_padding_top">
+            <!-- dp: 240x-->
+            <TextView android:id="@+id/tv1_4" android:text="1" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="@dimen/box_size_4" android:layout_height="@dimen/box_size_4" android:gravity="center" android:textColor="#ffffff" android:textSize="30sp"/>
+            <TextView android:id="@+id/tv2_4" android:text="2" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="@dimen/box_size_4" android:layout_height="@dimen/box_size_4" android:gravity="center" android:textColor="#ffffff" android:textSize="30sp"/>
+            <TextView android:id="@+id/tv3_4" android:text="3" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="@dimen/box_size_4" android:layout_height="@dimen/box_size_4" android:gravity="center" android:textColor="#ffffff" android:textSize="30sp"/>
+            <TextView android:id="@+id/tv4_4" android:text="4" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="@dimen/box_size_4" android:layout_height="@dimen/box_size_4" android:gravity="center" android:textColor="#ffffff" android:textSize="30sp"/>
+            <TextView android:id="@+id/tv5_4" android:text="5" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="@dimen/box_size_4" android:layout_height="@dimen/box_size_4" android:gravity="center" android:textColor="#ffffff" android:textSize="30sp"/>
+            <TextView android:id="@+id/tv6_4" android:text="6" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="@dimen/box_size_4" android:layout_height="@dimen/box_size_4" android:gravity="center" android:textColor="#ffffff" android:textSize="30sp"/>
+            <TextView android:id="@+id/tv7_4" android:text="7" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="@dimen/box_size_4" android:layout_height="@dimen/box_size_4" android:gravity="center" android:textColor="#ffffff" android:textSize="30sp"/>
+            <TextView android:id="@+id/tv8_4" android:text="8" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="@dimen/box_size_4" android:layout_height="@dimen/box_size_4" android:gravity="center" android:textColor="#ffffff" android:textSize="30sp"/>
+            <TextView android:id="@+id/tv9_4" android:text="9" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="@dimen/box_size_4" android:layout_height="@dimen/box_size_4" android:gravity="center" android:textColor="#ffffff" android:textSize="30sp"/>
+            <TextView android:id="@+id/tv10_4" android:text="10" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="@dimen/box_size_4" android:layout_height="@dimen/box_size_4" android:gravity="center" android:textColor="#ffffff" android:textSize="30sp"/>
+            <TextView android:id="@+id/tv11_4" android:text="11" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="@dimen/box_size_4" android:layout_height="@dimen/box_size_4" android:gravity="center" android:textColor="#ffffff" android:textSize="30sp"/>
+            <TextView android:id="@+id/tv12_4" android:text="12" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="@dimen/box_size_4" android:layout_height="@dimen/box_size_4" android:gravity="center" android:textColor="#ffffff" android:textSize="30sp"/>
+            <TextView android:id="@+id/tv13_4" android:text="13" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="@dimen/box_size_4" android:layout_height="@dimen/box_size_4" android:gravity="center" android:textColor="#ffffff" android:textSize="30sp"/>
+            <TextView android:id="@+id/tv14_4" android:text="14" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="@dimen/box_size_4" android:layout_height="@dimen/box_size_4" android:gravity="center" android:textColor="#ffffff" android:textSize="30sp"/>
+            <TextView android:id="@+id/tv15_4" android:text="15" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="@dimen/box_size_4" android:layout_height="@dimen/box_size_4" android:gravity="center" android:textColor="#ffffff" android:textSize="30sp"/>
+            <TextView android:id="@+id/tv16_4" android:text="16" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="@dimen/box_size_4" android:layout_height="@dimen/box_size_4" android:gravity="center" android:textColor="#ffffff" android:textSize="30sp"/>
+
+        </GridLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text=""
+            android:id="@+id/goal4"
+            android:layout_below="@+id/gridLayout4"
+            android:layout_centerHorizontal="true"
+            android:paddingTop="@dimen/goal_padding"
+            android:textColor="#ffffff"
+            android:textSize="25sp"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Menu"
+            android:id="@+id/menu_button4"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignBottom="@+id/help"
+            android:layout_alignRight="@+id/level4"
+            android:layout_alignEnd="@+id/level4"
+            android:paddingBottom="15dp"
+            android:paddingRight="30dp"
+
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"
+            android:background="@drawable/button_enabled"
+            android:shadowColor="#FFFFFF"
+            android:shadowDx="0"
+            android:shadowDy="0"
+            android:shadowRadius="25"/>
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/relativeLayout5">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Level"
+            android:id="@+id/level5"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:paddingLeft="20dp"
+            android:paddingTop="15dp"
+            android:textColor="#ffffff"
+            android:textSize="25sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text=""
+            android:id="@+id/displayMode5"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:textColor="#ffffff" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Time"
+            android:id="@+id/timeLabel5"
+            android:layout_centerHorizontal="true"
+            android:textColor="#ffffff"
+            android:paddingTop="15dp"
+            android:textSize="25sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Score"
+            android:id="@+id/totalScore5"
+            android:paddingRight="25dp"
+            android:paddingTop="15dp"
+            android:textColor="#ffffff"
+            android:textSize="25sp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text=""
+            android:id="@+id/time5"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/timeLabel5"
+            android:paddingTop="50dp"
+            android:textColor="#ffffff"
+            android:textSize="25sp"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text=""
+            android:id="@+id/currentScore5"
+
+            android:layout_below="@+id/time5"
+            android:layout_centerHorizontal="true"
+            android:paddingTop="@dimen/score_padding"
+            android:textColor="#ffffff"
+            android:textSize="30sp"/>
+
+        <GridLayout
+
+            android:id="@+id/gridLayout5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:useDefaultMargins="true"
+            android:alignmentMode="alignBounds"
+            android:columnOrderPreserved="false"
+
+            android:rowCount="5"
+            android:columnCount="5"
+            android:paddingLeft="@dimen/grid_padding_left"
+
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:paddingTop="@dimen/grid_padding_top">
+            <!-- dp: 240x-->
+            <TextView android:id="@+id/tv1_5" android:text="1" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="@dimen/box_size" android:layout_height="@dimen/box_size" android:gravity="center" android:textColor="#ffffff" android:textSize="30sp"/>
+            <TextView android:id="@+id/tv2_5" android:text="2" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="@dimen/box_size" android:layout_height="@dimen/box_size" android:gravity="center" android:textColor="#ffffff" android:textSize="30sp"/>
+            <TextView android:id="@+id/tv3_5" android:text="3" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="@dimen/box_size" android:layout_height="@dimen/box_size" android:gravity="center" android:textColor="#ffffff" android:textSize="30sp"/>
+            <TextView android:id="@+id/tv4_5" android:text="4" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="@dimen/box_size" android:layout_height="@dimen/box_size" android:gravity="center" android:textColor="#ffffff" android:textSize="30sp"/>
+            <TextView android:id="@+id/tv5_5" android:text="5" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="@dimen/box_size" android:layout_height="@dimen/box_size" android:gravity="center" android:textColor="#ffffff" android:textSize="30sp"/>
+            <TextView android:id="@+id/tv6_5" android:text="6" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="@dimen/box_size" android:layout_height="@dimen/box_size" android:gravity="center" android:textColor="#ffffff" android:textSize="30sp"/>
+            <TextView android:id="@+id/tv7_5" android:text="7" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="@dimen/box_size" android:layout_height="@dimen/box_size" android:gravity="center" android:textColor="#ffffff" android:textSize="30sp"/>
+            <TextView android:id="@+id/tv8_5" android:text="8" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="@dimen/box_size" android:layout_height="@dimen/box_size" android:gravity="center" android:textColor="#ffffff" android:textSize="30sp"/>
+            <TextView android:id="@+id/tv9_5" android:text="9" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="@dimen/box_size" android:layout_height="@dimen/box_size" android:gravity="center" android:textColor="#ffffff" android:textSize="30sp"/>
+            <TextView android:id="@+id/tv10_5" android:text="10" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="@dimen/box_size" android:layout_height="@dimen/box_size" android:gravity="center" android:textColor="#ffffff" android:textSize="30sp"/>
+            <TextView android:id="@+id/tv11_5" android:text="11" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="@dimen/box_size" android:layout_height="@dimen/box_size" android:gravity="center" android:textColor="#ffffff" android:textSize="30sp"/>
+            <TextView android:id="@+id/tv12_5" android:text="12" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="@dimen/box_size" android:layout_height="@dimen/box_size" android:gravity="center" android:textColor="#ffffff" android:textSize="30sp"/>
+            <TextView android:id="@+id/tv13_5" android:text="13" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="@dimen/box_size" android:layout_height="@dimen/box_size" android:gravity="center" android:textColor="#ffffff" android:textSize="30sp"/>
+            <TextView android:id="@+id/tv14_5" android:text="14" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="@dimen/box_size" android:layout_height="@dimen/box_size" android:gravity="center" android:textColor="#ffffff" android:textSize="30sp"/>
+            <TextView android:id="@+id/tv15_5" android:text="15" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="@dimen/box_size" android:layout_height="@dimen/box_size" android:gravity="center" android:textColor="#ffffff" android:textSize="30sp"/>
+            <TextView android:id="@+id/tv16_5" android:text="16" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="@dimen/box_size" android:layout_height="@dimen/box_size" android:gravity="center" android:textColor="#ffffff" android:textSize="30sp"/>
+            <TextView android:id="@+id/tv17_5" android:text="17" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="@dimen/box_size" android:layout_height="@dimen/box_size" android:gravity="center" android:textColor="#ffffff" android:textSize="30sp"/>
+            <TextView android:id="@+id/tv18_5" android:text="18" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="@dimen/box_size" android:layout_height="@dimen/box_size" android:gravity="center" android:textColor="#ffffff" android:textSize="30sp"/>
+            <TextView android:id="@+id/tv19_5" android:text="19" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="@dimen/box_size" android:layout_height="@dimen/box_size" android:gravity="center" android:textColor="#ffffff" android:textSize="30sp"/>
+            <TextView android:id="@+id/tv20_5" android:text="20" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="@dimen/box_size" android:layout_height="@dimen/box_size" android:gravity="center" android:textColor="#ffffff" android:textSize="30sp"/>
+            <TextView android:id="@+id/tv21_5" android:text="21" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="@dimen/box_size" android:layout_height="@dimen/box_size" android:gravity="center" android:textColor="#ffffff" android:textSize="30sp"/>
+            <TextView android:id="@+id/tv22_5" android:text="22" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="@dimen/box_size" android:layout_height="@dimen/box_size" android:gravity="center" android:textColor="#ffffff" android:textSize="30sp"/>
+            <TextView android:id="@+id/tv23_5" android:text="23" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="@dimen/box_size" android:layout_height="@dimen/box_size" android:gravity="center" android:textColor="#ffffff" android:textSize="30sp"/>
+            <TextView android:id="@+id/tv24_5" android:text="24" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="@dimen/box_size" android:layout_height="@dimen/box_size" android:gravity="center" android:textColor="#ffffff" android:textSize="30sp"/>
+            <TextView android:id="@+id/tv25_5" android:text="25" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="@dimen/box_size" android:layout_height="@dimen/box_size" android:gravity="center" android:textColor="#ffffff" android:textSize="30sp"/>
+
+        </GridLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text=""
+            android:id="@+id/goal5"
+            android:layout_below="@+id/gridLayout5"
+            android:layout_centerHorizontal="true"
+            android:paddingTop="@dimen/goal_padding"
+            android:textColor="#ffffff"
+            android:textSize="25sp"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Menu"
+            android:id="@+id/menu_button5"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignRight="@+id/level5"
+            android:layout_alignEnd="@+id/level5"
+            android:paddingBottom="15dp"
+            android:paddingRight="30dp"
+
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"
+            android:background="@drawable/button_enabled"
+            android:shadowColor="#FFFFFF"
+            android:shadowDx="0"
+            android:shadowDy="0"
+            android:shadowRadius="25"/>
+
+    </RelativeLayout>
+
+
 
 </ViewFlipper>

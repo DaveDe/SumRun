@@ -12,7 +12,8 @@
     <dimen name="retry_padding">100dp</dimen>
     <dimen name="gameOver_info_padding_left">10dp</dimen>
     <dimen name="title_padding">50dp</dimen>
-    <dimen name="menu_padding">40dp</dimen>
+    <dimen name="menu_padding">50dp</dimen>
+    <dimen name="menu_padding_left">100dp</dimen>
     <dimen name="mode_padding_1">30dp</dimen>
     <dimen name="mode_padding_2">20dp</dimen>
     <dimen name="highScore_padding">90dp</dimen>

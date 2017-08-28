@@ -18,10 +18,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.ViewFlipper;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.InterstitialAd;
 import com.on.dave.sumrun.R;
+import com.startapp.android.publish.StartAppAd;
+import com.startapp.android.publish.StartAppSDK;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -30,7 +31,6 @@ public class GameView extends Activity {
 
     public static int global;
     public static boolean isMuted;
-    public static InterstitialAd interstitial;
     public static final String PREFS_NAME_GAME = "game_data3";
 
     private int tilesHit;
@@ -60,12 +60,16 @@ public class GameView extends Activity {
     private int soundID6;
     private int soundID7;
     private int soundID8;
+    private int soundID9;
+    private int soundID10;
     private int numBoxes;
     private int longestPath;
     private float prevX, prevY, volume;
     private String mode;
     private String gridSize;
+    private String theme;
 
+    private ViewFlipper vf;
     private RelativeLayout rl;
     private TextView[] textViews;
     private TextView displayCurrentScore;
@@ -74,6 +78,32 @@ public class GameView extends Activity {
     private TextView displayTime;
     private TextView goal;
     private TextView displayMode;
+    private TextView tv1;
+    private TextView tv2;
+    private TextView tv3;
+    private TextView tv4;
+    private TextView tv5;
+    private TextView tv6;
+    private TextView tv7;
+    private TextView tv8;
+    private TextView tv9;
+    private TextView tv10;
+    private TextView tv11;
+    private TextView tv12;
+    private TextView tv13;
+    private TextView tv14;
+    private TextView tv15;
+    private TextView tv16;
+    private TextView tv17;
+    private TextView tv18;
+    private TextView tv19;
+    private TextView tv20;
+    private TextView tv21;
+    private TextView tv22;
+    private TextView tv23;
+    private TextView tv24;
+    private TextView tv25;
+
     private Button menuButton;
 
     private CountDownTimer countDown;
@@ -85,99 +115,25 @@ public class GameView extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        StartAppSDK.init(this, "200144513", false);
+
         settings = getSharedPreferences(PREFS_NAME_GAME, 0);
         editor = settings.edit();
 
-        gridSize = settings.getString("gridSize","3x3");
+        setContentView(R.layout.grids);
+
+        //restore values if returning to game
+        mode = settings.getString("mode", "Classic");
+
+        level = settings.getInt("level",1);
+        time = settings.getInt("time", 8);
+        totalScore = settings.getInt("score", 0);
+        global = settings.getInt("global", 0);
+
+
+        vf = (ViewFlipper) findViewById(R.id.viewFlipper);
         //set different layout based on gridsize
-        if(gridSize.equals("3x3")){
-            setContentView(R.layout.game_view_3x3);
-        }else if(gridSize.equals("4x4")){
-            setContentView(R.layout.game_view_4x4);
-        }else{
-            setContentView(R.layout.game_view);
-        }
-        if(gridSize.equals("3x3")){
-            numBoxes = 9;
-            longestPath = 3;
-        }else if(gridSize.equals("4x4")){
-            numBoxes = 16;
-            longestPath = 4;
-        }else{
-            numBoxes = 25;
-            longestPath = 5;
-        }
-
-        interstitial = new InterstitialAd(getBaseContext());
-        interstitial.setAdUnitId("ca-app-pub-8421459443129126/5122852497");
-        requestNewInterstitial();
-
-        rl = (RelativeLayout) findViewById(R.id.relativeLayout);
-        displayCurrentScore = (TextView)findViewById(R.id.currentScore);
-        displayTotalScore = (TextView) findViewById(R.id.totalScore);
-        displayLevel = (TextView) findViewById(R.id.level);
-        displayTime = (TextView) findViewById(R.id.time);
-        goal = (TextView) findViewById(R.id.goal);
-        displayMode = (TextView) findViewById(R.id.displayMode);
-        menuButton = (Button) findViewById(R.id.menu_button);
-        TextView tv1 = (TextView)findViewById(R.id.tv1);
-        TextView tv2 = (TextView)findViewById(R.id.tv2);
-        TextView tv3 = (TextView)findViewById(R.id.tv3);
-        TextView tv4 = (TextView)findViewById(R.id.tv4);
-        TextView tv5 = (TextView)findViewById(R.id.tv5);
-        TextView tv6 = (TextView)findViewById(R.id.tv6);
-        TextView tv7 = (TextView)findViewById(R.id.tv7);
-        TextView tv8 = (TextView)findViewById(R.id.tv8);
-        TextView tv9 = (TextView)findViewById(R.id.tv9);
-        textViews = new TextView[numBoxes];
-        textViews[0] = tv1;
-        textViews[1] = tv2;
-        textViews[2] = tv3;
-        textViews[3] = tv4;
-        textViews[4] = tv5;
-        textViews[5] = tv6;
-        textViews[6] = tv7;
-        textViews[7] = tv8;
-        textViews[8] = tv9;
-        if(numBoxes > 9){
-            TextView tv10 = (TextView)findViewById(R.id.tv10);
-            TextView tv11 = (TextView)findViewById(R.id.tv11);
-            TextView tv12 = (TextView)findViewById(R.id.tv12);
-            TextView tv13 = (TextView)findViewById(R.id.tv13);
-            TextView tv14 = (TextView)findViewById(R.id.tv14);
-            TextView tv15 = (TextView)findViewById(R.id.tv15);
-            TextView tv16 = (TextView)findViewById(R.id.tv16);
-            textViews[9] = tv10;
-            textViews[10] = tv11;
-            textViews[11] = tv12;
-            textViews[12] = tv13;
-            textViews[13] = tv14;
-            textViews[14] = tv15;
-            textViews[15] = tv16;
-            if(numBoxes > 16){
-                TextView tv17 = (TextView)findViewById(R.id.tv17);
-                TextView tv18 = (TextView)findViewById(R.id.tv18);
-                TextView tv19 = (TextView)findViewById(R.id.tv19);
-                TextView tv20 = (TextView)findViewById(R.id.tv20);
-                TextView tv21 = (TextView)findViewById(R.id.tv21);
-                TextView tv22 = (TextView)findViewById(R.id.tv22);
-                TextView tv23 = (TextView)findViewById(R.id.tv23);
-                TextView tv24 = (TextView)findViewById(R.id.tv24);
-                TextView tv25 = (TextView)findViewById(R.id.tv25);
-                textViews[16] = tv17;
-                textViews[17] = tv18;
-                textViews[18] = tv19;
-                textViews[19] = tv20;
-                textViews[20] = tv21;
-                textViews[21] = tv22;
-                textViews[22] = tv23;
-                textViews[23] = tv24;
-                textViews[24] = tv25;
-            }
-
-        }
-
-        StaticMethods.changeTheme(rl,getBaseContext());
+        setLayout();
 
         gameOver = settings.getBoolean("gameOver",false);
         firstTime = settings.getBoolean("firstTime",true);
@@ -194,16 +150,7 @@ public class GameView extends Activity {
             editor.putBoolean("restore", false);
         }
 
-        //restore values if returning to game
-
-        mode = settings.getString("mode", "Classic");
-
-        level = settings.getInt("level",1);
-        time = settings.getInt("time", 11);
-        totalScore = settings.getInt("score", 0);
-        global = settings.getInt("global", 0);
-
-        //restore values only if comming from menu (writes appropriate restore to sharedpreferences) MIGHT BE PROBLEM FOR SUDDENDEATH/BLITZ
+        //restore values only if comming from menu (writes appropriate restore to sharedpreferences)
         restoreValues();
 
         displayMode.setText("Mode: "+mode);
@@ -241,6 +188,8 @@ public class GameView extends Activity {
         soundID6 = soundPool.load(this, R.raw.loss, 1);
         soundID7 = soundPool.load(this, R.raw.win, 1);
         soundID8 = soundPool.load(this, R.raw.tick, 1);
+        soundID9 = soundPool.load(this, R.raw.cluck, 1);
+        soundID10 = soundPool.load(this, R.raw.owl_hoot, 1);
 
         AudioManager audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
         float curVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
@@ -254,15 +203,6 @@ public class GameView extends Activity {
             textViews[i].getBackground().setAlpha(300);
             isHit[i] = false;
         }
-
-        menuButton.getBackground().setAlpha(1);
-        menuButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getBaseContext(), Menu.class);
-                startActivity(i);
-            }
-        });
 
     }
 
@@ -371,10 +311,11 @@ public class GameView extends Activity {
     protected void onResume() {
         super.onResume();
         level = settings.getInt("level", 1);
-        time = settings.getInt("time",11);
+        time = settings.getInt("time", 8);
         totalScore = settings.getInt("score", 0);
         global = settings.getInt("global",0);
         restore = settings.getBoolean("restore", true);
+        gridSize = settings.getString("gridSize","3x3");
         //restore grid when returning from exit
         if(restore){
             int[] restore = new int[numBoxes];
@@ -410,6 +351,7 @@ public class GameView extends Activity {
             editor.putInt("level", level);
             editor.putInt("time",time);
             editor.putInt("global", global);
+            editor.putString("gridSize",gridSize);
             //save grid
             for(int i = 0; i < numBoxes; i++){
                 editor.putInt("grid " + i, Integer.parseInt(textViews[i].getText().toString()));
@@ -498,10 +440,7 @@ public class GameView extends Activity {
         tilesHit = 0;
     }
 
-    public void generateNextLevel(){
-        if(!isMuted){
-            soundPool.play(soundID7, volume, volume, 1, 0, 1f);
-        }
+    public void generateNextLevel() {
 
         totalScore += currentScore;
 
@@ -509,6 +448,27 @@ public class GameView extends Activity {
         global++;
         tilesHit = 0;
         currentScore = 0;
+
+        if(level <=3){
+            editor.putString("gridSize","3x3");
+            setLayout();
+        } else if (level > 3 && level <= 7){
+            editor.putString("gridSize","4x4");
+            setLayout();
+        }else{
+            editor.putString("gridSize","5x5");
+            setLayout();
+        }
+        editor.commit();
+        if(!isMuted){
+            if(theme.equals("Daylight")){
+                soundPool.play(soundID9, volume, volume, 1, 0, 1f);
+            }else if(theme.equals("Midnight")){
+                soundPool.play(soundID10, volume, volume, 1, 0, 1f);
+            }else{
+                soundPool.play(soundID7, volume, volume, 1, 0, 1f);
+            }
+        }
 
         values = new int[numBoxes];
         isHit = new boolean[numBoxes];
@@ -521,15 +481,19 @@ public class GameView extends Activity {
         greatestPath = calculateGreatestPath(gridSize);
 
         if((mode.equals("Classic") || mode.equals("Nightmare")) && gridSize.equals("3x3")){
+            time = 8;
+        }else if((mode.equals("Classic") || mode.equals("Nightmare")) && gridSize.equals("4x4")){
             time = 11;
-        }else if((mode.equals("Classic") || mode.equals("Nightmare")) && gridSize.equals("4x4") && level < 9){
-            time = 13;
-        }else if((mode.equals("Classic") || mode.equals("Nightmare")) && gridSize.equals("4x4") && level >= 9){
-            time = 16;
         }else if((mode.equals("Classic") || mode.equals("Nightmare")) && gridSize.equals("5x5") && level < 9){
             time = 16;
         }else if((mode.equals("Classic") || mode.equals("Nightmare")) && gridSize.equals("5x5") && level >= 9){
             time = 21;
+        }else if(mode.equals("Blitz") && (gridSize.equals("3x3"))){
+            time = 4;
+        }else if(mode.equals("Blitz") && (gridSize.equals("4x4"))){
+            time = 6;
+        }else if(mode.equals("Blitz") && (gridSize.equals("5x5"))){
+            time = 8;
         }
 
 
@@ -563,7 +527,7 @@ public class GameView extends Activity {
 
     public void gameOver(){
         gameOver = true;
-        editor.putBoolean("gameOver",true);
+        editor.putBoolean("gameOver", true);
         resetTiles();
         if (!isMuted) {
             soundPool.play(soundID6, volume, volume, 1, 0, 1f);
@@ -572,34 +536,22 @@ public class GameView extends Activity {
         editor.putInt("score", 0);
         editor.putInt("level", 1);
         editor.putInt("global", 0);
-        if((mode.equals("Classic") || mode.equals("Nightmare")) && gridSize.equals("3x3")){
-            editor.putInt("time",11);
-        }else if((mode.equals("Classic") || mode.equals("Nightmare")) && gridSize.equals("4x4") && level < 9){
-            editor.putInt("time",13);
-        }else if((mode.equals("Classic") || mode.equals("Nightmare")) && gridSize.equals("4x4") && level >= 9){
-            editor.putInt("time",16);
-        }else if((mode.equals("Classic") || mode.equals("Nightmare")) && gridSize.equals("5x5") && level < 9){
-            editor.putInt("time",16);
-        }else if((mode.equals("Classic") || mode.equals("Nightmare")) && gridSize.equals("5x5") && level >= 9){
-            editor.putInt("time",21);
+        editor.putString("gridSize","3x3");
+        if(mode.equals("Classic") || mode.equals("Nightmare")){
+            editor.putInt("time",8);
+        }else if(mode.equals("Blitz")){
+            editor.putInt("time",4);
         }
 
         int prevSeed = settings.getInt("seed",0);
         prevSeed++;
         editor.putInt("seed", prevSeed);
-        String scoreKey = "highScore_" + mode + "_" + gridSize;
-        String levelKey = "highLevel_" + mode + "_" + gridSize;
-        int tempInt = settings.getInt(scoreKey,0);
-        if(totalScore > tempInt){
-            editor.putInt(scoreKey,totalScore);
-            editor.putInt(levelKey,level);
-        }
         editor.commit();
+        saveHighScore();
         Intent i = new Intent(getBaseContext(),GameOver.class);
         i.putExtra("score", totalScore);
         i.putExtra("level", level);
         startActivity(i);
-
 
     }
 
@@ -646,16 +598,7 @@ public class GameView extends Activity {
 
     //back button does nothing
     @Override
-    public void onBackPressed() {
-    }
-
-    private void requestNewInterstitial() {
-        AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice("4A5BC2497191112F02A42DC7DBDFEA47")
-                .build();
-
-        interstitial.loadAd(adRequest);
-    }
+    public void onBackPressed() {}
 
     @TargetApi(21)
     private void initializeSoundPool(){
@@ -749,15 +692,12 @@ public class GameView extends Activity {
     }
 
     private void restoreValues(){
-        if((mode.equals("Classic") || mode.equals("Nightmare")) && gridSize.equals("3x3") && time == 11){
+
+        if((mode.equals("Classic") || mode.equals("Nightmare")) && gridSize.equals("3x3") && time == 8){
             restore = false;
             editor.putBoolean("restore",false);
         }
-        if((mode.equals("Classic") || mode.equals("Nightmare")) && gridSize.equals("4x4") && time == 13 && level < 9){
-            restore = false;
-            editor.putBoolean("restore",false);
-        }
-        if((mode.equals("Classic") || mode.equals("Nightmare")) && gridSize.equals("4x4") && time == 16 && level >= 9){
+        if((mode.equals("Classic") || mode.equals("Nightmare")) && gridSize.equals("4x4") && time == 11){
             restore = false;
             editor.putBoolean("restore",false);
         }
@@ -769,7 +709,185 @@ public class GameView extends Activity {
             restore = false;
             editor.putBoolean("restore",false);
         }
+        if(mode.equals("Blitz") && time == 4 && gridSize.equals("3x3")){
+            restore = false;
+            editor.putBoolean("restore",false);
+        }
+        if(mode.equals("Blitz") && time == 6 && gridSize.equals("4x4")){
+            restore = false;
+            editor.putBoolean("restore",false);
+        }
+        if(mode.equals("Blitz") && time == 8 && gridSize.equals("5x5")){
+            restore = false;
+            editor.putBoolean("restore",false);
+        }
+        if(mode.equals("Sudden Death")){
+            restore = false;
+            editor.putBoolean("restore",false);
+        }
         editor.commit();
+    }
+
+    private void saveHighScore(){
+        String scoreKey = "highScore_" + mode;
+        String levelKey = "highLevel_" + mode;
+        int tempInt = settings.getInt(scoreKey,0);
+        if(totalScore > tempInt){
+            editor.putInt(scoreKey,totalScore);
+            editor.putInt(levelKey, level);
+        }
+        editor.commit();
+    }
+
+    private void setLayout(){
+        gridSize = settings.getString("gridSize","3x3");
+        if(gridSize.equals("3x3")){
+            vf.setDisplayedChild(0);
+        }else if(gridSize.equals("4x4")){
+            vf.setDisplayedChild(1);
+        }else{
+            vf.setDisplayedChild(2);
+        }
+        if(gridSize.equals("3x3")){
+            numBoxes = 9;
+            longestPath = 3;
+            rl = (RelativeLayout) findViewById(R.id.relativeLayout3);
+            displayCurrentScore = (TextView)findViewById(R.id.currentScore3);
+            displayTotalScore = (TextView) findViewById(R.id.totalScore3);
+            displayLevel = (TextView) findViewById(R.id.level3);
+            displayTime = (TextView) findViewById(R.id.time3);
+            goal = (TextView) findViewById(R.id.goal3);
+            displayMode = (TextView) findViewById(R.id.displayMode3);
+            menuButton = (Button) findViewById(R.id.menu_button3);
+            tv1 = (TextView)findViewById(R.id.tv1_3);
+            tv2 = (TextView)findViewById(R.id.tv2_3);
+            tv3 = (TextView)findViewById(R.id.tv3_3);
+            tv4 = (TextView)findViewById(R.id.tv4_3);
+            tv5 = (TextView)findViewById(R.id.tv5_3);
+            tv6 = (TextView)findViewById(R.id.tv6_3);
+            tv7 = (TextView)findViewById(R.id.tv7_3);
+            tv8 = (TextView)findViewById(R.id.tv8_3);
+            tv9 = (TextView)findViewById(R.id.tv9_3);
+        }else if(gridSize.equals("4x4")){
+            numBoxes = 16;
+            longestPath = 4;
+            rl = (RelativeLayout) findViewById(R.id.relativeLayout4);
+            displayCurrentScore = (TextView)findViewById(R.id.currentScore4);
+            displayTotalScore = (TextView) findViewById(R.id.totalScore4);
+            displayLevel = (TextView) findViewById(R.id.level4);
+            displayTime = (TextView) findViewById(R.id.time4);
+            goal = (TextView) findViewById(R.id.goal4);
+            displayMode = (TextView) findViewById(R.id.displayMode4);
+            menuButton = (Button) findViewById(R.id.menu_button4);
+            tv1 = (TextView)findViewById(R.id.tv1_4);
+            tv2 = (TextView)findViewById(R.id.tv2_4);
+            tv3 = (TextView)findViewById(R.id.tv3_4);
+            tv4 = (TextView)findViewById(R.id.tv4_4);
+            tv5 = (TextView)findViewById(R.id.tv5_4);
+            tv6 = (TextView)findViewById(R.id.tv6_4);
+            tv7 = (TextView)findViewById(R.id.tv7_4);
+            tv8 = (TextView)findViewById(R.id.tv8_4);
+            tv9 = (TextView)findViewById(R.id.tv9_4);
+            tv10 = (TextView)findViewById(R.id.tv10_4);
+            tv11 = (TextView)findViewById(R.id.tv11_4);
+            tv12 = (TextView)findViewById(R.id.tv12_4);
+            tv13 = (TextView)findViewById(R.id.tv13_4);
+            tv14 = (TextView)findViewById(R.id.tv14_4);
+            tv15 = (TextView)findViewById(R.id.tv15_4);
+            tv16 = (TextView)findViewById(R.id.tv16_4);
+        }else{
+            numBoxes = 25;
+            longestPath = 5;
+            rl = (RelativeLayout) findViewById(R.id.relativeLayout5);
+            displayCurrentScore = (TextView)findViewById(R.id.currentScore5);
+            displayTotalScore = (TextView) findViewById(R.id.totalScore5);
+            displayLevel = (TextView) findViewById(R.id.level5);
+            displayTime = (TextView) findViewById(R.id.time5);
+            goal = (TextView) findViewById(R.id.goal5);
+            displayMode = (TextView) findViewById(R.id.displayMode5);
+            menuButton = (Button) findViewById(R.id.menu_button5);
+            tv1 = (TextView)findViewById(R.id.tv1_5);
+            tv2 = (TextView)findViewById(R.id.tv2_5);
+            tv3 = (TextView)findViewById(R.id.tv3_5);
+            tv4 = (TextView)findViewById(R.id.tv4_5);
+            tv5 = (TextView)findViewById(R.id.tv5_5);
+            tv6 = (TextView)findViewById(R.id.tv6_5);
+            tv7 = (TextView)findViewById(R.id.tv7_5);
+            tv8 = (TextView)findViewById(R.id.tv8_5);
+            tv9 = (TextView)findViewById(R.id.tv9_5);
+            tv10 = (TextView)findViewById(R.id.tv10_5);
+            tv11 = (TextView)findViewById(R.id.tv11_5);
+            tv12 = (TextView)findViewById(R.id.tv12_5);
+            tv13 = (TextView)findViewById(R.id.tv13_5);
+            tv14 = (TextView)findViewById(R.id.tv14_5);
+            tv15 = (TextView)findViewById(R.id.tv15_5);
+            tv16 = (TextView)findViewById(R.id.tv16_5);
+            tv17 = (TextView)findViewById(R.id.tv17_5);
+            tv18 = (TextView)findViewById(R.id.tv18_5);
+            tv19 = (TextView)findViewById(R.id.tv19_5);
+            tv20 = (TextView)findViewById(R.id.tv20_5);
+            tv21 = (TextView)findViewById(R.id.tv21_5);
+            tv22 = (TextView)findViewById(R.id.tv22_5);
+            tv23 = (TextView)findViewById(R.id.tv23_5);
+            tv24 = (TextView)findViewById(R.id.tv24_5);
+            tv25 = (TextView)findViewById(R.id.tv25_5);
+        }
+
+        textViews = new TextView[numBoxes];
+        textViews[0] = tv1;
+        textViews[1] = tv2;
+        textViews[2] = tv3;
+        textViews[3] = tv4;
+        textViews[4] = tv5;
+        textViews[5] = tv6;
+        textViews[6] = tv7;
+        textViews[7] = tv8;
+        textViews[8] = tv9;
+        if(numBoxes > 9){
+
+            textViews[9] = tv10;
+            textViews[10] = tv11;
+            textViews[11] = tv12;
+            textViews[12] = tv13;
+            textViews[13] = tv14;
+            textViews[14] = tv15;
+            textViews[15] = tv16;
+            if(numBoxes > 16){
+                textViews[16] = tv17;
+                textViews[17] = tv18;
+                textViews[18] = tv19;
+                textViews[19] = tv20;
+                textViews[20] = tv21;
+                textViews[21] = tv22;
+                textViews[22] = tv23;
+                textViews[23] = tv24;
+                textViews[24] = tv25;
+            }
+
+        }
+        StaticMethods.changeTheme(rl,getBaseContext());
+
+        try{
+            theme = StaticMethods.readFirstLine("theme.txt",this);
+        }catch(IOException e){}
+
+        if(mode.equals("Sudden Death")){
+            displayTime.setText("-");
+        }else if(mode.equals("Nightmare")){
+            displayTime.setText("?");
+        }else{
+            displayTime.setText("" + time);
+        }
+
+        menuButton.getBackground().setAlpha(1);
+        menuButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveHighScore();
+                Intent i = new Intent(getBaseContext(), Menu.class);
+                startActivity(i);
+            }
+        });
     }
 
 }

@@ -28,17 +28,6 @@
         android:layout_alignLeft="@+id/highScores_label"
         android:paddingTop="40dp"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Grid Size: "
-        android:id="@+id/h_grid_size_label"
-        android:textColor="@color/white"
-        android:layout_below="@+id/h_mode_label"
-        android:layout_alignLeft="@+id/h_mode_label"
-        android:paddingTop="40dp"/>
-
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -56,29 +45,12 @@
         android:shadowDy="0"
         android:shadowRadius="25"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/h_grid_size_button"
-        android:layout_below="@+id/h_mode_button"
-        android:layout_alignLeft="@+id/h_mode_button"
-        android:layout_alignStart="@+id/h_mode_button"
-        android:paddingTop="40dp"
-
-        android:textColor="#FFFFFF"
-        android:textSize="20sp"
-        android:background="@drawable/button_enabled"
-        android:shadowColor="#FFFFFF"
-        android:shadowDx="0"
-        android:shadowDy="0"
-        android:shadowRadius="25"/>
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:id="@+id/display_high_score"
-        android:layout_below="@+id/h_grid_size_label"
+        android:layout_below="@+id/h_mode_label"
         android:layout_alignLeft="@+id/h_mode_label"
         android:paddingTop="@dimen/highScore_padding"/>
 

@@ -2,8 +2,6 @@ package add.on.dave.sumrun;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
@@ -38,9 +36,6 @@ public class Help extends Activity {
         tv2 = (TextView) findViewById(R.id.tv2);
 
         count = 1;
-
-        //Intent i = getIntent();
-        //final String sender = i.getStringExtra("class");
 
         tv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,17 +83,17 @@ public class Help extends Activity {
                 break;
             case 3:
                 rl.setBackground(ContextCompat.getDrawable(getBaseContext(), R.drawable.instruction_4));
-                tv.setText("Done");
+                tv.setText("Next");
                 tv2.setText("Prev");
                 break;
             case 4:
-                /*if (sender.equals("gameOver")) {
-                    Intent i = new Intent(getBaseContext(), GameOver.class);
-                    startActivity(i);
-                } else {*/
-                    Intent i = new Intent(getBaseContext(), Menu.class);
-                    startActivity(i);
-               // }
+                rl.setBackground(ContextCompat.getDrawable(getBaseContext(), R.drawable.instruction_5));
+                tv.setText("Done");
+                tv2.setText("Prev");
+                break;
+            case 5:
+                Intent i = new Intent(getBaseContext(), Menu.class);
+                startActivity(i);
                 break;
         }
 

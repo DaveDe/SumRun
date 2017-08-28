@@ -25,7 +25,7 @@
         android:id="@+id/theme_label"
         android:textColor="@color/white"
         android:layout_below="@+id/main_menu"
-        android:layout_alignLeft="@+id/main_menu"
+        android:paddingLeft="@dimen/menu_padding_left"
         android:paddingTop="@dimen/menu_padding"/>
 
     <TextView
@@ -36,18 +36,7 @@
         android:id="@+id/mode_label"
         android:textColor="@color/white"
         android:layout_below="@+id/theme_label"
-        android:layout_alignLeft="@+id/theme_label"
-        android:paddingTop="@dimen/menu_padding"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Grid Size: "
-        android:id="@+id/grid_size_label"
-        android:textColor="@color/white"
-        android:layout_below="@+id/mode_label"
-        android:layout_alignLeft="@+id/mode_label"
+        android:paddingLeft="@dimen/menu_padding_left"
         android:paddingTop="@dimen/menu_padding"/>
 
     <Button
@@ -55,8 +44,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/theme_button"
         android:layout_below="@+id/main_menu"
-        android:layout_alignLeft="@+id/done"
-        android:layout_alignStart="@+id/done"
+        android:layout_toRightOf="@+id/theme_label"
+        android:layout_toEndOf="@+id/theme_label"
         android:paddingTop="@dimen/menu_padding"
 
         android:textColor="#FFFFFF"
@@ -65,32 +54,15 @@
         android:shadowColor="#FFFFFF"
         android:shadowDx="0"
         android:shadowDy="0"
-        android:shadowRadius="25"/>
+        android:shadowRadius="25" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/mode_button"
         android:layout_below="@+id/theme_button"
-        android:layout_alignLeft="@+id/theme_button"
-        android:layout_alignStart="@+id/theme_button"
-        android:paddingTop="@dimen/menu_padding"
-
-        android:textColor="#FFFFFF"
-        android:textSize="20sp"
-        android:background="@drawable/button_enabled"
-        android:shadowColor="#FFFFFF"
-        android:shadowDx="0"
-        android:shadowDy="0"
-        android:shadowRadius="25"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/grid_size_button"
-        android:layout_below="@+id/mode_button"
-        android:layout_alignLeft="@+id/mode_button"
-        android:layout_alignStart="@+id/mode_button"
+        android:layout_toRightOf="@+id/mode_label"
+        android:layout_toEndOf="@+id/mode_label"
         android:paddingTop="@dimen/menu_padding"
 
         android:textColor="#FFFFFF"
@@ -106,9 +78,8 @@
         android:layout_height="wrap_content"
         android:text="High Scores"
         android:id="@+id/high_scores"
-        android:layout_toRightOf="@+id/grid_size_label"
-        android:layout_toEndOf="@+id/grid_size_label"
         android:layout_above="@+id/help"
+        android:layout_centerInParent="true"
         android:paddingBottom="@dimen/menu_padding"
 
         android:textColor="#FFFFFF"
@@ -124,9 +95,8 @@
         android:layout_height="wrap_content"
         android:text="Help"
         android:id="@+id/help"
-        android:layout_toRightOf="@+id/grid_size_label"
-        android:layout_toEndOf="@+id/grid_size_label"
         android:layout_above="@+id/done"
+        android:layout_centerInParent="true"
         android:paddingBottom="@dimen/menu_padding"
 
         android:textColor="#FFFFFF"
@@ -142,8 +112,7 @@
         android:id="@+id/done"
         android:text="Done"
         android:layout_alignParentBottom="true"
-        android:layout_toRightOf="@+id/grid_size_label"
-        android:layout_toEndOf="@+id/grid_size_label"
+        android:layout_centerInParent="true"
         android:layout_marginBottom="@dimen/menu_padding"
 
         android:textColor="#FFFFFF"

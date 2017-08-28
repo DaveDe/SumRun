@@ -4,43 +4,27 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.InterstitialAd;
 import com.on.dave.sumrun.R;
-
-import java.io.IOException;
 
 public class GameOver extends Activity {
 
     private int highScore;
     private int highLevel;
-    private int seed;
 
     private Button retry;
     private TextView displayInfo;
 
     private SharedPreferences settings;
-    private SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         settings = getSharedPreferences(GameView.PREFS_NAME_GAME, 0);
-        editor = settings.edit();
-
-        seed = settings.getInt("seed",0);
-
-        if (seed % 2 == 0) {
-            GameView.interstitial.show();
-        }
 
         setContentView(R.layout.game_over);
 
@@ -60,9 +44,8 @@ public class GameOver extends Activity {
         });
 
         String mode = settings.getString("mode","Classic");
-        String gridSize = settings.getString("gridSize","3x3");
-        String scoreKey = "highScore_"+mode + "_" + gridSize;
-        String levelKey = "highLevel_"+mode + "_" + gridSize;
+        String scoreKey = "highScore_"+mode;
+        String levelKey = "highLevel_"+mode;
 
         highScore = settings.getInt(scoreKey,0);
         highLevel = settings.getInt(levelKey,0);
